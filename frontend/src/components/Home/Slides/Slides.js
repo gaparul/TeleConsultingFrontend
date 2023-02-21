@@ -6,7 +6,10 @@ import './Slides.css'
 import consult from "./SlidesImages/ConsultOnline.jpg"
 import getConsultation from "./SlidesImages/getConsultation.jpg"
 import Appointments from "./SlidesImages/Appointments.jpg"
-import { Paper, Typography } from "@mui/material";
+
+import { PersonSearchOutlined } from "@mui/icons-material";
+import { Button, Paper, Typography } from "@mui/material";
+import { HashLink } from "react-router-hash-link";
 
 const Slides = () => {
 
@@ -20,13 +23,19 @@ const Slides = () => {
                         <Typography component="h4" variant="h5">
                             {props.item.name}
                         </Typography>
+                        <HashLink smooth to="/login#login" classname='text-style'>
+                            <Button sx={{mt:2}} variant="contained" className="CheckButton">
+                                Login
+                                <PersonSearchOutlined></PersonSearchOutlined>
+                            </Button>
+                        </HashLink>
                     </div>
                 </div>
             </Paper>
             </>
         )
     }
-    const images = [
+    const images= [
         {
             name: "Just a click away",
             img: consult
