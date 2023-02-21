@@ -2,6 +2,8 @@ import { Routes as Switch } from 'react-router-dom'
 import { Route } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 
+import { auth } from './firebaseConfig'
+
 import './App.css';
 import Header from "./components/Bar/Header/Header"
 import Home from "./components/Home/Home"
