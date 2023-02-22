@@ -1,1 +1,1 @@
-# TeleConsultingFrontend
+# TeleConsultingPlatform
