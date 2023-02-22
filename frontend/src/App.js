@@ -3,10 +3,13 @@ import { Route } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 import { auth } from './firebaseConfig'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 import './App.css';
 import Header from "./components/Bar/Header/Header"
 import Home from "./components/Home/Home"
+import Login from "./components/Home/Login/Login"
+import  UserProfile from './components/Home/UserProfile/UserProfile';
 import { createTheme, ThemeProvider } from '@mui/material'
 
 
@@ -35,7 +38,7 @@ export const theme = createTheme({
 }) 
 
 function App() {
-
+  const [user] = useAuthState(auth)
   return (
     <>
     <ThemeProvider theme={theme}></ThemeProvider>
@@ -44,6 +47,7 @@ function App() {
         <Switch>
           <Route exact path='/' element={<Home/>}/>
           <Route path='/home'element={<Home/>}/>
+          <Route path='/login'> user ? <UserProfile/> : <Login/> </Route>
         </Switch>
       </BrowserRouter>
     </>
