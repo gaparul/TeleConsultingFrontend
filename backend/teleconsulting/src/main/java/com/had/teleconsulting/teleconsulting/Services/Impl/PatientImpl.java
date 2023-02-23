@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PatientImpl implements PatientService {
@@ -36,8 +37,19 @@ public class PatientImpl implements PatientService {
 
     @Override
     public List<PatientDTO> getAllPatient() {
-        return null;
+        List<PatientDetails> patients = this.patientRepo.findAll();
+        List<PatientDTO> patientDTOs = patients.stream().map(patientDetails -> this.patientToDto(patientDetails)).collect(Collectors.toList());
+        return patientDTOs;
     }
+    @Override
+    public Boolean getPatientByMobileNumber(String patientMobileNumber) {
+        List<PatientDetails> allPatients = this.patientRepo.findAll();
+        for(PatientDetails p : allPatients){
+            if(p.getPatientMobileNumber().equals(patientMobileNumber)) return true;
+        }
+        return false;
+    }
+
 
     @Override
     public void deletePatient(Integer patientID) {

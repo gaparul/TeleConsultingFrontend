@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/patientDetails")
 public class PatientController {
@@ -21,5 +23,15 @@ public class PatientController {
         PatientDTO createPatientDTO=this.patientService.createPatient(patientDTO);
         System.out.println("xyz");
         return new ResponseEntity<>(createPatientDTO, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{patientMobileNumber}")
+    public ResponseEntity<Boolean> getPatientByMobileNumber(@PathVariable String patientMobileNumber){
+        return ResponseEntity.ok(this.patientService.getPatientByMobileNumber(patientMobileNumber));
+    }
+
+    @GetMapping("/allPatient")
+    public ResponseEntity<List<PatientDTO>> getAllPatient(){
+        return ResponseEntity.ok(this.patientService.getAllPatient());
     }
 }
