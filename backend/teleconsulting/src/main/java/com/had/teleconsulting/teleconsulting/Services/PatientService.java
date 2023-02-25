@@ -1,5 +1,6 @@
 package com.had.teleconsulting.teleconsulting.Services;
 
+import com.had.teleconsulting.teleconsulting.Bean.PatientDetails;
 import com.had.teleconsulting.teleconsulting.Payloads.PatientDTO;
 
 import java.util.List;

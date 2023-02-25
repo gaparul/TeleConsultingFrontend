@@ -1,6 +1,7 @@
 package com.had.teleconsulting.teleconsulting.Services.Impl;
 
 import com.had.teleconsulting.teleconsulting.Bean.PatientDetails;
+import com.had.teleconsulting.teleconsulting.Exception.ResourceNotFoundException;
 import com.had.teleconsulting.teleconsulting.Payloads.PatientDTO;
 import com.had.teleconsulting.teleconsulting.Repository.PatientRepo;
 import com.had.teleconsulting.teleconsulting.Services.PatientService;
@@ -20,22 +21,9 @@ public class PatientImpl implements PatientService {
     public PatientDTO createPatient(PatientDTO patientDTO) {
 
             PatientDetails patientDetails=this.dtoToPatient(patientDTO);
+
             PatientDetails savedPatient=this.patientRepo.save(patientDetails);
         return this.patientToDto(savedPatient);
-    }
-    @Override
-    public List<PatientDTO> getAllPatient() {
-        List<PatientDetails> patients = this.patientRepo.findAll();
-        List<PatientDTO> patientDTOs = patients.stream().map(patientDetails -> this.patientToDto(patientDetails)).collect(Collectors.toList());
-        return patientDTOs;
-    }
-    @Override
-    public Boolean getPatientByMobileNumber(String patientMobileNumber) {
-        List<PatientDetails> allPatients = this.patientRepo.findAll();
-        for(PatientDetails p : allPatients){
-            if(p.getPatientMobileNumber().equals(patientMobileNumber)) return true;
-        }
-        return false;
     }
 
     @Override
@@ -45,8 +33,24 @@ public class PatientImpl implements PatientService {
 
     @Override
     public PatientDTO getPatientByID(Integer patientID) {
-        return null;
+        PatientDetails patientDetails=this.patientRepo.findById(patientID)
+                .orElseThrow(()->new ResourceNotFoundException("Patient","ID",patientID));
+        return this.patientToDto(patientDetails);
     }
+
+    @Override
+    public List<PatientDTO> getAllPatient() {
+        List<PatientDetails> patients = this.patientRepo.findAll();
+        List<PatientDTO> patientDTOs = patients.stream().map(patientDetails -> this.patientToDto(patientDetails)).collect(Collectors.toList());
+        return patientDTOs;
+    }
+    @Override
+    public Boolean getPatientByMobileNumber(String patientMobileNumber) {
+        List<PatientDetails> patientByMobileNumber = this.patientRepo.findAllByPatientMobileNumber(patientMobileNumber);
+        if(patientByMobileNumber.size()==0) return false;
+        else return true;
+    }
+
 
     @Override
     public void deletePatient(Integer patientID) {
