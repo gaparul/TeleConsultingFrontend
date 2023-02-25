@@ -10,14 +10,16 @@ return(
     <>
         <Logo/>
         <Navb/>
-        <img src={regimg} alt="Image" className="reg-img"/>
+        <img src={regimg} alt="optional" className="reg-img"/>
         <div className="card-container">
             <div className="reg-card">
                 <div className="login-type"><h5>Patient Register</h5></div>
                 <div className="login-form">
                     <form>
-                    <input type="text" id="patient-name" name="ptname" placeholder="Name" className="form-ele"/><br/>
+                    <input type="text" id="patient-fname" name="ptfname" placeholder="First Name" className="form-ele"/><br/>
+                    <input type="text" id="patient-lname" name="ptlname" placeholder="Last Name" className="form-ele"/><br/>
                     <input type="email" id="patient-email" name="ptemail" placeholder="E-mail" className="form-ele"/><br/>
+                    <input type="text" id="patient-password" name="ptpassword" placeholder="Create Password" className="form-ele"/><br/>
                     <input type="number" id="patient-number" name="ptnumber" placeholder="Mobile No." className="form-ele"/><br/>
                     <input type="date" id="patient-dob" name="ptdob" placeholder="DoB" className="form-ele"/><br/>
                     <input type="text" id="gender" name="ptgender" placeholder="Gender" className="form-ele"/>

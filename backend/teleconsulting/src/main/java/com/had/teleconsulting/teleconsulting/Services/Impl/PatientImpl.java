@@ -20,7 +20,6 @@ public class PatientImpl implements PatientService {
     public PatientDTO createPatient(PatientDTO patientDTO) {
 
             PatientDetails patientDetails=this.dtoToPatient(patientDTO);
-
             PatientDetails savedPatient=this.patientRepo.save(patientDetails);
         return this.patientToDto(savedPatient);
     }
@@ -56,6 +55,7 @@ public class PatientImpl implements PatientService {
 
     public PatientDetails dtoToPatient(PatientDTO patientDto){
         PatientDetails patientDetails=new PatientDetails();
+        patientDetails.setPatientPassword(patientDto.getPatientPassword());
         patientDetails.setPatientID(patientDto.getPatientID());
         patientDetails.setPatientDOB(patientDto.getPatientDOB());
         patientDetails.setPatientEmail(patientDto.getPatientEmail());
@@ -70,6 +70,7 @@ public class PatientImpl implements PatientService {
     public PatientDTO patientToDto(PatientDetails patientDetails){
         PatientDTO patientDTO=new PatientDTO();
         patientDTO.setPatientID(patientDetails.getPatientID());
+        patientDTO.setPatientPassword(patientDetails.getPatientPassword());
         patientDTO.setPatientDOB(patientDetails.getPatientDOB());
         patientDTO.setPatientEmail(patientDetails.getPatientEmail());
         patientDTO.setPatientGender(patientDetails.getPatientGender());
