@@ -23,9 +23,8 @@ public class PatientImpl implements PatientService {
     public PatientDTO createPatient(PatientDTO patientDTO) {
 
             PatientDetails patientDetails=this.dtoToPatient(patientDTO);
-
             PatientDetails savedPatient=this.patientRepo.save(patientDetails);
-        return this.patientToDto(savedPatient);
+            return this.patientToDto(savedPatient);
     }
 
     @Override

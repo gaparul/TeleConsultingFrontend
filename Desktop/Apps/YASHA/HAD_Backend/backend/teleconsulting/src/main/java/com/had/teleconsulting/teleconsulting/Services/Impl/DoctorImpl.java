@@ -1,12 +1,17 @@
 package com.had.teleconsulting.teleconsulting.Services.Impl;
 
 import com.had.teleconsulting.teleconsulting.Bean.DoctorDetails;
+import com.had.teleconsulting.teleconsulting.Bean.PatientDetails;
 import com.had.teleconsulting.teleconsulting.Payloads.DoctorDTO;
+import com.had.teleconsulting.teleconsulting.Payloads.PatientDTO;
 import com.had.teleconsulting.teleconsulting.Repository.DoctorRepo;
 import com.had.teleconsulting.teleconsulting.Repository.PatientRepo;
 import com.had.teleconsulting.teleconsulting.Services.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DoctorImpl implements DoctorService {
@@ -22,6 +27,12 @@ public class DoctorImpl implements DoctorService {
         return this.doctorToDto(savedDoctor);
     }
 
+    @Override
+    public List<DoctorDTO> getAllDoctors() {
+        List<DoctorDetails> doctors = this.doctorRepo.findAll();
+        List<DoctorDTO> doctorDTOs = doctors.stream().map(doctor -> this.doctorToDto(doctor)).collect(Collectors.toList());
+        return doctorDTOs;
+    }
 
 
     public DoctorDetails dtoToDoctor(DoctorDTO doctorDTO){

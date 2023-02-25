@@ -42,4 +42,5 @@ public class PatientController {
     public ResponseEntity<PatientDTO> getPatientDetailsByID(@PathVariable("id") Integer patientID){
         return ResponseEntity.ok(this.patientService.getPatientByID(patientID));
     }
+
 }

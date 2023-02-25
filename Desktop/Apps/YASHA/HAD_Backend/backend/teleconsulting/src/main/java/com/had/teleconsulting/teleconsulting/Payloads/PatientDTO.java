@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -12,8 +14,8 @@ public class PatientDTO {
     private int patientID;
     private String patientFirstName;
     private String patientLastName;
-    private String patientMobileNumber;
+    private Double patientMobileNumber;
     private String patientEmail;
-    private String patientDOB;
+    private Date patientDOB;
     private String patientGender;
 }
