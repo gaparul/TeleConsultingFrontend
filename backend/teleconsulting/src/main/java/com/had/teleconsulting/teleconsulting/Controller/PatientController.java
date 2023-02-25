@@ -13,19 +13,21 @@ import java.util.List;
 @RequestMapping("/api/patientDetails")
 public class PatientController {
 
+    // @Autowired will bring the object that already present in spring container and
+    //    now on-words we do not have to make object of this with new keyword this is
+    //    called property base dependency injection
     @Autowired
     private PatientService patientService;
 
-    // POST
-    @PostMapping("/")
+    // @Request body will add will convert the coming request body to the required object
+    @PostMapping("/create")
     public ResponseEntity<PatientDTO> createPatient(@RequestBody PatientDTO patientDTO){
 
         PatientDTO createPatientDTO=this.patientService.createPatient(patientDTO);
-        System.out.println("xyz");
         return new ResponseEntity<>(createPatientDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{patientMobileNumber}")
+    @GetMapping("/mobileNumber/{patientMobileNumber}")
     public ResponseEntity<Boolean> getPatientByMobileNumber(@PathVariable String patientMobileNumber){
         return ResponseEntity.ok(this.patientService.getPatientByMobileNumber(patientMobileNumber));
     }
@@ -33,5 +35,10 @@ public class PatientController {
     @GetMapping("/allPatient")
     public ResponseEntity<List<PatientDTO>> getAllPatient(){
         return ResponseEntity.ok(this.patientService.getAllPatient());
+    }
+
+    @GetMapping("/patient/{id}")
+    public ResponseEntity<PatientDTO> getPatientDetailsByID(@PathVariable("id") Integer patientID){
+        return ResponseEntity.ok(this.patientService.getPatientByID(patientID));
     }
 }

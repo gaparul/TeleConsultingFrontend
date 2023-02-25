@@ -1,12 +1,15 @@
 package com.had.teleconsulting.teleconsulting.Services.Impl;
 
 import com.had.teleconsulting.teleconsulting.Bean.PatientDetails;
+import com.had.teleconsulting.teleconsulting.Exception.ResourceNotFoundException;
 import com.had.teleconsulting.teleconsulting.Payloads.PatientDTO;
 import com.had.teleconsulting.teleconsulting.Repository.PatientRepo;
 import com.had.teleconsulting.teleconsulting.Services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +35,9 @@ public class PatientImpl implements PatientService {
 
     @Override
     public PatientDTO getPatientByID(Integer patientID) {
-        return null;
+        PatientDetails patientDetails=this.patientRepo.findById(patientID)
+                .orElseThrow(()->new ResourceNotFoundException("Patient","ID",patientID));
+        return this.patientToDto(patientDetails);
     }
 
     @Override
