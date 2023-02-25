@@ -6,10 +6,8 @@ import com.had.teleconsulting.teleconsulting.Payloads.PatientDTO;
 import com.had.teleconsulting.teleconsulting.Repository.PatientRepo;
 import com.had.teleconsulting.teleconsulting.Services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,11 +46,9 @@ public class PatientImpl implements PatientService {
     }
     @Override
     public Boolean getPatientByMobileNumber(String patientMobileNumber) {
-        List<PatientDetails> allPatients = this.patientRepo.findAll();
-        for(PatientDetails p : allPatients){
-            if(p.getPatientMobileNumber().equals(patientMobileNumber)) return true;
-        }
-        return false;
+        List<PatientDetails> patientByMobileNumber = this.patientRepo.findAllByPatientMobileNumber(patientMobileNumber);
+        if(patientByMobileNumber.size()==0) return false;
+        else return true;
     }
 
 
@@ -63,6 +59,7 @@ public class PatientImpl implements PatientService {
 
     public PatientDetails dtoToPatient(PatientDTO patientDto){
         PatientDetails patientDetails=new PatientDetails();
+        patientDetails.setPatientPassword(patientDto.getPatientPassword());
         patientDetails.setPatientID(patientDto.getPatientID());
         patientDetails.setPatientDOB(patientDto.getPatientDOB());
         patientDetails.setPatientEmail(patientDto.getPatientEmail());
@@ -77,6 +74,7 @@ public class PatientImpl implements PatientService {
     public PatientDTO patientToDto(PatientDetails patientDetails){
         PatientDTO patientDTO=new PatientDTO();
         patientDTO.setPatientID(patientDetails.getPatientID());
+        patientDTO.setPatientPassword(patientDetails.getPatientPassword());
         patientDTO.setPatientDOB(patientDetails.getPatientDOB());
         patientDTO.setPatientEmail(patientDetails.getPatientEmail());
         patientDTO.setPatientGender(patientDetails.getPatientGender());
