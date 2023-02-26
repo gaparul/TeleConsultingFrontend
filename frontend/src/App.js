@@ -2,8 +2,6 @@ import { Routes as Switch } from 'react-router-dom'
 import { Route } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 
-import { auth } from './firebaseConfig'
-import { useAuthState } from 'react-firebase-hooks/auth'
 
 import './App.css';
 import Header from "./components/Bar/Header/Header"
@@ -11,6 +9,9 @@ import Home from "./components/Home/Home"
 import Login from "./components/Home/Login/Login"
 import  UserProfile from './components/Home/UserProfile/UserProfile';
 import { createTheme, ThemeProvider } from '@mui/material'
+import Signup from './components/Home/Login/SignUp';
+import PhoneSignUp from './components/Home/Login/PhoneSignUp';
+import { UserAuthContextProvider } from './context/UserAuthContext';
 
 
 export const theme = createTheme({
@@ -38,17 +39,20 @@ export const theme = createTheme({
 }) 
 
 function App() {
-  const [user] = useAuthState(auth)
   return (
     <>
     <ThemeProvider theme={theme}></ThemeProvider>
       <BrowserRouter>
         <Header></Header>
+        <UserAuthContextProvider>
         <Switch>
           <Route exact path='/' element={<Home/>}/>
           <Route path='/home'element={<Home/>}/>
-          <Route path='/login'> user ? <UserProfile/> : <Login/> </Route>
+          <Route path='/login' element={ <Login/>} />
+          <Route path='/signup' element={ <Signup/>} />
+          <Route path="/phonesignup" element={<PhoneSignUp />} />
         </Switch>
+        </UserAuthContextProvider>
       </BrowserRouter>
     </>
   );
