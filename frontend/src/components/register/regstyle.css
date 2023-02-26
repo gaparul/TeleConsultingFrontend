@@ -12,14 +12,14 @@
     display: inline-block;
 }
 .card-container{
-    margin: 20%;
+    margin-left: 30%;
     display: inline;
     height: 30%;
     width: 35%;
     padding: 0%;
 }
 .reg-card{
-    margin-top:10%;
+    margin-top:4%;
     display: inline-block;
     width: 35%;
     height:35%;
