@@ -5,7 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { auth } from './firebaseConfig'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-import './App.css';
+import './App.css'
+
 import Header from "./components/Bar/Header/Header"
 import Home from "./components/Home/Home"
 import Login from "./components/Home/Login/Login"
