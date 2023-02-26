@@ -36,6 +36,7 @@ public class PatientDetails {
     @Column(nullable=false,name="patientGender")
     String patientGender;
 
-    @Column(nullable=false,name="patientGender")
+    @Column(nullable=false,name="patientPassword")
+
     String patientPassword;
 }
