@@ -8,6 +8,7 @@ import './App.css'
 import Header from "./components/Bar/Header/Header"
 import Home from "./components/Home/Home"
 import Login from "./components/Home/Login/Login"
+import Register from "./components/register/register"
 import  UserProfile from './components/Home/UserProfile/UserProfile';
 import { createTheme, ThemeProvider } from '@mui/material'
 import Signup from './components/Home/Login/SignUp';
@@ -52,6 +53,7 @@ function App() {
           <Route path='/login' element={ <Login/>} />
           <Route path='/signup' element={ <Signup/>} />
           <Route path="/phonesignup" element={<PhoneSignUp />} />
+          <Route path="/register" element={<Register/>} />
         </Switch>
         </UserAuthContextProvider>
       </BrowserRouter>

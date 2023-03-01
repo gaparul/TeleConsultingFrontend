@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
-import Navb from "../navbar/navbar";
-import Logo from "../login/logo";
+import Navb from "../Bar/NavBar/NavBar";
 import "./regstyle.css";
 
 
