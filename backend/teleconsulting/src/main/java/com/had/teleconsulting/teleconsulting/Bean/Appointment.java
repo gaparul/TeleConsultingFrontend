@@ -1,0 +1,31 @@
+package com.had.teleconsulting.teleconsulting.Bean;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.Date;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name="Appointment")
+public class Appointment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false,name = "appointmentID")
+    int appointmentID;
+
+    @Column(nullable = false,name = "appointmentOpdType")
+    String appointmentOpdType;
+
+    @Column(nullable = false,name = "appointmentDate")
+    Date appointmentDate;
+
+
+
+
+}

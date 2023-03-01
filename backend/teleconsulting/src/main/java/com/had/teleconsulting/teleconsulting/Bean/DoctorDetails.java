@@ -29,4 +29,16 @@ public class DoctorDetails {
 
     @Column(nullable=true,name="doctorSpecialisation")
     String doctorSpecialisation;
+
+    @Column(nullable=true,name="doctorQueueSize")
+    int doctorQueueSize;
+
+    @Column(nullable=true,name="doctorAvailable")
+    Boolean doctorAvailable;
+
+    @Column(nullable=true,name="doctorEmail")
+    String doctorEmail;
+
+    @Column(nullable=true,name="doctorMobileNumber")
+    Number doctorMobileNumber;
 }

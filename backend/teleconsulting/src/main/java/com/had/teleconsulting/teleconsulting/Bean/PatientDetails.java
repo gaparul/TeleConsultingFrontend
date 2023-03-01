@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="patientDetails")
@@ -24,18 +25,18 @@ public class PatientDetails {
     @Column(nullable=true,name="patientLastName")
     String patientLastName;
 
-    @Column(nullable=false,name="patientMobileNumber")
-    String  patientMobileNumber;
+//    @Column(nullable=false,name="patientMobileNumber")
+//    String  patientMobileNumber;
 
-    @Column(nullable=false,name="patientEmail")
-    String patientEmail;
+//    @Column(nullable=false,name="patientEmail")
+//    String patientEmail;
 
     @Column(nullable=false,name="patientDOB")
-    String patientDOB;
+    Date patientDOB;
 
     @Column(nullable=false,name="patientGender")
     String patientGender;
 
-    @Column(nullable=false,name="patientGender")
+    @Column(nullable=false,name="patientPassword")
     String patientPassword;
 }
