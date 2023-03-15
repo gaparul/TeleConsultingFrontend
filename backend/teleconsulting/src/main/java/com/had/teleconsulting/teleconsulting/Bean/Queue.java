@@ -20,6 +20,6 @@ public class Queue {
     int queueID;
 
     @ManyToOne
-    @Column(name = "doctorID",nullable = false)
+    @JoinColumn(name = "doctorID",nullable = false)
     DoctorDetails doctorDetails;
 }

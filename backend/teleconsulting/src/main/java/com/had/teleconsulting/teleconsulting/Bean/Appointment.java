@@ -26,23 +26,23 @@ public class Appointment {
     Date appointmentDate;
 
     @OneToOne
-    @Column(name = "prescriptionID", nullable = false)
+    @JoinColumn(name = "prescriptionID", nullable = false)
     Prescription prescription;
 
     @OneToOne
-    @Column(name = "folloUpID")
+    @JoinColumn(name = "folloUpID")
     FollowUP followUP;
 
     @ManyToOne
-    @Column(name = "patientID" ,nullable = false)
+    @JoinColumn(name = "patientID" ,nullable = false)
     PatientDetails patientDetails;
 
     @ManyToOne
-    @Column(name = "doctorID",nullable = false)
+    @JoinColumn(name = "doctorID")
     DoctorDetails doctorDetails;
 
     @OneToOne
-    @Column(name = "queueID")
+    @JoinColumn(name = "queueID")
     Queue queue;
 
 

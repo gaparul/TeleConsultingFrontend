@@ -24,7 +24,7 @@ public class User {
     Number userMobileNumber;
 
     @OneToOne
-    @Column(name = "patientID")
+    @JoinColumn(name = "patientID")
     PatientDetails patientDetails;
 
 }

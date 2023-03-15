@@ -19,11 +19,11 @@ public class Dependents {
     int dependentID;
 
     @ManyToOne
-    @Column(name = "userID",nullable = false)
+    @JoinColumn(name = "userID",nullable = false)
     User user;
 
     @OneToOne
-    @Column(name = "patientID",nullable = false)
+    @JoinColumn(name = "patientID",nullable = false)
     PatientDetails patientDetails;
 
 }
