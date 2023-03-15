@@ -23,4 +23,8 @@ public class User {
     @Column(nullable=false,name="userMobileNumber")
     Number userMobileNumber;
 
+    @OneToOne
+    @Column(name = "patientID")
+    PatientDetails patientDetails;
+
 }

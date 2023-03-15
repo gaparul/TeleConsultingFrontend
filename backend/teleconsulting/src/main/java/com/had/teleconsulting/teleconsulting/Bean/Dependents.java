@@ -18,6 +18,12 @@ public class Dependents {
     @Column(nullable = false,name="dependentID")
     int dependentID;
 
+    @ManyToOne
+    @Column(name = "userID",nullable = false)
+    User user;
 
+    @OneToOne
+    @Column(name = "patientID",nullable = false)
+    PatientDetails patientDetails;
 
 }

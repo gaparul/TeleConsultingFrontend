@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Table(name = "FollowUP")
 public class FollowUP {
-
+    // appointment id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false,name = "followUpID")

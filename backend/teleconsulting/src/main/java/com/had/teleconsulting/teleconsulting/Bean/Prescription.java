@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Table(name = "Prescription")
 @NoArgsConstructor
 public class Prescription {
-
+    // appointment ID
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false,name = "prescriptionID")

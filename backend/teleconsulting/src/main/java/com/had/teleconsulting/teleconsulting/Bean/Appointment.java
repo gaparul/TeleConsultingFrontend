@@ -25,7 +25,25 @@ public class Appointment {
     @Column(nullable = false,name = "appointmentDate")
     Date appointmentDate;
 
+    @OneToOne
+    @Column(name = "prescriptionID", nullable = false)
+    Prescription prescription;
 
+    @OneToOne
+    @Column(name = "folloUpID")
+    FollowUP followUP;
+
+    @ManyToOne
+    @Column(name = "patientID" ,nullable = false)
+    PatientDetails patientDetails;
+
+    @ManyToOne
+    @Column(name = "doctorID",nullable = false)
+    DoctorDetails doctorDetails;
+
+    @OneToOne
+    @Column(name = "queueID")
+    Queue queue;
 
 
 }

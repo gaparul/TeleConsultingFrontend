@@ -13,10 +13,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "Queue")
 public class Queue {
-
+    // appointmentID
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false,name = "queueID")
     int queueID;
 
+    @ManyToOne
+    @Column(name = "doctorID",nullable = false)
+    DoctorDetails doctorDetails;
 }
