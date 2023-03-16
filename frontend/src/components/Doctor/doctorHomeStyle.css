@@ -1,0 +1,21 @@
+.user-data{
+    margin-left: 17%;
+    margin-top: 3%;
+    width: 65%;
+    height: 35%;
+    border-style: solid;
+    border-color: black;
+    padding: 2%;
+}
+
+.form-data{
+    margin-top: 2%;
+}
+td{
+    margin: 2%;
+    width: 17%;
+}
+th{
+    margin: 2%;
+    width:17%;
+}
