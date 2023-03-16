@@ -20,5 +20,4 @@ public class AppointmentDTO {
     FollowUP followUP;
     PatientDetails patientDetails;
     DoctorDetails doctorDetails;
-    Queue queue;
 }
