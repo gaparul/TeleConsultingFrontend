@@ -13,6 +13,7 @@ import  UserProfile from './components/Home/UserProfile/UserProfile';
 import { createTheme, ThemeProvider } from '@mui/material'
 import Signup from './components/Home/Login/SignUp';
 import PhoneSignUp from './components/Home/Login/PhoneSignUp';
+import P_Videocall1 from './components/P_VideoCall1/P_VideoCall1'
 import { UserAuthContextProvider } from './context/UserAuthContext';
 
 
@@ -54,6 +55,7 @@ function App() {
           <Route path='/signup' element={ <Signup/>} />
           <Route path="/phonesignup" element={<PhoneSignUp />} />
           <Route path="/register" element={<Register/>} />
+          <Route path="/P_VideoCall1" element={<P_Videocall1/>}/>
         </Switch>
         </UserAuthContextProvider>
       </BrowserRouter>
