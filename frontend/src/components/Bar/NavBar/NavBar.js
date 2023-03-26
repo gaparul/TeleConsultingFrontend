@@ -79,6 +79,13 @@ const NavBar = () => {
                                 smooth to='/about#about'
                             >About
                             </MenuItem>
+                            <MenuItem
+                                bgcolor="primary"
+                                // component={HashLink}
+                                // smooth to='/doctorHome#doctorHome'
+                            >Doctor Home
+                            </MenuItem>
+
                             {/* {!user?.email && */}
                                 <MenuItem
                                     bgcolor="primary"

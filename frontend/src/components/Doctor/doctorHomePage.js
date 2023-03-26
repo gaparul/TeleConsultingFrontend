@@ -2,8 +2,10 @@
 import React, { useState,useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import axios from 'axios';
+import axios from  'axios';
+
 import './doctorHomeStyle.css'
+
 export default function SearchPatient(){
 const [search,setSearch]=useState('')
 const [data, setData] = useState();
@@ -15,7 +17,7 @@ const handleSubmit=async(event)=>{
 await fetchData(search)
 }
 async function fetchData(id){
-  await axios.get(`http://localhost:8083/api/patientDetails/patient/${id}`).then(response => {
+  await axios(`http://localhost:8083/api/patientDetails/patient/${id}`).then(response => {
     setData(response.data);
   })
   .catch(error => {
