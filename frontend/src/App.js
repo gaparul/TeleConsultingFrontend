@@ -12,7 +12,6 @@ import Register from "./components/Home/Register/Register"
 import  UserProfile from './components/Home/UserProfile/UserProfile';
 import  SearchPatient from './components/Doctor/doctorHomePage'
 import { createTheme, ThemeProvider } from '@mui/material'
-import Signup from './components/Home/Login/SignUp';
 import PhoneSignUp from './components/Home/Login/PhoneSignUp';
 import { UserAuthContextProvider } from './context/UserAuthContext';
 
@@ -53,10 +52,9 @@ function App() {
           <Route path='/home'element={<Home/>}/>
           <Route path='/login' element={ <Login/>} />
           <Route path='/doctorHome' element= {<SearchPatient/>} />
-          <Route path='/signup' element={ <Signup/>} />
           <Route path="/phonesignup" element={<PhoneSignUp />} />
           <Route path="/register" element={<Register/>} />
-         
+          <Route path='/userprofile' element={<UserProfile/>} />
         </Switch>
         </UserAuthContextProvider>
       </BrowserRouter>

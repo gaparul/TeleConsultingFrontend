@@ -1,21 +1,33 @@
 import React, { useState } from "react";
-import { Avatar, Box, Container, CssBaseline, Grid, TextField, Typography , Button} from '@mui/material'
-import PortraitIcon from '@mui/icons-material/Portrait';
+
+import {
+  Avatar,
+  Alert,
+  Box,
+  Container,
+  CssBaseline,
+  Grid,
+  TextField,
+  Typography,
+  Button,
+} from "@mui/material";
+
+import PortraitIcon from "@mui/icons-material/Portrait";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import PhoneInput from "react-phone-number-input"
+import PhoneInput from "react-phone-number-input";
 
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Alert } from "react-bootstrap";
-// import GoogleButton from "react-google-button";
+import { Form } from "react-bootstrap";
 import { useUserAuth } from "../../../context/UserAuthContext";
-import CustomPhoneNumber from "../Login/Hooks/PhoneNumber"
+import CustomPhoneNumber from "../Login/Hooks/PhoneNumber";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [onError, setOnError] = useState(false);
   const [number, setNumber] = useState("");
 
   const [flag, setFlag] = useState(false);
@@ -24,42 +36,65 @@ const Login = () => {
   const { setUpRecaptha } = useUserAuth();
 
   const [checked, setchecked] = useState(false);
-
-//   const { logIn, googleSignIn } = useUserAuth();
   const navigate = useNavigate();
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setError("");
-//     try {
-//       await logIn(email, password);
-//       navigate("/home");
-//     } catch (err) {
-//       setError(err.message);
-//     }
-//   };
+  //   const handleSubmit = async (e) => {
+  //     e.preventDefault();
+  //     setError("");
+  //     try {
+  //       await logIn(email, password);
+  //       navigate("/home");
+  //     } catch (err) {
+  //       setError(err.message);
+  //     }
+  //   };
 
-//   const handleGoogleSignIn = async (e) => {
-//     e.preventDefault();
-//     try {
-//       await googleSignIn();
-//       navigate("/home");
-//     } catch (error) {
-//       console.log(error.message);
-//     }
-//   };
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const verifyLoginApi = "http://localhost:8083/api/user/userLogin";
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-const handleLogin = () => { navigate('/')}
+    const data = JSON.stringify({
+      email: email,
+      password: password,
+    });
 
-const handlePassword = e => {setPassword(e.target.value)}
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: data,
+      redirect: "follow",
+    };
 
-const handleEmail = e => {setEmail(e.target.value)}
+    fetch(verifyLoginApi, requestOptions)
+      .then((response) => {
+        console.log(response.status);
+        if (response.status === 202)
+          navigate("/"); // TODO: navigate to userprofile
+        else setOnError(true);
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  };
 
-const handlePhoneSignup = (e) => {
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePhoneSignup = (e) => {
     setchecked(e.target.checked);
-}
+  };
 
-const getOtp = async (e) => {
+  const getOtp = async (e) => {
     e.preventDefault();
     console.log(number);
     setError("");
@@ -74,17 +109,16 @@ const getOtp = async (e) => {
     }
   };
 
-
-const verifyOtp = async (e) => {
+  const verifyOtp = async (e) => {
     e.preventDefault();
     setError("");
     if (otp === "" || otp === null) return;
     try {
       await result.confirm(otp);
-      navigate("/home"); //TODO navigation check if  present in database then userprofile else register 
+      navigate("/home"); //TODO navigation check if  present in database then userprofile else register
     } catch (err) {
-        console.log(err)
-      setError(err.message);
+      console.log(err);
+      setError(err);
     }
   };
 
@@ -117,6 +151,23 @@ const verifyOtp = async (e) => {
                 <Typography component="h1" variant="h5">
                   Sign In
                 </Typography>
+                {onError && (
+                  <Alert
+                    action={
+                      <Button
+                        color="inherit"
+                        size="small"
+                        onClick={() => {
+                          navigate("/register");
+                        }}
+                      >
+                        Register
+                      </Button>
+                    }
+                  >
+                    Seems like you are new! Please register with us.
+                  </Alert>
+                )}
                 <Box component="div" noValidate sx={{ mt: 3 }}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -172,45 +223,58 @@ const verifyOtp = async (e) => {
                         <Box component="div" noValidate sx={{ mt: 3 }}>
                           <Grid container spacing={2}>
                             <Grid item xs={12}>
-                            {error && <Alert variant="danger">{error}</Alert>}
-                            <Form onSubmit={getOtp} style={{ display: !flag ? "block" : "none" }}>
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <PhoneInput
-                                defaultCountry="IN"
-                                value={number}
-                                onChange={setNumber}
-                                inputComponent={CustomPhoneNumber}
-                                />
-                                <div id="recaptcha-container"></div>
-                            </Form.Group>
-                            <div className="button-right">
-                                <Link to="/">
-                                <Button variant="secondary">Cancel</Button>
-                                </Link>
-                                &nbsp;
-                                <Button type="submit" variant="primary">
-                                Send Otp
-                                </Button>
-                            </div>
-                            </Form>
-                            <Form onSubmit={verifyOtp} style={{ display: flag ? "block" : "none" }}>
-                            <Form.Group className="mb-3" controlId="formBasicOtp">
-                                <Form.Control
-                                type="otp"
-                                placeholder="Enter OTP"
-                                onChange={(e) => setOtp(e.target.value)}
-                                />
-                            </Form.Group>
-                            <div className="button-right">
-                                <Link to="/">
-                                <Button variant="secondary">Cancel</Button>
-                                </Link>
-                                &nbsp;
-                                <Button type="submit" variant="primary">
-                                Verify
-                                </Button>
-                            </div>
-                            </Form>
+                              {error && <Alert severity="error">{error}</Alert>}
+                              {/* TODO: check on the error and show error accordingly*/}
+                              <Form
+                                onSubmit={getOtp}
+                                style={{ display: !flag ? "block" : "none" }}
+                              >
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicEmail"
+                                >
+                                  <PhoneInput
+                                    defaultCountry="IN"
+                                    value={number}
+                                    onChange={setNumber}
+                                    inputComponent={CustomPhoneNumber}
+                                  />
+                                  <div id="recaptcha-container"></div>
+                                </Form.Group>
+                                <div className="button-right">
+                                  <Link to="/">
+                                    <Button variant="secondary">Cancel</Button>
+                                  </Link>
+                                  &nbsp;
+                                  <Button type="submit" variant="primary">
+                                    Send Otp
+                                  </Button>
+                                </div>
+                              </Form>
+                              <Form
+                                onSubmit={verifyOtp}
+                                style={{ display: flag ? "block" : "none" }}
+                              >
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicOtp"
+                                >
+                                  <Form.Control
+                                    type="otp"
+                                    placeholder="Enter OTP"
+                                    onChange={(e) => setOtp(e.target.value)}
+                                  />
+                                </Form.Group>
+                                <div className="button-right">
+                                  <Link to="/">
+                                    <Button variant="secondary">Cancel</Button>
+                                  </Link>
+                                  &nbsp;
+                                  <Button type="submit" variant="primary">
+                                    Verify
+                                  </Button>
+                                </div>
+                              </Form>
                             </Grid>
                           </Grid>
                         </Box>
