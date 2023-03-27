@@ -15,45 +15,41 @@ import { useNavigate } from "react-router-dom";
 const theme = createTheme();
 
 const Register = () => {
-    const navigate = useNavigate();
-    const [ firstName, setFirstName ] = React.useState('');
-    const [ lastName, setLastName ] = React.useState('');
-    const [ mobile, setMobile ] = React.useState('');
-    const [ email, setEmail ] = React.useState('');
-    const [ password, setPassword ] = React.useState('');
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [mobile, setMobile] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
-    React.useEffect(() => {
-      
-    }, [])
-    
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        
-        const registerApi = "http://localhost:8083/api/user/registerUser";
+  React.useEffect(() => {}, []);
 
-        let userDetails = JSON.stringify({
-            userFirstName:firstName,
-            userLastName:lastName,
-            userEmail:email,
-            userMobileNumber:mobile,
-            userPassword:password
-        });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            mode: 'cors', 
-            body: userDetails
-        };
+    const registerApi = "http://localhost:8083/api/user/registerUser";
 
-        const response = await fetch(registerApi, requestOptions);
-        
-        if(response.status === 201) navigate('/login');
-        
-        console.log(response.status);
+    let userDetails = JSON.stringify({
+      userFirstName: firstName,
+      userLastName: lastName,
+      userEmail: email,
+      userMobileNumber: mobile,
+      userPassword: password,
+    });
 
-        
-    }
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      mode: "cors",
+      body: userDetails,
+    };
+
+    const response = await fetch(registerApi, requestOptions);
+
+    if (response.status === 201) navigate("/login");
+
+    console.log(response.status);
+  };
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -82,7 +78,7 @@ const Register = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    onBlur={e => setFirstName(e.target.value)}
+                    onBlur={(e) => setFirstName(e.target.value)}
                     autoComplete="given-name"
                     name="firstName"
                     required
@@ -94,7 +90,7 @@ const Register = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    onBlur={e => setLastName(e.target.value)}
+                    onBlur={(e) => setLastName(e.target.value)}
                     required
                     fullWidth
                     id="lastName"
@@ -106,7 +102,7 @@ const Register = () => {
                 <Grid item xs={12}>
                   <TextField
                     required
-                    onBlur={e => setMobile(e.target.value)}
+                    onBlur={(e) => setMobile(e.target.value)}
                     fullWidth
                     id="mobileNumber"
                     label="Mobile Number"
@@ -116,7 +112,7 @@ const Register = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    onBlur={e => setEmail(e.target.value)}
+                    onBlur={(e) => setEmail(e.target.value)}
                     required
                     fullWidth
                     id="email"
@@ -127,7 +123,7 @@ const Register = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    onBlur={e => setPassword(e.target.value)}
+                    onBlur={(e) => setPassword(e.target.value)}
                     required
                     fullWidth
                     name="password"
