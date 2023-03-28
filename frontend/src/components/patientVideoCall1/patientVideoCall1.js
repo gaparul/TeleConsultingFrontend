@@ -1,9 +1,8 @@
 import { Button } from "@mui/material";
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import Navb from "../navbar/navbar";
 
-const P_VideoCall1 =() =>{
+const PatientVideoCall1 =() =>{
     const [roomCode,setRoomCode] = useState("");
     const navigate=useNavigate();
     
@@ -14,7 +13,7 @@ const P_VideoCall1 =() =>{
     }
     return(
         <div>
-            <Navb/>
+            {/* <Navb/> */}
             <form onSubmit={handleFormSubmit} className="form">
                 <div>
                     <label>Enter Room Code</label>
@@ -31,4 +30,4 @@ const P_VideoCall1 =() =>{
         </div>
     )
 }
-export default P_VideoCall1
+export default PatientVideoCall1
