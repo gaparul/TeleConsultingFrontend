@@ -2,7 +2,6 @@ import React from "react";
 import {ZegoUIKitPrebuilt} from "@zegocloud/zego-uikit-prebuilt";
 import { useParams } from "react-router-dom";
 import "./doctorVideoCallRoom.css"; 
-import { async } from "@firebase/util";
 import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { Box } from "@mui/system";
 const DoctorVideoCallRoom=() =>
@@ -35,21 +34,22 @@ const DoctorVideoCallRoom=() =>
     } 
     return(
         <div className="container-doctor">
-            <div className="doctorvideocallroom-page">
                 <div ref={myMeeting} 
-                style={{ width: '78vw', height: '94vh' }}
-                />
-            </div>
+                style={{ width: '78vw', height: '94vh' }}/>
             <div className="sidebar"> 
                 <div>
-                    <Box>
+                    <List>
                         <ListItem>
-                            {/* <ListItemText>Pateint name : </ListItemText>
-                            <ListItemText>Patient Id: </ListItemText> */}
-                            <ListItemButton>Download Health Record</ListItemButton>
-                            <ListItemButton>True</ListItemButton>
-                        </ListItem>
-                    </Box>
+                            <ListItemText>Patient Name :
+                                </ListItemText>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText>Patient ID: </ListItemText>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemButton>Download Health Record</ListItemButton>
+                            </ListItem>
+                    </List>
                 </div>
                 
             </div>

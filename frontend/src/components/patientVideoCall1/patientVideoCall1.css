@@ -1,0 +1,6 @@
+.container-patient .prescription-bar{
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
