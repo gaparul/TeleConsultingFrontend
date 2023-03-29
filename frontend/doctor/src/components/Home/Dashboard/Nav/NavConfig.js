@@ -1,5 +1,8 @@
 import { Box } from "@mui/material";
 import { forwardRef } from "react";
+import dashboard from './icons/dashboard.svg'
+import appointment from './icons/calendar.svg'
+import logout from './icons/logout.svg'
 
 export const SvgColor = forwardRef(({ src, sx, ...other }, ref) => (
     <Box
@@ -19,22 +22,22 @@ export const SvgColor = forwardRef(({ src, sx, ...other }, ref) => (
     />
   ));
 
-  const icon = (name) => <SvgColor src={`./icons/${name}.svg`} sx={{ width: 1, height: 1 }} />;
+  // const icon = (name) => <SvgColor src={`${iconPath}/${name}.svg`} sx={{ width: 1, height: 1 }} />;
 const navConfig = [
     {
       title: 'dashboard',
       path: '/dashboard/app',
-      icon: icon('dashboard'),
+      icon: <SvgColor src={dashboard} sx={{ width: 1, height: 1 }} />
     },
     {
       title: 'appointments',
       path: '/dashboard/appointments',
-      icon: icon('calendar'),
+      icon: <SvgColor src={appointment} sx={{ width: 1, height: 1 }} />
     },
     {
         title: 'logout',
         path: '/doctor',
-        icon: icon('logout'),
+        icon: <SvgColor src={logout} sx={{ width: 1, height: 1 }} />
       },
   ];
   

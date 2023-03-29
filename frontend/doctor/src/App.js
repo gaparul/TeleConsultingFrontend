@@ -7,6 +7,9 @@ import { createTheme, ThemeProvider } from '@mui/material'
 import './App.css'
 
 import LogIn from './components/Home/Login/Login'
+import DashBoard from './components/Home/Dashboard/Dashboard'
+
+import DashboardLayout from './components/Home/Dashboard/DashBoardLayout';
 
 export const theme = createTheme({
    palette: {
@@ -39,6 +42,9 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route exact path='/' element={<LogIn/>}/>
+          <Route exact path='/signin' element={<LogIn/>}/>
+          <Route exact path='/dashboard' element={<DashBoard/>}/>
+          <Route exact path='/dashboardlayout' element={<DashboardLayout/>}/>
         </Switch>
       </BrowserRouter>
     </>

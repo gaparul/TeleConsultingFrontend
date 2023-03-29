@@ -14,9 +14,6 @@ import  SearchPatient from './components/Doctor/doctorHomePage'
 import { createTheme, ThemeProvider } from '@mui/material'
 import PhoneSignUp from './components/Home/Login/PhoneSignUp';
 import { UserAuthContextProvider } from './context/UserAuthContext';
-import DoctorLogin from './components/Doctor/Login/Login';
-// import DashboardLayout from './components/Doctor/Dashboard/Dashboard';
-import Dashboard from './components/Doctor/Dashboard/Dashboard';
 
 
 export const theme = createTheme({
@@ -58,8 +55,6 @@ function App() {
           <Route path="/phonesignup" element={<PhoneSignUp />} />
           <Route path="/register" element={<Register/>} />
           <Route path='/userprofile' element={<UserProfile/>} />
-          <Route path='/doctor' element={<DoctorLogin/>} />
-          <Route path='/dashboard' element={<Dashboard/>} />
         </Switch>
         </UserAuthContextProvider>
       </BrowserRouter>
