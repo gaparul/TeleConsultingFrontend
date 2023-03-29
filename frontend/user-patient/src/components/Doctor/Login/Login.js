@@ -54,19 +54,30 @@ const DoctorLogin = () => {
             if (e.message === "Doctor not Found") {
               setNotFound(true);
             }
-            if (e.message === "Invalid Credentials")
+            if (e.message === "Invalid Credentials") {
               setInvalidCredentials(true);
+            }
 
-            console.log(e)
+            console.log(e);
+            event.target.reset();
           });
         }
       })
       .catch((error) => console.log("error", error));
-    event.target.reset();
+
+    
   };
 
   const reset = (e) => {
     console.log("closing");
+    setEmail('');
+    setPassword('');
+    console.log('email password reset')
+    setOpen(true);
+    setNotFound(false);
+    setInvalidCredentials(false);
+    console.log('resetting flags')
+    window.location.reload(true)
   };
 
   return (
@@ -115,6 +126,7 @@ const DoctorLogin = () => {
                       color="inherit"
                       size="small"
                       onClick={() => {
+                        reset()
                         setOpen(false);
                       }}
                     >
@@ -125,11 +137,14 @@ const DoctorLogin = () => {
                   Seems like you are new! Please contact admin and get yourself
                   registered or check if you have entered a correct email id.
                 </Alert>
+                
               </Collapse>
+              
             )}
             {invalidCredentials && (
               <Collapse in={open}>
                 <Alert
+                  onClose={reset}
                   severity="error"
                   action={
                     <IconButton
@@ -137,6 +152,7 @@ const DoctorLogin = () => {
                       color="inherit"
                       size="small"
                       onClick={() => {
+                        reset()
                         setOpen(false);
                       }}
                     >

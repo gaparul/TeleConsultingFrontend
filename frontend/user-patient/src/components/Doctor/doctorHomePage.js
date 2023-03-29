@@ -1,4 +1,4 @@
-//react is used to run JSX: which is HTML in js
+
 import React, { useState,useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
