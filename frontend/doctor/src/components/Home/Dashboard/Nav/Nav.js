@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, React} from "react";
 import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 
@@ -10,6 +10,7 @@ import avatar from "./avatar/doctor.png";
 import ScrollBar from "../ScrollBar";
 import navConfig from "./NavConfig";
 import NavSection from "./nav-section/NavSection";
+// import { doctorDetails } from "../../Login/Login";
 
 const StyledAccount = styled("div")(({ theme }) => ({
   display: "flex",
@@ -27,14 +28,19 @@ Nav.propTypes = {
   onCloseNav: PropTypes.func,
 };
 
-const account = {
-  displayName: "Dr Parul Ghotikar", // TODO: fetch from doctor name
-  email: "gaparul@gmail.com", // TODO: change email to the one fetched
-  photoURL: avatar,
-};
 
 export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
+
+  const doctor = localStorage.getItem('doctor');
+
+  const doctorDetails = JSON.parse(doctor);
+
+  const account = {
+    displayName: doctorDetails.doctorFirstName+" "+doctorDetails.doctorLastName, // TODO: fetch from doctor name
+    email: doctorDetails.doctorEmail, // TODO: change email to the one fetched
+    photoURL: avatar,
+  };
 
   useEffect(() => {
     if (openNav) {
@@ -74,7 +80,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                {account.displayName}
+                Dr. {account.displayName}
               </Typography>
 
               <Typography variant="body2" sx={{ color: "text.secondary" }}>

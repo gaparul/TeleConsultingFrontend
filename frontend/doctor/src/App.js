@@ -1,11 +1,13 @@
 import { Routes as Switch } from 'react-router-dom'
 import { Route } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 
 import { createTheme, ThemeProvider } from '@mui/material'
 
 import './App.css'
 
+import Router from './routes/Router';
 import LogIn from './components/Home/Login/Login'
 import DashBoard from './components/Home/Dashboard/Dashboard'
 
@@ -38,7 +40,7 @@ export const theme = createTheme({
 function App() {
   return (
     <>
-    <ThemeProvider theme={theme}></ThemeProvider>
+    {/* <ThemeProvider theme={theme}></ThemeProvider>
       <BrowserRouter>
         <Switch>
           <Route exact path='/' element={<LogIn/>}/>
@@ -47,7 +49,18 @@ function App() {
           <Route exact path='/dashboardlayout' element={<DashboardLayout/>}/>
         </Switch>
       </BrowserRouter>
+    </> */}
+    <HelmetProvider>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          {/* <ScrollToTop />
+          <StyledChart /> */}
+          <Router />
+        </ThemeProvider>
+      </BrowserRouter>
+    </HelmetProvider>
     </>
+
   );
 }
 

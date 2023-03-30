@@ -15,7 +15,21 @@ import CloseIcon from "@mui/icons-material/Close";
 import MedicalConsultant from "./LoginImages/medicalConsultant.jpg";
 import { useNavigate } from "react-router";
 
+
 const theme = createTheme();
+
+
+ let doctorDetails = {
+  doctorID: 10000,
+  doctorFirstName: "XYZ",
+  doctorLastName: "ABC",
+  doctorSpecialisation: "Physician",
+  doctorQueueSize: 50,
+  doctorAvailable: 1,
+  doctorEmail: "xyzabc@gmail.com",
+  doctorMobileNumber: "0000000000",
+};
+
 const DoctorLogin = () => {
   const navigate = useNavigate();
   const [notFound, setNotFound] = React.useState(false);
@@ -48,7 +62,23 @@ const DoctorLogin = () => {
 
     fetch(loginApi, requestOptions)
       .then((response) => {
-        if (response.status === 202) navigate("/");
+        if (response.status === 202) {
+          response.json().then(async (e) => {
+            console.log(e.doctorEmail);
+            doctorDetails = {
+              doctorID: e.doctorID,
+              doctorFirstName: e.doctorFirstName,
+              doctorLastName: e.doctorLastName,
+              doctorSpecialisation: e.doctorSpecialisation,
+              doctorQueueSize: e.doctorQueueSize,
+              doctorAvailable: e.doctorAvailable,
+              doctorEmail: e.doctorEmail,
+              doctorMobileNumber: e.doctorMobileNumber,
+            };
+            localStorage.setItem('doctor', JSON.stringify(doctorDetails))
+            navigate('/dashboard');
+          });
+        }
         if (response.status === 404) {
           response.json().then((e) => {
             if (e.message === "Doctor not Found") {

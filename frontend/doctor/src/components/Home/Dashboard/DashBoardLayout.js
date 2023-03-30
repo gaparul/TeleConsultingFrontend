@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import PropTypes from "prop-types";
+
 // @mui
 import { styled } from '@mui/material/styles';
 //
@@ -31,6 +33,12 @@ const Main = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
+
+DashboardLayout.propTypes = {
+  doctorDetails: PropTypes.object,
+};
+
+// -----------------------------------------------------------------------
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
