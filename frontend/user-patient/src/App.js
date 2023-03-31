@@ -5,15 +5,16 @@ import { BrowserRouter } from 'react-router-dom';
 
 import './App.css'
 
-import Header from "./components/Bar/Header/Header"
+
 import Home from "./components/Home/Home"
 import Login from "./components/Home/Login/Login"
 import Register from "./components/Home/Register/Register"
 import  UserProfile from './components/Home/UserProfile/UserProfile';
-import  SearchPatient from './components/Doctor/doctorHomePage'
 import { createTheme, ThemeProvider } from '@mui/material'
 import PhoneSignUp from './components/Home/Login/PhoneSignUp';
 import { UserAuthContextProvider } from './context/UserAuthContext';
+
+import Dashboard from './components/Dashboard/Dashboard';
 
 
 export const theme = createTheme({
@@ -45,16 +46,16 @@ function App() {
     <>
     <ThemeProvider theme={theme}></ThemeProvider>
       <BrowserRouter>
-        <Header></Header>
+        
         <UserAuthContextProvider>
         <Switch>
           <Route exact path='/' element={<Home/>}/>
           <Route path='/home'element={<Home/>}/>
           <Route path='/login' element={ <Login/>} />
-          <Route path='/doctorHome' element= {<SearchPatient/>} />
           <Route path="/phonesignup" element={<PhoneSignUp />} />
           <Route path="/register" element={<Register/>} />
           <Route path='/userprofile' element={<UserProfile/>} />
+          <Route path='/dashboard' element={<Dashboard/>} />
         </Switch>
         </UserAuthContextProvider>
       </BrowserRouter>

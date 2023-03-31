@@ -12,6 +12,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 
+import Header from "../../Bar/Header/Header";
+
 const theme = createTheme();
 
 const Register = () => {
@@ -52,6 +54,7 @@ const Register = () => {
   };
   return (
     <>
+    <Header></Header>
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />

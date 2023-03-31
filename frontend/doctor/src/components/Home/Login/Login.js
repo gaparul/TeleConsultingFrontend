@@ -112,7 +112,7 @@ const DoctorLogin = () => {
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
-        <Grid
+          <Grid
           item
           xs={false}
           sm={4}

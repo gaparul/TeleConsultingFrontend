@@ -39,6 +39,7 @@ export default function Nav({ openNav, onCloseNav }) {
   const account = {
     displayName: doctorDetails.doctorFirstName+" "+doctorDetails.doctorLastName, // TODO: fetch from doctor name
     email: doctorDetails.doctorEmail, // TODO: change email to the one fetched
+    role: doctorDetails.doctorSpecialisation,
     photoURL: avatar,
   };
 

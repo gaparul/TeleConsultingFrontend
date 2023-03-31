@@ -55,7 +55,9 @@ export default function Searchbar() {
   };
 
   const reset = () => {
-
+    setNotFound(false);
+    setAlert(true);
+    navigate('/dashboard')
   }
 
   async function fetchData(id) {
@@ -160,7 +162,7 @@ export default function Searchbar() {
                   </IconButton>
                 }
               >
-                Password — <strong>Is it entered correctly?</strong>
+                Patient Does not exist! is it a correct patient id?
               </Alert>
             </Collapse>
             )}

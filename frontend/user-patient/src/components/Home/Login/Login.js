@@ -22,6 +22,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { useUserAuth } from "../../../context/UserAuthContext";
 import CustomPhoneNumber from "../Login/Hooks/PhoneNumber";
+import Header from "../../Bar/Header/Header";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -71,7 +72,7 @@ const Login = () => {
       .then((response) => {
         console.log(response.status);
         if (response.status === 202)
-          navigate("/"); // TODO: navigate to userprofile
+          navigate("/dashboard"); // TODO: navigate to userprofile
         else setOnError(true);
       })
       .then((result) => {
@@ -124,6 +125,7 @@ const Login = () => {
 
   return (
     <>
+    <Header></Header>
       <Box
         sx={{
           display: "flex",
