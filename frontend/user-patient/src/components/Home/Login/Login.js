@@ -71,8 +71,15 @@ const Login = () => {
     fetch(verifyLoginApi, requestOptions)
       .then((response) => {
         console.log(response.status);
-        if (response.status === 202)
-          navigate("/dashboard"); // TODO: navigate to userprofile
+        if (response.status === 202) {
+          console.log(response)
+          response.json().then((e) => {
+            console.log(JSON.stringify(e));
+            localStorage.setItem('user', JSON.stringify(e));
+          })
+          navigate("/dashboard/app");
+        }
+          
         else setOnError(true);
       })
       .then((result) => {

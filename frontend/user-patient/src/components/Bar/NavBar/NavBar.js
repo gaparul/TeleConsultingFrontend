@@ -69,14 +69,14 @@ const NavBar = () => {
                             <MenuItem
                                 bgcolor="primary"
                                 component={HashLink}
-                                smooth to='/home#home'
+                                smooth to='/home'
                             >Home
                             </MenuItem>
 
                             <MenuItem
                                 bgcolor="primary"
                                 component={HashLink}
-                                smooth to='/about#about'
+                                smooth to='/about'
                             >About
                             </MenuItem>
                             <MenuItem
@@ -91,7 +91,7 @@ const NavBar = () => {
                                     bgcolor="primary"
 
                                     component={HashLink}
-                                    smooth to='/login#login'
+                                    smooth to='/login'
                                 >Login
                                 </MenuItem>
                             {/* } */}
