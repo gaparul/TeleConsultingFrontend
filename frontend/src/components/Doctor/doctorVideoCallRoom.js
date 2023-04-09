@@ -47,11 +47,15 @@ const DoctorVideoCallRoom=() =>
                                 <ListItemText>Patient ID: </ListItemText>
                             </ListItem>
                             <ListItem>
-                                <ListItemButton>Download Health Record</ListItemButton>
+                                <ListItemText>Download Health Record</ListItemText>
                             </ListItem>
                     </List>
                 </div>
-                
+                <div>
+                    <h6 sx={{textAlign:'centre'}}>
+                        Prescription
+                    </h6>
+                </div>
             </div>
         </div>
         

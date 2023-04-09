@@ -3,12 +3,12 @@
   }
 .sidebar{
     /* flex:1; */
-    position: fixed;
+    position: relative;
     top:0;
     right: 0;
     bottom: 0;
     width: 400px;
-    background-color: aqua;
+    /* background-color: aqua; */
     padding-top: 60px;
    
     /* //background:aqua; */
