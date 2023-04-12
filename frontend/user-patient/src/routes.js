@@ -5,6 +5,7 @@ import Login from "./components/Home/Login/Login"
 import Register from "./components/Home/Register/Register"
 import DashboardApp from './components/Dashboard/DashboardApp';
 import PhoneSignUp from './components/Home/Login/PhoneSignUp';
+import RegisterPatient from './components/Dashboard/RegisterPatient/RegisterPatient';
 
 import Dashboard from './components/Dashboard/Dashboard';
 
@@ -16,10 +17,10 @@ export default function Router() {
       path: '/dashboard',
       element: <Dashboard />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
+        { element: <Navigate to="/dashboard" />, index: true },
         // { element: <Navigate to="/login" />, index: true },
         { path: 'app', element: <DashboardApp /> },
-        // { path: 'appointments', element: <Appointments /> },
+        { path: 'patientRegister', element: <RegisterPatient /> },
         // { path: 'patientinfo', element: <PatientInformation /> }
       ],
     },

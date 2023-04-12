@@ -16,13 +16,13 @@ import DashboardLayout from './components/Home/Dashboard/DashBoardLayout';
 export const theme = createTheme({
    palette: {
     primary:{
-      main: '#ddae36',
+      main: '#01579b',
     },
     secondary:{
-      main: '#f3e4bc',
+      main: '#b3e5fc',
     },
     alternate:{
-      main: '#fbf6e8',
+      main: '#81d4fa',
     },
     text:{
       secondary: '#212121',

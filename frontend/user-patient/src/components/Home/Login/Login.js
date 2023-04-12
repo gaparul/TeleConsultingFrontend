@@ -65,14 +65,15 @@ const Login = () => {
       method: "POST",
       headers: myHeaders,
       body: data,
-      redirect: "follow",
+      // redirect: "follow",
     };
 
     fetch(verifyLoginApi, requestOptions)
       .then((response) => {
         console.log(response.status);
+        
         if (response.status === 202) {
-          console.log(response)
+          console.log(response.headers.get("token"));
           response.json().then((e) => {
             console.log(JSON.stringify(e));
             localStorage.setItem('user', JSON.stringify(e));
@@ -80,10 +81,10 @@ const Login = () => {
           navigate("/dashboard/app");
         }
           
-        else setOnError(true);
-      })
-      .then((result) => {
-        console.log(result);
+        else {
+          console.log(response)
+          setOnError(true);
+        }
       })
       .catch((error) => {
         setError(error.message);

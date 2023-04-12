@@ -4,23 +4,26 @@ import { styled } from '@mui/material/styles';
 
 import patientinfo from './AppImages/patient-info.jpeg'
 import add from './AppImages/add.jpg'
+import { useNavigate } from 'react-router-dom';
 
 const images = [
     {
       url: add,
       title: 'Add Patient',
       width: '50%',
+      navigate: '/dashboard/patientRegister'
     },
     {
       url: patientinfo,
       title: 'Patient Details',
       width: '50%',
+      navigate: '/dashboard/patientDetails'
     },
   ];
 
   const ImageButton = styled(ButtonBase)(({ theme }) => ({
     position: 'relative',
-    height: 200,
+    height: 300,
     [theme.breakpoints.down('sm')]: {
       width: '100% !important', // Overrides inline-style
       height: 100,
@@ -82,9 +85,17 @@ const images = [
     transition: theme.transitions.create('opacity'),
   }));  
 
+  
 const DashboardApp = () => {
+
+    const navigate = useNavigate();
     const account = localStorage.getItem('user');
     const accountHolder = JSON.parse(account);
+
+    const handleClick = (e, path) => {
+      e.preventDefault();
+      navigate(path);
+    }
   return (
     <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
@@ -100,6 +111,7 @@ const DashboardApp = () => {
           style={{
             width: image.width,
           }}
+          onClick = {(e) => handleClick(e, image.navigate)}
         >
           <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
           <ImageBackdrop className="MuiImageBackdrop-root" />

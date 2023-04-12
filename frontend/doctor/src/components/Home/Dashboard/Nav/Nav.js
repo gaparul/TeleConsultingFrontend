@@ -17,7 +17,7 @@ const StyledAccount = styled("div")(({ theme }) => ({
   alignItems: "center",
   padding: theme.spacing(2, 2.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
-  backgroundColor: alpha(theme.palette.warning.light, 0.12),
+  backgroundColor: alpha(theme.palette.primary.main, 0.12),
 }));
 
 const NAV_WIDTH = 280;
