@@ -4,7 +4,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Radio from "@mui/material/Radio";
@@ -20,7 +19,6 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 
 const RegisterPatient = () => {
@@ -31,50 +29,52 @@ const RegisterPatient = () => {
   const [email, setEmail] = React.useState("");
   const [gender, setGender] = React.useState("");
   const [dob, setDOB] = React.useState(null);
-  const format = 'MM-DD-YY';
-    const nowDay = dayjs().format(format);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem("user");
 
     const userDetails = JSON.parse(user);
-    let formattedDOB = moment(dob.$d).format('DD/MM/YYYY');
+    let formattedDOB = moment(dob.$d).format("DD/MM/YYYY");
     console.log(formattedDOB);
 
     console.log();
 
     console.log(userDetails);
     const patient = {
-        "patientFirstName": firstName,
-        "patientLastName": lastName,
-        "patientMobileNumber": (mobile === "") ? userDetails.userMobileNumber : mobile,
-        "patientEmail": (email === "") ? userDetails.userEmail : email,
-        "patientDOB": formattedDOB,
-        "patientGender": gender,
-        "user":{
-            "userID": userDetails.userID
-        }
-    }
+      patientFirstName: firstName,
+      patientLastName: lastName,
+      patientMobileNumber:
+        mobile === "" ? userDetails.userMobileNumber : mobile,
+      patientEmail: email === "" ? userDetails.userEmail : email,
+      patientDOB: formattedDOB,
+      patientGender: gender,
+      user: {
+        userID: userDetails.userID,
+      },
+    };
 
     console.log(patient);
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(patient),
-        redirect: 'follow'
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(patient),
+      redirect: "follow",
     };
 
-    fetch("http://localhost:8083/api/patientDetails/registerPatient", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+    fetch(
+      "http://localhost:8083/api/patientDetails/registerPatient",
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
 
     // TODO: navigate
-  }
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -92,12 +92,7 @@ const RegisterPatient = () => {
         <Typography component="h1" variant="h5">
           Patient Registration
         </Typography>
-        <Box
-          component="form"
-          noValidate
-            onSubmit={handleSubmit}
-          sx={{ mt: 3 }}
-        >
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -143,19 +138,18 @@ const RegisterPatient = () => {
               />
             </Grid>
             <Grid item xs={12}>
-    
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker"]}>
-                <DatePicker
-                fullWidth
-                label="Date of Birth"
-                value={dob}
-                onChange={(newValue) => {
-                    setDOB(newValue) 
-                }}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    fullWidth
+                    label="Date of Birth"
+                    value={dob}
+                    onChange={(newValue) => {
+                      setDOB(newValue);
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
             </Grid>
             <Grid item xs={12}>
               <FormControl>
@@ -166,27 +160,31 @@ const RegisterPatient = () => {
                   row
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="row-radio-buttons-group"
-                  
                 >
                   <FormControlLabel
                     value="female"
-                    control={<Radio onChange={(e) => setGender(e.target.value)}/>}
+                    control={
+                      <Radio onChange={(e) => setGender(e.target.value)} />
+                    }
                     label="Female"
                   />
                   <FormControlLabel
                     value="male"
-                    control={<Radio onChange={(e) => setGender(e.target.value)}/>}
+                    control={
+                      <Radio onChange={(e) => setGender(e.target.value)} />
+                    }
                     label="Male"
                   />
                   <FormControlLabel
                     value="other"
-                    control={<Radio onChange={(e) => setGender(e.target.value)}/>}
+                    control={
+                      <Radio onChange={(e) => setGender(e.target.value)} />
+                    }
                     label="Other"
                   />
                 </RadioGroup>
               </FormControl>
             </Grid>
-            
           </Grid>
           <Button
             type="submit"

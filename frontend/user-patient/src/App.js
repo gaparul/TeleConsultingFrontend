@@ -1,21 +1,13 @@
-import { Routes as Switch } from 'react-router-dom'
+// import { Routes as Switch } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async';
-import { Route } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 
 import './App.css'
 
 import Router from './routes';
-import Home from "./components/Home/Home"
-import Login from "./components/Home/Login/Login"
-import Register from "./components/Home/Register/Register"
-import  UserProfile from './components/Home/UserProfile/UserProfile';
 import { createTheme, ThemeProvider } from '@mui/material'
-import PhoneSignUp from './components/Home/Login/PhoneSignUp';
 import { UserAuthContextProvider } from './context/UserAuthContext';
-
-import Dashboard from './components/Dashboard/Dashboard';
 
 
 export const theme = createTheme({
