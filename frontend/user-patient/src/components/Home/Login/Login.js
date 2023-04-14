@@ -51,7 +51,7 @@ const Login = () => {
   //   };
 
   const handleLogin = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); 
     const verifyLoginApi = "http://localhost:8083/api/user/userLogin";
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -68,15 +68,15 @@ const Login = () => {
       // redirect: "follow",
     };
 
-    fetch(verifyLoginApi, requestOptions)
-      .then((response) => {
+    await fetch(verifyLoginApi, requestOptions)
+      .then(async (response) => {
         console.log(response.status);
         
         if (response.status === 202) {
           console.log(response.headers.get("token"));
-          response.json().then((e) => {
+          await response.json().then(async (e) => {
             console.log(JSON.stringify(e));
-            localStorage.setItem('user', JSON.stringify(e));
+            await localStorage.setItem('user', JSON.stringify(e));
           })
           navigate("/dashboard/app");
         }
@@ -96,6 +96,7 @@ const Login = () => {
   };
 
   const handleEmail = (e) => {
+    localStorage.removeItem('user');
     setEmail(e.target.value);
   };
 

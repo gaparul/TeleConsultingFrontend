@@ -1,4 +1,5 @@
 import * as React from "react";
+import moment from "moment";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,7 +15,7 @@ import FormLabel from "@mui/material/FormLabel";
 import BadgeIcon from "@mui/icons-material/Badge";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -30,6 +31,50 @@ const RegisterPatient = () => {
   const [email, setEmail] = React.useState("");
   const [gender, setGender] = React.useState("");
   const [dob, setDOB] = React.useState(null);
+  const format = 'MM-DD-YY';
+    const nowDay = dayjs().format(format);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const user = localStorage.getItem('user');
+
+    const userDetails = JSON.parse(user);
+    let formattedDOB = moment(dob.$d).format('DD/MM/YYYY');
+    console.log(formattedDOB);
+
+    console.log();
+
+    console.log(userDetails);
+    const patient = {
+        "patientFirstName": firstName,
+        "patientLastName": lastName,
+        "patientMobileNumber": (mobile === "") ? userDetails.userMobileNumber : mobile,
+        "patientEmail": (email === "") ? userDetails.userEmail : email,
+        "patientDOB": formattedDOB,
+        "patientGender": gender,
+        "user":{
+            "userID": userDetails.userID
+        }
+    }
+
+    console.log(patient);
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(patient),
+        redirect: 'follow'
+    };
+
+    fetch("http://localhost:8083/api/patientDetails/registerPatient", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+
+    // TODO: navigate
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -50,7 +95,7 @@ const RegisterPatient = () => {
         <Box
           component="form"
           noValidate
-          //   onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
           sx={{ mt: 3 }}
         >
           <Grid container spacing={2}>
@@ -102,11 +147,12 @@ const RegisterPatient = () => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
                 <DatePicker
-                required
-                sx = {{minWidth: 700 }}
+                fullWidth
                 label="Date of Birth"
-                  value={dob}
-                  onChange={(newValue) => setDOB(newValue)}
+                value={dob}
+                onChange={(newValue) => {
+                    setDOB(newValue) 
+                }}
                 />
               </DemoContainer>
             </LocalizationProvider>
@@ -120,21 +166,21 @@ const RegisterPatient = () => {
                   row
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="row-radio-buttons-group"
-                  onChange={val => setGender(val)}
+                  
                 >
                   <FormControlLabel
                     value="female"
-                    control={<Radio />}
+                    control={<Radio onChange={(e) => setGender(e.target.value)}/>}
                     label="Female"
                   />
                   <FormControlLabel
                     value="male"
-                    control={<Radio />}
+                    control={<Radio onChange={(e) => setGender(e.target.value)}/>}
                     label="Male"
                   />
                   <FormControlLabel
                     value="other"
-                    control={<Radio />}
+                    control={<Radio onChange={(e) => setGender(e.target.value)}/>}
                     label="Other"
                   />
                 </RadioGroup>
