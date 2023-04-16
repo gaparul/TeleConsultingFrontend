@@ -6,6 +6,7 @@ import Register from "./components/Home/Register/Register"
 import DashboardApp from './components/Dashboard/DashboardApp';
 import PhoneSignUp from './components/Home/Login/PhoneSignUp';
 import RegisterPatient from './components/Dashboard/RegisterPatient/RegisterPatient';
+import PatientDetails from './components/Dashboard/PatientDetails/PatientDetails';
 
 import Dashboard from './components/Dashboard/Dashboard';
 
@@ -21,7 +22,7 @@ export default function Router() {
         // { element: <Navigate to="/login" />, index: true },
         { path: 'app', element: <DashboardApp /> },
         { path: 'patientRegister', element: <RegisterPatient /> },
-        // { path: 'patientinfo', element: <PatientInformation /> }
+        { path: 'patientDetails', element: <PatientDetails /> }
       ],
     },
     
