@@ -30,7 +30,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import avatar from "./Avatar/user.png";
 

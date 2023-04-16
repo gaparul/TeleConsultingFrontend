@@ -14,7 +14,7 @@ import FormLabel from "@mui/material/FormLabel";
 import BadgeIcon from "@mui/icons-material/Badge";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -73,7 +73,7 @@ const RegisterPatient = () => {
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
 
-    navigate('/dashboard/app');
+    navigate("/dashboard/app");
   };
   return (
     <Container component="main" maxWidth="xs">
