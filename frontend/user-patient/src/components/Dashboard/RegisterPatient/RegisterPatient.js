@@ -73,7 +73,7 @@ const RegisterPatient = () => {
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
 
-    // TODO: navigate
+    navigate('/dashboard/app');
   };
   return (
     <Container component="main" maxWidth="xs">

@@ -50,7 +50,7 @@ export const mainListItems = (
       <ListItemText primary="Dashboard" />
     </ListItemButton>
 
-    <ListItemButton href="">
+    <ListItemButton href="/dashboard/patientDetails">
       <ListItemIcon>
         <PersonPinIcon sx={{ color: blue[900] }} />
       </ListItemIcon>
