@@ -6,7 +6,7 @@ import Register from "./components/Home/Register/Register"
 import DashboardApp from './components/Dashboard/DashboardApp';
 import PhoneSignUp from './components/Home/Login/PhoneSignUp';
 import RegisterPatient from './components/Dashboard/RegisterPatient/RegisterPatient';
-
+import CallRoom from './components/CallRoom/CallRoom';
 import Dashboard from './components/Dashboard/Dashboard';
 
 // ----------------------------------------------------------------------
@@ -37,6 +37,10 @@ export default function Router() {
         path: '/login',
         element: <Login />,
     },
+    {
+      path: '/callroom',
+      element: <CallRoom />,
+  },
     {
         path: 'register',
         element: <Register />,
