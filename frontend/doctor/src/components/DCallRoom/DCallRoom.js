@@ -163,7 +163,7 @@ const DCallRoom=() =>
                         <Table sx={{ minWidth: 400,marginTop:'20px'}} aria-label="customized table">
                             <TableHead>
                                 <TableRow>
-                                    <StyledTableCell align="center" >Disease</StyledTableCell>
+                                    <StyledTableCell align="center" >Medicine</StyledTableCell>
                                     <StyledTableCell align="center">Dosage</StyledTableCell>
                                 </TableRow>
                             </TableHead>
