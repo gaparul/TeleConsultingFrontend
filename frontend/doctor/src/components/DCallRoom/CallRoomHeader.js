@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 const CallRoomHeader=()=> {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{color:"#64b5f6"}}>
         <Toolbar>
         <a href="" style={{ textDecoration: 'none',color: 'white', }}>
           <Typography variant="h4" component="div" sx={{ flexGrow: 1, textDecoration: 'none',
