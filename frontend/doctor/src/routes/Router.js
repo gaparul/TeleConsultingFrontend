@@ -7,7 +7,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import Login from '../components/Home/Login/Login';
 import DashboardLayout from '../components/Home/Dashboard/DashBoardLayout';
 import PatientInformation from '../components/Home/PatientInformation/PatientInformation';
-
+import DCallRoom from '../components/DCallRoom/DCallRoom';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -26,6 +26,10 @@ export default function Router() {
     {
       path: 'login',
       element: <Login />,
+    },
+    {
+      path: 'dcallroom',
+      element: <DCallRoom />,
     },
     {
         path: '/',
