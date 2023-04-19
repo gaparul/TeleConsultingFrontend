@@ -32,8 +32,13 @@ const Signup = () => {
             <Form.Control
               type="email"
               placeholder="Email address"
+              required  // added required attribute for HTML5 email validation
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"  // added pattern attribute for email format validation
               onChange={(e) => setEmail(e.target.value)}
             />
+            <Form.Control.Feedback type="invalid">
+              Please enter a valid email address.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">

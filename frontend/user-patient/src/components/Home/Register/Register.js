@@ -118,6 +118,7 @@ const Register = () => {
                     onBlur={(e) => setEmail(e.target.value)}
                     required
                     fullWidth
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                     id="email"
                     label="Email Address"
                     name="email"

@@ -39,7 +39,7 @@ const CallRoom = () => {
             <Button type="submit"
                     variant="contained"
                     size='medium'
-                    sx={{ mt: 1}}>
+                    sx={{ mt: 1 , backgroundColor: '#1565c0' ,color:'white'}}>
                 Download prescription
             </Button>
             </div>
