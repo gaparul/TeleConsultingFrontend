@@ -190,6 +190,12 @@ const DCallRoom=() =>
             console.log('API response:', response.data);
           if (response.data === 'Prescription Uploaded successfully') {
             alert('Upload Successful!');
+            setInputFields([{ medicine: '', dosage: '' }]);
+            setSymptoms('');
+            setAdvice('');
+            setFollowUpDay('');
+            setIsFollowUp(false);
+            setMedicinesAndDosage('');
           } else {
             alert('Upload Failed');
           }
@@ -197,7 +203,6 @@ const DCallRoom=() =>
           console.error('API error:', error);
         }
     }
-    
     return(
         <>
         <CallRoomHeader/>
@@ -312,7 +317,6 @@ const DCallRoom=() =>
                             <MenuItem value={'5'}>5 days</MenuItem>
                             <MenuItem value={'7'}>7 days</MenuItem>
                             <MenuItem value={'15'}>15 days</MenuItem>
-                            <MenuItem value={'30'}>30 days</MenuItem>
                         </Select>
                         </FormControl>
                     </Grid>
@@ -321,7 +325,7 @@ const DCallRoom=() =>
                         <span>
                         <Button type="submit"
                                 variant="contained"
-                                size='small'
+                                size='medium'
                                 textAlign={"center"}
                                 sx={{ mt: 1, marginLeft:'10px'}}
                                 onClick={(e) => uploadPrescription(e)}>
@@ -331,7 +335,7 @@ const DCallRoom=() =>
                     </Grid>
 
                     {/* Health Record Table */}
-                    <TableContainer sx={{marginTop:'40px'}} component={Paper}>
+                    <TableContainer sx={{marginTop:'20px'}} component={Paper}>
                         <Table sx={{ minWidth: 500 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
