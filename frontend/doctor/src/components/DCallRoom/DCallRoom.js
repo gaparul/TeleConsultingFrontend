@@ -189,6 +189,12 @@ const DCallRoom=() =>
             console.log('API response:', response.data);
           if (response.data === 'Prescription Uploaded successfully') {
             alert('Upload Successful!');
+            setInputFields([{ medicine: '', dosage: '' }]);
+            setSymptoms('');
+            setAdvice('');
+            setFollowUpDay('');
+            setIsFollowUp(false);
+            setMedicinesAndDosage('');
           } else {
             alert('Upload Failed');
           }
