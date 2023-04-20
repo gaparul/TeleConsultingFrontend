@@ -145,6 +145,7 @@ function DashboardContent() {
     displayName: `${userDetails.userFirstName} ${userDetails.userLastName}`,
     email: userDetails.userEmail,
     photoURL: avatar,
+
   };
 
   return (
