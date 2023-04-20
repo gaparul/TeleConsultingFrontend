@@ -1,4 +1,4 @@
-import React , { useState } from "react";
+import React , { useState, useEffect } from "react";
 import {ZegoUIKitPrebuilt} from "@zegocloud/zego-uikit-prebuilt";
 import { useParams } from "react-router-dom";
 import { Grid,Paper,Select,Button,Box, Typography,TextField,FormControl,InputLabel} from "@mui/material";
@@ -49,6 +49,34 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const DCallRoom=() =>
 {
+    const [healthRecord,setHealthRecord] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const patientID = 6;
+
+    useEffect(() => {
+        fetch(`http://localhost:8083/api/patientDetails/getHealthRecordsByPatientId/${patientID}`)
+        .then(response => {
+            if(!response.ok) {
+                console.log('Not working');
+            }
+            return response.json();
+        })
+        .then(healthRecord => setHealthRecord(healthRecord));
+    },[]);
+
+    const handleDownload = (healthRecordName, setLoading) => {
+        setLoading(true);
+        fetch(`http://localhost:8083/api/patientDetails/healthrecord/6/${healthRecordName}`, {
+          method: 'GET'
+        }).then(() => {
+          console.log(`Downloaded ${healthRecordName}`);
+          setLoading(false);
+          window.open(`http://localhost:8083/api/patientDetails/healthrecord/6/${healthRecordName}`);
+        });
+      }
+
+
     //Call Room
    // const {roomId} = useParams();
     const roomId="1234";
@@ -122,19 +150,19 @@ const DCallRoom=() =>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row) => (
+                                {healthRecord.map((row,index) => (
                                 <TableRow
-                                    key={row.name}
+                                    key={index}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                    <TableCell align="right">{row.name}</TableCell>
-                                    <TableCell align="right">{row.dateofupload}</TableCell>
+                                    <TableCell align="right">{row.healthRecordName}</TableCell>
+                                    <TableCell align="right">{row.healthRecordUploadDate}</TableCell>
                                     <TableCell align="right">
                                     <Button type="submit"
                                         variant="contained"
                                         size='small'
                                         textAlign='center'
-                                        sx={{ mt: 1}}>
+                                        sx={{ mt: 1}} onClick = {() => handleDownload(row.healthRecordName,setLoading)}>
                                         View
                                     </Button>
                                     </TableCell>
