@@ -11,6 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Switch from '@mui/material/Switch';
 import MenuItem from '@mui/material/MenuItem'; 
+import axios from 'axios';
 
 import CallRoomHeader from "./CallRoomHeader";
 
@@ -53,6 +54,7 @@ const DCallRoom=() =>
     const [loading, setLoading] = useState(false);
 
     const patientID = 6;
+    const appointmentID = 1;
 
     useEffect(() => {
         fetch(`http://localhost:8083/api/patientDetails/getHealthRecordsByPatientId/${patientID}`)
@@ -67,12 +69,12 @@ const DCallRoom=() =>
 
     const handleDownload = (healthRecordName, setLoading) => {
         setLoading(true);
-        fetch(`http://localhost:8083/api/patientDetails/healthrecord/6/${healthRecordName}`, {
+        fetch(`http://localhost:8083/api/patientDetails/healthrecord/${patientID}/${healthRecordName}`, {
           method: 'GET'
         }).then(() => {
           console.log(`Downloaded ${healthRecordName}`);
           setLoading(false);
-          window.open(`http://localhost:8083/api/patientDetails/healthrecord/6/${healthRecordName}`);
+          window.open(`http://localhost:8083/api/patientDetails/healthrecord/${patientID}/${healthRecordName}`);
         });
       }
 
@@ -110,16 +112,89 @@ const DCallRoom=() =>
         {medicine : "",dosage:""}
     ])
 
-    const handleFormChange=(index,event)=>{
+    const [symptoms,setSymptoms] = useState('')
+
+    const [advice,setAdvice] = useState('')
+
+    const [isFollowUp, setIsFollowUp] = useState(false);
+
+    const [followUpDay, setFollowUpDay] = useState('');
+
+    const [medicinesAndDosage, setMedicinesAndDosage] = useState('')
+
+    const handleFormChange=(index,e)=>{
         let data=[...inputField]
-        data[index][event.target.name]=event.target.value;
+        data[index][e.target.name]=e.target.value;
         setInputFields(data)
+        console.log(data);
     }
 
-    const addFields=(event)=>{
-        event.preventDefault();
+    const addFields=(e)=>{
+        e.preventDefault();
         let newField={medicine : "",dosage:""}
         setInputFields([...inputField,newField])
+    }
+
+    const handleSelectChange = (e) => {
+        setFollowUpDay(e.target.value); 
+    }
+
+    const handleFollowUpChange = (e) => {
+        setIsFollowUp(e.target.checked);
+    }
+
+    const handleInputChange = (e) => {
+        setSymptoms(e.target.value);
+    }
+
+    const handleInputChangeAdvice = (e) => {
+        setAdvice(e.target.value); 
+    }
+    const string =inputField.map((item)=>{
+        return `${item.medicine}:${item.dosage}` 
+    }).join("$")
+    console.log(string)
+
+    const uploadPrescription = async(e) => {
+        e.preventDefault();
+        console.log("Form data entered :",inputField)
+        // let string = "";
+        // for(let i=0; i<inputField.length; i++){
+        //     string+=`${inputField[i].medicine}:${inputField[i].dosage}$`
+        // }
+        // string = string.slice(0, -1);
+        
+        setMedicinesAndDosage(string)
+        console.log("medicine",medicinesAndDosage)
+
+        const details1 = {
+            symptoms: symptoms,
+            medicinesAndDosage: string,
+            advice: advice,
+        };
+        const details2 = {
+            isFollowUp: isFollowUp,
+            followUpDay: followUpDay
+        };
+        const combine = {
+            Prescription : details1,
+            Appointment : details2
+        };
+        
+        console.log(symptoms,string,advice,followUpDay)
+        console.log(patientID,appointmentID)
+
+        try {
+            const response = await axios.post(`http://localhost:8083/doctor/uploadPrescription/${appointmentID}/${patientID}`, combine);
+            console.log('API response:', response.data);
+          if (response.data === 'Prescription Uploaded successfully') {
+            alert('Upload Successful!');
+          } else {
+            alert('Upload Failed');
+          }
+        } catch (error) {
+          console.error('API error:', error);
+        }
     }
     return(
         <>
@@ -139,39 +214,6 @@ const DCallRoom=() =>
                         Patient Id:
                     </Typography>
 
-                    {/* Health Record Table */}
-                    <TableContainer sx={{marginTop:'20px'}} component={Paper}>
-                        <Table sx={{ minWidth: 500 }} aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Name</TableCell>
-                                    <TableCell align="right">Date of Upload</TableCell>
-                                    <TableCell align="right">View Medical History</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {healthRecord.map((row,index) => (
-                                <TableRow
-                                    key={index}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                    <TableCell align="right">{row.healthRecordName}</TableCell>
-                                    <TableCell align="right">{row.healthRecordUploadDate}</TableCell>
-                                    <TableCell align="right">
-                                    <Button type="submit"
-                                        variant="contained"
-                                        size='small'
-                                        textAlign='center'
-                                        sx={{ mt: 1}} onClick = {() => handleDownload(row.healthRecordName,setLoading)}>
-                                        View
-                                    </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-
                     <Typography sx={{marginTop:'40px'}} variant="h4" textAlign={"center"}>
                         Prescription
                     </Typography>
@@ -183,6 +225,8 @@ const DCallRoom=() =>
                         fullWidth
                         label="Symptoms"
                         name="Symptoms"
+                        value={symptoms}
+                        onChange={handleInputChange}
                         />
                     </Grid> 
                     
@@ -238,50 +282,88 @@ const DCallRoom=() =>
                             variant="outlined"
                             label="Advice"
                             name="Advice"
+                            value={advice}
+                            onChange={handleInputChangeAdvice}
                             />            
                     </Grid>
 
                     <Grid item sx={{marginTop:'20px' }} > 
-                        <Switch {...label} />
+                        <Switch 
+                            checked={isFollowUp}
+                            onChange={handleFollowUpChange}
+                            {...label}
+                        />
                         <span sx={{marginLeft:'2rem'}}>Follow Up</span>
                     </Grid>
 
                     <Grid item sx={{marginTop:'20px' }} >
                         <FormControl sx={{width:'150px'}}>
-                        <InputLabel id="demo-simple-select-label">Duration</InputLabel>
+                        <InputLabel id="demo-simple-select-label">After</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            label="Age" >
-                            <MenuItem value={'3 days'}>3 days</MenuItem>
-                            <MenuItem value={'5 days'}>5 days</MenuItem>
-                            <MenuItem value={'7 days'}>7 days</MenuItem>
-                            <MenuItem value={'15 days'}>15 days</MenuItem>
-                            <MenuItem value={'1 month'}>1 month</MenuItem>
-                            <MenuItem value={'3 month'}>3 month</MenuItem>
-                            <MenuItem value={'6 month'}>6 month</MenuItem>
+                            label="days/months" 
+                            value={followUpDay}
+                            onChange={handleSelectChange}
+                            disabled={!isFollowUp}>
+                            <MenuItem value={'3'}>3 days</MenuItem>
+                            <MenuItem value={'5'}>5 days</MenuItem>
+                            <MenuItem value={'7'}>7 days</MenuItem>
+                            <MenuItem value={'15'}>15 days</MenuItem>
                         </Select>
                         </FormControl>
                     </Grid>
 
                     <Grid item sx={{marginTop:'20px' }} >
-                        Generate Prescription
                         <span>
                         <Button type="submit"
                                 variant="contained"
                                 size='medium'
                                 textAlign={"center"}
-                                sx={{ mt: 1, marginLeft:'10px'}}>
-                                Upload
+                                sx={{ mt: 1, marginLeft:'10px'}}
+                                onClick={(e) => uploadPrescription(e)}>
+                                Upload Prescription
                             </Button> 
                         </span>
-            
                     </Grid>
+
+                    {/* Health Record Table */}
+                    <TableContainer sx={{marginTop:'20px'}} component={Paper}>
+                        <Table sx={{ minWidth: 500 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell align="right">Date of Upload</TableCell>
+                                    <TableCell align="right">View Medical History</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {healthRecord.map((row,index) => (
+                                <TableRow
+                                    key={index}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                    <TableCell align="right">{row.healthRecordName}</TableCell>
+                                    <TableCell align="right">{row.healthRecordUploadDate}</TableCell>
+                                    <TableCell align="right">
+                                    <Button type="submit"
+                                        variant="contained"
+                                        size='small'
+                                        textAlign='center'
+                                        sx={{ mt: 1}} onClick = {() => handleDownload(row.healthRecordName,setLoading)}>
+                                        View
+                                    </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Paper>      
             </Grid> 
         </Grid>  
     </>
         
-    )
+)
 }
 export default DCallRoom ;
