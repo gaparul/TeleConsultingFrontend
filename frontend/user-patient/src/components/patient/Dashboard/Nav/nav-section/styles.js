@@ -16,7 +16,7 @@ export const StyledNavItem = styled((props) => <ListItemButton disableGutters {.
 export const StyledNavItemIcon = styled(ListItemIcon)({
   width: 22,
   height: 22,
-  color: 'inherit',
+  color: '#0d47a1',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

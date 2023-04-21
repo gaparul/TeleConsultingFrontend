@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { forwardRef } from "react";
+import event from './icons/event.svg'
 import dashboard from "./icons/dashboard.svg";
 import appointment from "./icons/calendar.svg";
 import logout from "./icons/logout.svg";
@@ -30,8 +31,18 @@ const navConfig = [
     icon: <SvgColor src={dashboard} sx={{ width: 1, height: 1 }} />,
   },
   {
-    title: "logout",
+    title: "My Appointments",
     path: "/",
+    icon: <SvgColor src={appointment} sx={{ width: 1, height: 1 }} />,
+  },
+  {
+    title: "Get Appointment",
+    path: "/",
+    icon: <SvgColor src={event} sx={{ width: 1, height: 1 }} />,
+  },
+  {
+    title: "logout",
+    path: "/login",
     icon: <SvgColor src={logout} sx={{ width: 1, height: 1 }} />,
   },
 ];

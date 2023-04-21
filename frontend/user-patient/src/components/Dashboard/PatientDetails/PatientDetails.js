@@ -96,7 +96,7 @@ const PatientDetails = () => {
 
     localStorage.setItem('patient', patientData);
 
-    // navigate("/dashboard/app");
+    navigate("/patient/dashboard/");
   };
 
   return (

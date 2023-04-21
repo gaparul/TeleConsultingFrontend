@@ -10,6 +10,7 @@ import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import femaleAvatar from "./avatar/female.png";
 import maleAvatar from "./avatar/user.png";
 import navConfig from "./NavConfig";
+// import { StyledNavItemIcon } from "./nav-section/styles";
 import NavSection from "./nav-section/NavSection";
 
 const StyledAccount = styled("div")(({ theme }) => ({
@@ -19,6 +20,15 @@ const StyledAccount = styled("div")(({ theme }) => ({
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: alpha(theme.palette.primary.main, 0.12),
 }));
+
+const StyledNavItemIcon = styled(VolunteerActivismTwoTone)({
+  width: 40,
+  height: 40,
+  color: '#0d47a1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
 
 const NAV_WIDTH = 350;
 
@@ -67,7 +77,9 @@ export default function Nav({ openNav, onCloseNav }) {
           sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
         >
           {" "}
-          <VolunteerActivismTwoTone fontSize="large" />
+          <StyledNavItemIcon>
+          <VolunteerActivismTwoTone  size="large" />
+          </StyledNavItemIcon>
           eConsultation
         </Typography>
       </Box>
