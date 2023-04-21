@@ -2,7 +2,7 @@
 import React , { useState, useEffect } from "react";
 import {ZegoUIKitPrebuilt} from "@zegocloud/zego-uikit-prebuilt";
 import { useParams } from "react-router-dom";
-import { Grid,Paper,Select,Button,Box, Typography,TextField,FormControl,InputLabel} from "@mui/material";
+import { Grid,Paper,Select,Button,Typography,TextField,FormControl,InputLabel} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,7 +16,7 @@ import axios from 'axios';
 
 import CallRoomHeader from "./CallRoomHeader";
 
-//Table1
+//Table2
 function createData(name, dateofupload) {
     return { name, dateofupload };
   }
@@ -25,7 +25,7 @@ function createData(name, dateofupload) {
     createData('','','')
   ];
 
-//Table2 
+//Table1
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#e3f2fd",
@@ -345,24 +345,35 @@ const DCallRoom=() =>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {healthRecord.map((row,index) => (
-                                <TableRow
-                                    key={index}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                    <TableCell align="right">{row.healthRecordName}</TableCell>
-                                    <TableCell align="right">{row.healthRecordUploadDate}</TableCell>
-                                    <TableCell align="right">
-                                    <Button type="submit"
-                                        variant="contained"
-                                        size='small'
-                                        textAlign='center'
-                                        sx={{ mt: 1}} onClick = {() => handleDownload(row.healthRecordName,setLoading)}>
-                                        View
-                                    </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                                {healthRecord.length > 0 ? (
+                                    healthRecord.map((row, index) => (
+                                        <TableRow
+                                            key={index}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell align="right">{row.healthRecordName}</TableCell>
+                                            <TableCell align="right">{row.healthRecordUploadDate}</TableCell>
+                                            <TableCell align="right">
+                                                <Button
+                                                    type="submit"
+                                                    variant="contained"
+                                                    size="small"
+                                                    textAlign="center"
+                                                    sx={{ mt: 1 }}
+                                                    onClick={() => handleDownload(row.healthRecordName, setLoading)}
+                                                >
+                                                    View
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={3} align="center">
+                                            No medical records uploaded by patient.
+                                        </TableCell>
+                                    </TableRow>
+                                )}
                             </TableBody>
                         </Table>
                     </TableContainer>
