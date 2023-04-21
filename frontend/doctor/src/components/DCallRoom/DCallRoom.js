@@ -65,6 +65,7 @@ const DCallRoom=() =>
             return response.json();
         })
         .then(healthRecord => setHealthRecord(healthRecord));
+        console.log(Object.keys(healthRecord).length);
     },[]);
 
     const handleDownload = (healthRecordName, setLoading) => {
@@ -344,25 +345,37 @@ const DCallRoom=() =>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {healthRecord.map((row,index) => (
-                                <TableRow
-                                    key={index}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                    <TableCell align="right">{row.healthRecordName}</TableCell>
-                                    <TableCell align="right">{row.healthRecordUploadDate}</TableCell>
-                                    <TableCell align="right">
-                                    <Button type="submit"
-                                        variant="contained"
-                                        size='small'
-                                        textAlign='center'
-                                        sx={{ mt: 1}} onClick = {() => handleDownload(row.healthRecordName,setLoading)}>
-                                        View
-                                    </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                            </TableBody>
+    {healthRecord.length > 0 ? (
+        healthRecord.map((row, index) => (
+            <TableRow
+                key={index}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+                <TableCell align="right">{row.healthRecordName}</TableCell>
+                <TableCell align="right">{row.healthRecordUploadDate}</TableCell>
+                <TableCell align="right">
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        size="small"
+                        textAlign="center"
+                        sx={{ mt: 1 }}
+                        onClick={() => handleDownload(row.healthRecordName, setLoading)}
+                    >
+                        View
+                    </Button>
+                </TableCell>
+            </TableRow>
+        ))
+    ) : (
+        <TableRow>
+            <TableCell colSpan={3} align="center">
+                No medical records uploaded by patient.
+            </TableCell>
+        </TableRow>
+    )}
+</TableBody>
+
                         </Table>
                     </TableContainer>
                 </Paper>      
