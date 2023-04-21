@@ -9,6 +9,8 @@ import RegisterPatient from './components/Dashboard/RegisterPatient/RegisterPati
 import PatientDetails from './components/Dashboard/PatientDetails/PatientDetails';
 
 import Dashboard from './components/Dashboard/Dashboard';
+import { element } from 'prop-types';
+import DashboardLayout from './components/patient/Dashboard/DashBoardLayout'
 
 // ----------------------------------------------------------------------
 
@@ -19,10 +21,22 @@ export default function Router() {
       element: <Dashboard />,
       children: [
         { element: <Navigate to="/dashboard" />, index: true },
-        // { element: <Navigate to="/login" />, index: true },
+        { element: <Navigate to="/login" />, index: true },
         { path: 'app', element: <DashboardApp /> },
         { path: 'patientRegister', element: <RegisterPatient /> },
-        { path: 'patientDetails', element: <PatientDetails /> }
+        { path: 'patientDetails', element: <PatientDetails /> }, 
+      ],
+    },
+
+    {
+      path: '/patient/dashboard',
+      element: <DashboardLayout/>,
+      children: [
+        // { element: <Navigate to="/patient/dashboard" />, index: true },
+        // { element: <Navigate to="/login" />, index: true }   ,
+        // { path: 'app', element: <DashboardApp /> },
+        // { path: 'patientRegister', element: <RegisterPatient /> },
+        // { path: 'patientDetails', element: <PatientDetails /> }, 
       ],
     },
     

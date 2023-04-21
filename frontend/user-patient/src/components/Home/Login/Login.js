@@ -39,6 +39,8 @@ const Login = () => {
   const [checked, setchecked] = useState(false);
   const navigate = useNavigate();
 
+  localStorage.removeItem('user');
+
   //   const handleSubmit = async (e) => {
   //     e.preventDefault();
   //     setError("");
@@ -96,7 +98,6 @@ const Login = () => {
   };
 
   const handleEmail = (e) => {
-    localStorage.removeItem('user');
     setEmail(e.target.value);
   };
 
