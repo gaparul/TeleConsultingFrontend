@@ -89,8 +89,14 @@ const PatientDetails = () => {
     navigate("/dashboard/patientRegister");
   };
 
-  const handleClick = () => {
-    navigate("/dashboard/app");
+  const handleClick = (e, patient) => {
+    e.preventDefault();
+    console.log(patient);
+    const patientData = JSON.stringify(patient)
+
+    localStorage.setItem('patient', patientData);
+
+    // navigate("/dashboard/app");
   };
 
   return (
@@ -127,7 +133,7 @@ const PatientDetails = () => {
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <StyledTableRow key={row.patientId} onClick={handleClick}>
+                <StyledTableRow key={row.patientId} onClick={ e => handleClick(e, row)}>
                   <StyledTableCell component="th" scope="row">
                     {row.patientId}
                   </StyledTableCell>

@@ -9,7 +9,6 @@ import RegisterPatient from './components/Dashboard/RegisterPatient/RegisterPati
 import PatientDetails from './components/Dashboard/PatientDetails/PatientDetails';
 
 import Dashboard from './components/Dashboard/Dashboard';
-import { element } from 'prop-types';
 import DashboardLayout from './components/patient/Dashboard/DashBoardLayout'
 
 // ----------------------------------------------------------------------

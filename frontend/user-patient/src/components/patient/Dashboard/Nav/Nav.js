@@ -1,15 +1,16 @@
-import { useEffect, React} from "react";
+import { useEffect, React } from "react";
 import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 
 import { styled, alpha } from "@mui/material/styles";
-import { Box, Link, Drawer, Typography, Avatar } from "@mui/material";
+import { Box, Link, Drawer, Typography, Avatar, Divider, Button, IconButton } from "@mui/material";
 import VolunteerActivismTwoTone from "@mui/icons-material/VolunteerActivismTwoTone";
+import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 
-import avatar from "./avatar/doctor.png";
+import femaleAvatar from "./avatar/female.png";
+import maleAvatar from "./avatar/user.png";
 import navConfig from "./NavConfig";
 import NavSection from "./nav-section/NavSection";
-// import { doctorDetails } from "../../Login/Login";
 
 const StyledAccount = styled("div")(({ theme }) => ({
   display: "flex",
@@ -19,27 +20,35 @@ const StyledAccount = styled("div")(({ theme }) => ({
   backgroundColor: alpha(theme.palette.primary.main, 0.12),
 }));
 
-const NAV_WIDTH = 280;
+const NAV_WIDTH = 350;
 
 Nav.propTypes = {
   openNav: PropTypes.bool,
   onCloseNav: PropTypes.func,
 };
 
-
 export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
 
-  // const doctor = localStorage.getItem('doctor');
+  const patient = localStorage.getItem("patient");
 
-  // const doctorDetails = JSON.parse(doctor);
+  const patientDetails = JSON.parse(patient);
+  const genderTitle = patientDetails.gender === "male" ? 'MR. ' : 'MS. ';
+  const avatar = patientDetails.gender === "male" ? maleAvatar : femaleAvatar;
+  const name = String(patientDetails.name).toUpperCase()
+  const account = {
+    id: patientDetails.patientId,
+    displayName: patientDetails.name,
+    email: patientDetails.email,
+    mobile: patientDetails.mobile,
+    gender: patientDetails.gender,
+    dob: patientDetails.dob,
+    photoURL: avatar,
+  };
 
-  // const account = {
-  //   displayName: doctorDetails.doctorFirstName+" "+doctorDetails.doctorLastName, // TODO: fetch from doctor name
-  //   email: doctorDetails.doctorEmail, // TODO: change email to the one fetched
-  //   role: doctorDetails.doctorSpecialisation,
-  //   photoURL: avatar,
-  // };
+  const handleClick = () => {
+
+  } 
 
   useEffect(() => {
     if (openNav) {
@@ -63,26 +72,72 @@ export default function Nav({ openNav, onCloseNav }) {
         </Typography>
       </Box>
 
-      {/* <Box sx={{ mb: 5, mx: 2.5 }}>
+      <Box sx={{ mb: 2, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
             <Avatar src={account.photoURL} alt="photoURL" />
 
             <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                {account.displayName}
-              </Typography>
-
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {account.role}
+            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+                {genderTitle + name}
               </Typography>
             </Box>
           </StyledAccount>
         </Link>
-      </Box> */}
+      </Box>
+
+      <Box sx={{ mb: 4, mx: 2.5 }}>
+        <StyledAccount>
+        <Box sx={{ ml: 2 }}>
+        <Typography variant="title" sx={{ color: "text.primary" }}>
+          Patient Details:
+        </Typography>
+        <Divider></Divider>
+        <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+                PatientID: {account.id}
+              </Typography>
+        <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+                Name: {account.displayName}
+              </Typography>
+        <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+          Email: {account.email}
+        </Typography>
+
+        <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+          Mobile Number: {account.mobile}
+        </Typography>
+
+        <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+          Gender: {account.gender}
+        </Typography>
+
+        <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+          Date of Birth: {account.dob}
+        </Typography>
+        </Box>
+        </StyledAccount>
+      </Box>
+
+      <Box sx={{ mb: 4, mx: 2.5 }}>
+      <StyledAccount>
+
+        <IconButton onClick={handleClick}>
+          <DriveFolderUploadIcon color="error" size='large'></DriveFolderUploadIcon>
+        </IconButton>
+        <Box sx={{ ml: 2 }}>
+        <Typography variant="subtitle1" sx={{ color: "text.primary" }}>
+          Upload Health Records
+        </Typography>
+        <Typography variant="subtitle2" sx={{ color:  "#b71c1c"}}>
+          Format accepted: .pdf
+        </Typography>
+        </Box>
+
+      </StyledAccount>
+      </Box>
 
       <NavSection data={navConfig} />
-      </>
+    </>
   );
   return (
     <Box
@@ -92,19 +147,19 @@ export default function Nav({ openNav, onCloseNav }) {
         width: { lg: NAV_WIDTH },
       }}
     >
-        <Drawer
-          open
-          variant="permanent"
-          PaperProps={{
-            sx: {
-              width: NAV_WIDTH,
-              bgcolor: "background.default",
-              borderRightStyle: "dashed",
-            },
-          }}
-        >
-          {renderContent}
-        </Drawer>
+      <Drawer
+        open
+        variant="permanent"
+        PaperProps={{
+          sx: {
+            width: NAV_WIDTH,
+            bgcolor: "background.default",
+            borderRightStyle: "dashed",
+          },
+        }}
+      >
+        {renderContent}
+      </Drawer>
     </Box>
   );
 }
