@@ -27,7 +27,7 @@ export const SvgColor = forwardRef(({ src, sx, ...other }, ref) => (
 const navConfig = [
   {
     title: "dashboard",
-    path: "/dashboard/app",
+    path: "/patient/dashboard/app",
     icon: <SvgColor src={dashboard} sx={{ width: 1, height: 1 }} />,
   },
   {

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 
 import { styled, alpha } from "@mui/material/styles";
-import { Box, Link, Drawer, Typography, Avatar, Divider, Button, IconButton } from "@mui/material";
+import { Box, Link, Drawer, Typography, Avatar, Divider, IconButton } from "@mui/material";
 import VolunteerActivismTwoTone from "@mui/icons-material/VolunteerActivismTwoTone";
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 
@@ -16,7 +16,7 @@ import NavSection from "./nav-section/NavSection";
 const StyledAccount = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  padding: theme.spacing(2, 2.5),
+  padding: theme.spacing(3, 3.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: alpha(theme.palette.primary.main, 0.12),
 }));
@@ -101,7 +101,7 @@ export default function Nav({ openNav, onCloseNav }) {
       <Box sx={{ mb: 4, mx: 2.5 }}>
         <StyledAccount>
         <Box sx={{ ml: 2 }}>
-        <Typography variant="title" sx={{ color: "text.primary" }}>
+        <Typography variant="subtitle1" sx={{ color: "text.primary" }}>
           Patient Details:
         </Typography>
         <Divider></Divider>
@@ -141,7 +141,7 @@ export default function Nav({ openNav, onCloseNav }) {
           Upload Health Records
         </Typography>
         <Typography variant="subtitle2" sx={{ color:  "#b71c1c"}}>
-          Format accepted: .pdf
+          Format: .pdf, .jpeg, .png
         </Typography>
         </Box>
 
