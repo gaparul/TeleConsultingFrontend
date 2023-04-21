@@ -32,7 +32,15 @@ const Signup = () => {
             <Form.Control
               type="email"
               placeholder="Email address"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) =>{
+                // const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+                // if(regex.test(e.target.value)===false){
+                //   setError("Invalid email character");
+                //   <Alert>Invalid email character</Alert>
+                //   e.target.reset();
+                // }
+                setEmail(e.target.value);
+              }}
             />
           </Form.Group>
 
