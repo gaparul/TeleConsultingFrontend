@@ -8,6 +8,7 @@ import PhoneSignUp from './components/Home/Login/PhoneSignUp';
 import RegisterPatient from './components/Dashboard/RegisterPatient/RegisterPatient';
 import PatientApp from './components/patient/Dashboard/DashboardApp/PatientApp';
 import PatientDetails from './components/Dashboard/PatientDetails/PatientDetails';
+import AppointmentHistory from './components/patient/AppointmentHistory/AppointmentHistory';
 
 import Dashboard from './components/Dashboard/Dashboard';
 import DashboardLayout from './components/patient/Dashboard/DashBoardLayout'
@@ -35,7 +36,7 @@ export default function Router() {
         // { element: <Navigate to="/patient/dashboard" />, index: true },
         // { element: <Navigate to="/login" />, index: true }   ,
         { path: 'app', element: <PatientApp /> },
-        // { path: 'patientRegister', element: <RegisterPatient /> },
+        { path: 'appointmentHistory', element: <AppointmentHistory /> },
         // { path: 'patientDetails', element: <PatientDetails /> }, 
       ],
     },

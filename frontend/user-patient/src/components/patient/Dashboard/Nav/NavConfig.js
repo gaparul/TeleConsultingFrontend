@@ -32,7 +32,7 @@ const navConfig = [
   },
   {
     title: "My Appointments",
-    path: "/",
+    path: "/patient/dashboard/appointmentHistory",
     icon: <SvgColor src={appointment} sx={{ width: 1, height: 1 }} />,
   },
   {

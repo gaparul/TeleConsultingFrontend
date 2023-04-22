@@ -12,7 +12,7 @@ const images = [
     url: calendar,
     title: "My Appointments",
     width: "50%",
-    navigate: "/patient/dashboard/",
+    navigate: "/patient/dashboard/appointmentHistory",
   },
   {
     url: appointment,
