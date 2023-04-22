@@ -9,9 +9,11 @@ import RegisterPatient from './components/Dashboard/RegisterPatient/RegisterPati
 import PatientApp from './components/patient/Dashboard/DashboardApp/PatientApp';
 import PatientDetails from './components/Dashboard/PatientDetails/PatientDetails';
 import AppointmentHistory from './components/patient/AppointmentHistory/AppointmentHistory';
+import MakeAppointment from './components/patient/MakeAppointment/MakeAppointment';
 
 import Dashboard from './components/Dashboard/Dashboard';
 import DashboardLayout from './components/patient/Dashboard/DashBoardLayout'
+import Followup from './components/patient/Followup/Followup';
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +39,8 @@ export default function Router() {
         // { element: <Navigate to="/login" />, index: true }   ,
         { path: 'app', element: <PatientApp /> },
         { path: 'appointmentHistory', element: <AppointmentHistory /> },
-        // { path: 'patientDetails', element: <PatientDetails /> }, 
+        { path: 'makeAppointment', element: <MakeAppointment /> },
+        { path: 'followup', element: <Followup /> }, 
       ],
     },
     

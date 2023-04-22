@@ -4,6 +4,7 @@ import event from './icons/event.svg'
 import dashboard from "./icons/dashboard.svg";
 import appointment from "./icons/calendar.svg";
 import logout from "./icons/logout.svg";
+import followup from "./icons/followup.svg"
 
 export const SvgColor = forwardRef(({ src, sx, ...other }, ref) => (
   <Box
@@ -37,8 +38,13 @@ const navConfig = [
   },
   {
     title: "Get Appointment",
-    path: "/",
+    path: "/patient/dashboard/makeAppointment",
     icon: <SvgColor src={event} sx={{ width: 1, height: 1 }} />,
+  },
+  {
+    title: "Follow Up",
+    path: "/patient/dashboard/followup",
+    icon: <SvgColor src={followup} sx={{ width: 1, height: 1 }} />,
   },
   {
     title: "logout",

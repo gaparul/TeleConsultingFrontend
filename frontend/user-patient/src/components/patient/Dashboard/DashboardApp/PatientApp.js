@@ -18,7 +18,7 @@ const images = [
     url: appointment,
     title: "Get Appointment",
     width: "50%",
-    navigate: "/patient/dashboard/",
+    navigate: "/patient/dashboard/makeAppointment",
   },
 ];
 
@@ -26,7 +26,7 @@ const followUpImage = {
   url: followup,
   title: "Follow Up",
   width: "100%",
-  navigate: "/patient/dashboard/",
+  navigate: "/patient/dashboard/followup",
 }
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
