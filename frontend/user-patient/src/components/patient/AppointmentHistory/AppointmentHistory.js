@@ -34,8 +34,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(patientId, name, mobile, email, gender, dob) {
-  return { patientId, name, mobile, email, gender, dob };
+function createData(id,date,opdType,doctorName,prescription) {
+  return {
+    id,
+    date,
+    opdType,
+    doctorName,
+    prescription
+  };
 }
 
 const AppointmentHistory = () => {
@@ -55,27 +61,29 @@ const AppointmentHistory = () => {
       redirect: "follow",
     };
 
-    let patientRows = [];
+    let appointmentRows = [];
 
     await fetch(api, requestOptions)
       .then(async (response) => {
         await response.json().then(async (e) => {
-          await e.forEach((patient) => {
-            console.log(patient.patientID);
-            const id = JSON.stringify(patient.patientID);
-            const name =
-              patient.patientFirstName + " " + patient.patientLastName;
+          await e.forEach((appointment) => {
+            const id = JSON.stringify(appointment.appointmentID);
+            const opdType = appointment.appointmentOpdType;
+            const date = appointment.appointmentDate;
+            const doctorFname = appointment.doctorDetails.doctorFirstName;
+            const doctorLname = appointment.doctorDetails.doctorLastName;
+            const doctorName = doctorFname + doctorLname;
+            const prescription = appointment.prescription;
             const data = createData(
               id,
-              name,
-              patient.patientMobileNumber,
-              patient.patientEmail,
-              patient.patientGender,
-              patient.patientDOB
+              date,
+              opdType,
+              doctorName,
+              prescription
             );
-            patientRows.push(data);
+            appointmentRows.push(data);
           });
-          setrows(patientRows);
+          setrows(appointmentRows);
         });
       })
       .catch((error) => console.log("error", error));
@@ -89,6 +97,9 @@ const AppointmentHistory = () => {
     navigate("/patient/dashboard/");
   };
 
+  const handlePrescription = () =>{
+    console.log("presc");
+  }
   return (
     <>
       <Container>
@@ -113,25 +124,23 @@ const AppointmentHistory = () => {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Patient ID</StyledTableCell>
-                <StyledTableCell align="left">Name</StyledTableCell>
-                <StyledTableCell align="left">Mobile Number</StyledTableCell>
-                <StyledTableCell align="left">Email ID</StyledTableCell>
-                <StyledTableCell align="left">Gender</StyledTableCell>
-                <StyledTableCell align="left">Date Of Birth</StyledTableCell>
+                <StyledTableCell>Appointment ID</StyledTableCell>
+                <StyledTableCell align="left">Date</StyledTableCell>
+                <StyledTableCell align="left">OPD Type</StyledTableCell>
+                <StyledTableCell align="left">Doctor</StyledTableCell>
+                <StyledTableCell align="left">Prescription</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <StyledTableRow key={row.patientId}>
+                <StyledTableRow key={row.id}>
                   <StyledTableCell component="th" scope="row">
-                    {row.patientId}
+                    {row.id}
                   </StyledTableCell>
-                  <StyledTableCell>{row.name}</StyledTableCell>
-                  <StyledTableCell>{row.mobile}</StyledTableCell>
-                  <StyledTableCell>{row.email}</StyledTableCell>
-                  <StyledTableCell>{row.gender}</StyledTableCell>
-                  <StyledTableCell>{row.dob}</StyledTableCell>
+                  <StyledTableCell>{row.date.substring(0,10)}</StyledTableCell>
+                  <StyledTableCell>{row.opdType}</StyledTableCell>
+                  <StyledTableCell>{row.doctorName}</StyledTableCell>
+                  <StyledTableCell><Button onClick={handlePrescription}>{row.prescription}</Button></StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
