@@ -94,7 +94,7 @@ const AppointmentHistory = () => {
   }, []);
 
   const handleNewAddition = () => {
-    navigate("/patient/dashboard/");
+    navigate("/patient/dashboard/makeAppointment");
   };
 
   const handlePrescription = () =>{
