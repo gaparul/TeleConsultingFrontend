@@ -1,7 +1,7 @@
 
 import React , { useState, useEffect } from "react";
 import {ZegoUIKitPrebuilt} from "@zegocloud/zego-uikit-prebuilt";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Grid,Paper,Select,Button,Typography,TextField,FormControl,InputLabel} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -82,6 +82,7 @@ const DCallRoom=() =>
 
     //Call Room
    // const {roomId} = useParams();
+   const navigate=useNavigate();
     const roomId="1234";
     const myMeeting=async(element)=> {
         const appID = 868852693 ;
@@ -94,6 +95,7 @@ const DCallRoom=() =>
             Date.now().toString(),
             "Doctor"
         ); 
+        
         const zp= ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
           container:element,
@@ -105,6 +107,13 @@ const DCallRoom=() =>
           showRoomTimer: true, 
           turnOnMicrophoneWhenJoining: false,
           turnOnCameraWhenJoining: false,
+          showLeavingView: false,
+          onLeaveRoom: () => {
+
+
+            navigate('/')
+            window.location.reload("false");
+          },
         })    
     } 
 
