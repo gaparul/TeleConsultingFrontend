@@ -1,11 +1,22 @@
-import { useEffect, React } from "react";
+import React from "react";
+import { useEffect }from "react";
 import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 
 import { styled, alpha } from "@mui/material/styles";
-import { Box, Link, Drawer, Typography, Avatar, Divider, IconButton } from "@mui/material";
+import {
+  Box,
+  Link,
+  Drawer,
+  Typography,
+  Avatar,
+  Divider,
+  IconButton,
+  Stack, Button
+} from "@mui/material";
 import VolunteerActivismTwoTone from "@mui/icons-material/VolunteerActivismTwoTone";
-import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
+import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
+import TaskIcon from '@mui/icons-material/Task';
 
 import femaleAvatar from "./avatar/female.png";
 import maleAvatar from "./avatar/user.png";
@@ -24,10 +35,10 @@ const StyledAccount = styled("div")(({ theme }) => ({
 const StyledNavItemIcon = styled(VolunteerActivismTwoTone)({
   width: 40,
   height: 40,
-  color: '#0d47a1',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  color: "#0d47a1",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 });
 
 const NAV_WIDTH = 350;
@@ -40,12 +51,14 @@ Nav.propTypes = {
 export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
 
+  const [fileUpload, setFileUpload] = React.useState([File])
+
   const patient = localStorage.getItem("patient");
 
   const patientDetails = JSON.parse(patient);
-  const genderTitle = patientDetails.gender === "male" ? 'MR. ' : 'MS. ';
+  const genderTitle = patientDetails.gender === "male" ? "MR. " : "MS. ";
   const avatar = patientDetails.gender === "male" ? maleAvatar : femaleAvatar;
-  const name = String(patientDetails.name).toUpperCase()
+  const name = String(patientDetails.name).toUpperCase();
   const account = {
     id: patientDetails.patientId,
     displayName: patientDetails.name,
@@ -56,9 +69,32 @@ export default function Nav({ openNav, onCloseNav }) {
     photoURL: avatar,
   };
 
-  const handleClick = () => {
+  const handleChange = (e) => {
+    if (e.target.files) {
+      setFileUpload(e.target.files[0]);
+    }
+  };
 
-  } 
+  const handleClick = async(e, id) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('file', fileUpload);
+
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' },
+    };
+
+    var requestOptions = {
+      method: 'POST',
+      body: formData,
+      redirect: 'follow'
+    };
+    
+    await fetch(`http://localhost:8083/api/patientDetails/healthRecord/${id}`, requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  };
 
   useEffect(() => {
     if (openNav) {
@@ -78,7 +114,7 @@ export default function Nav({ openNav, onCloseNav }) {
         >
           {" "}
           <StyledNavItemIcon>
-          <VolunteerActivismTwoTone  size="large" />
+            <VolunteerActivismTwoTone size="large" />
           </StyledNavItemIcon>
           eConsultation
         </Typography>
@@ -90,7 +126,7 @@ export default function Nav({ openNav, onCloseNav }) {
             <Avatar src={account.photoURL} alt="photoURL" />
 
             <Box sx={{ ml: 2 }}>
-            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+              <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
                 {genderTitle + name}
               </Typography>
             </Box>
@@ -100,52 +136,85 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box sx={{ mb: 4, mx: 2.5 }}>
         <StyledAccount>
-        <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle1" sx={{ color: "text.primary" }}>
-          Patient Details:
-        </Typography>
-        <Divider></Divider>
-        <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                PatientID: {account.id}
-              </Typography>
-        <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                Name: {account.displayName}
-              </Typography>
-        <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-          Email: {account.email}
-        </Typography>
+          <Box sx={{ ml: 2 }}>
+            <Typography variant="subtitle1" sx={{ color: "text.primary" }}>
+              Patient Details:
+            </Typography>
+            <Divider></Divider>
+            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+              PatientID: {account.id}
+            </Typography>
+            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+              Name: {account.displayName}
+            </Typography>
+            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+              Email: {account.email}
+            </Typography>
 
-        <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-          Mobile Number: {account.mobile}
-        </Typography>
+            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+              Mobile Number: {account.mobile}
+            </Typography>
 
-        <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-          Gender: {account.gender}
-        </Typography>
+            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+              Gender: {account.gender}
+            </Typography>
 
-        <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-          Date of Birth: {account.dob}
-        </Typography>
-        </Box>
+            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+              Date of Birth: {account.dob}
+            </Typography>
+          </Box>
+        </StyledAccount>
+      </Box>
+
+      <Box sx={{ mb: 2, mx: 2.5 }}>
+        <StyledAccount>
+          <IconButton
+            color="primary"
+            aria-label="upload picture"
+            component="label"
+            // onClick={e => handleClick(e, account.id)}
+          >
+            <input hidden accept="*" multiple type="file" onChange={handleChange}/>
+            <TaskIcon
+              color="error"
+              size="large"
+            ></TaskIcon>
+            
+          </IconButton>
+          <Box sx={{ ml: 2 }}>
+            <Typography variant="subtitle1" sx={{ color: "text.primary" }}>
+              Choose Health Records...
+            </Typography>
+
+            <Typography variant="subtitle2" sx={{ color: "#b71c1c" }}>
+              Format: .pdf, .jpeg, .png
+            </Typography>
+            
+          </Box>
         </StyledAccount>
       </Box>
 
       <Box sx={{ mb: 4, mx: 2.5 }}>
       <StyledAccount>
 
-        <IconButton onClick={handleClick}>
-          <DriveFolderUploadIcon color="error" size='large'></DriveFolderUploadIcon>
-        </IconButton>
-        <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle1" sx={{ color: "text.primary" }}>
-          Upload Health Records
-        </Typography>
-        <Typography variant="subtitle2" sx={{ color:  "#b71c1c"}}>
-          Format: .pdf, .jpeg, .png
-        </Typography>
-        </Box>
-
-      </StyledAccount>
+      <IconButton
+            color="primary"
+            aria-label="upload picture"
+            component="label"
+            onClick={e => handleClick(e, account.id)}
+          >
+            <DriveFolderUploadIcon
+              color="error"
+              size="large"
+            ></DriveFolderUploadIcon>
+            
+          </IconButton>
+          <Box sx={{ ml: 2 }}>
+            <Typography variant="subtitle1" sx={{ color: "text.primary" }}>
+              Upload Health Records...
+            </Typography>
+          </Box>
+          </StyledAccount>
       </Box>
 
       <NavSection data={navConfig} />

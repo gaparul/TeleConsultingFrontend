@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import AvailableDoctors from "./AvailableDoctors";
 
 const MakeAppointment = () => {
   const [value, setValue] = React.useState("1");
@@ -52,7 +53,7 @@ const MakeAppointment = () => {
     let api =
       "http://localhost:8083/api/patientDetails/AvailableDoctorsBySpecialisation";
     let doctors = [];
-    
+
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "text/plain" },
@@ -109,7 +110,10 @@ const MakeAppointment = () => {
             <Tab label="Speciality" value="2" />
           </TabList>
         </Box>
-        <TabPanel value="1"></TabPanel>
+        <TabPanel value="1">
+            <Typography variant="h6"> Available General Physicians</Typography>
+            <AvailableDoctors category={specialization}/>
+        </TabPanel>
         <TabPanel value="2">
           <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
