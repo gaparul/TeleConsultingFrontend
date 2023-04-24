@@ -12,6 +12,7 @@ import Paper from "@mui/material/Paper";
 import { blue } from "@mui/material/colors";
 import { Container, Button, Typography, Alert } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import WaitingRoom from "./WaitingRoom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -45,10 +46,11 @@ export default function AvailableDoctors({ category }) {
 
   const [rows, setrows] = React.useState([]);
   const [isAvailable, setAvailable] = React.useState(false);
+  const [appointmentSuccess, setSuccess] = React.useState(false);
 
   const patient = localStorage.getItem("patient");
   const patientDetails = JSON.parse(patient);
-  const patientID = (patientDetails.patientId);
+  const patientID = patientDetails.patientId;
 
   const createAppointment = async (e, doctorID) => {
     e.preventDefault();
@@ -56,7 +58,7 @@ export default function AvailableDoctors({ category }) {
     // patientDetails = patiendID, appointmentOPDType = selected specialisation category
 
     const myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Content-Type", "application/json");
     // console.log(parseInt(doctorID));
     const appointmentData = {
       appointmentOpdType: category,
@@ -64,15 +66,21 @@ myHeaders.append("Content-Type", "application/json");
       doctorID: parseInt(doctorID),
     };
     const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(appointmentData),
-        redirect: 'follow'
-      };
-      await fetch("http://localhost:8083/api/patientDetails/createAppointment", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(appointmentData),
+      redirect: "follow",
+    };
+    await fetch(
+      api,
+      requestOptions
+    )
+      .then((response) => {
+        if(response.status === 200) {
+            setSuccess(true);
+        }
+      })
+      .catch((error) => console.log("error", error));
   };
 
   const getAvailableDoctorWithSelectedSpecialisation = async (category) => {
@@ -83,7 +91,8 @@ myHeaders.append("Content-Type", "application/json");
     const rawData = {
       category: category,
     };
-
+    setAvailable(false);
+    setSuccess(false);
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -156,7 +165,7 @@ myHeaders.append("Content-Type", "application/json");
                       variant="contained"
                       color="info"
                       endIcon={<SendIcon />}
-                      onClick={e => createAppointment(e, row.doctorID)}
+                      onClick={(e) => createAppointment(e, row.doctorID)}
                     >
                       Create Appointment
                     </Button>
@@ -172,6 +181,13 @@ myHeaders.append("Content-Type", "application/json");
           No {category} Specialists Available!
         </Typography>
       )}
+      {appointmentSuccess && (
+        <>
+        <Alert severity="success">Appointment Successfully created!</Alert>
+        <WaitingRoom/>
+        </>
+      )}
+      
     </Container>
   );
 }
