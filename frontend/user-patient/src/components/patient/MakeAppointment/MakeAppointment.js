@@ -23,6 +23,7 @@ const MakeAppointment = () => {
   const [specialization, setSpecialization] = React.useState("MBBS");
   const [speciality, setSpeciality] = useState([""]);
   const [availableDoctors, setAvailableDoctors] = useState();
+  const [showSelection, setSelection] = useState(false);
 
   const navigate = useNavigate();
 
@@ -31,7 +32,9 @@ const MakeAppointment = () => {
   };
 
   const handleSelection = (e) => {
+    setSelection(false);
     setSpecialization(e.target.value);
+    setSelection(true);
   };
 
   const getSpecializationList = async () => {
@@ -49,54 +52,6 @@ const MakeAppointment = () => {
     });
   };
 
-  const getAvailableDoctorWithSelectedSpecialisation = async (category) => {
-    let api =
-      "http://localhost:8083/api/patientDetails/AvailableDoctorsBySpecialisation";
-    let doctors = [];
-
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "text/plain" },
-      mode: "cors",
-      body: category,
-    };
-    const response = await fetch(api, requestOptions);
-    const data = await response.json();
-    //This is a list of doctors in following format :
-    // doctorAvailable: 1
-    // doctorEmail : "docc1@email.com"
-    // doctorFirstName : "doc1"
-    // doctorID : 1
-    // doctorLastName: "S"
-    // doctorMobileNumber :"1234567"
-    // doctorPassword: "doc1"
-    // doctorQueueSize : 5
-    // doctorSpecialisation : "MBBS"
-    console.log("List of Available doctors of selected specialisation");
-    console.log(data);
-  };
-
-  const createAppointment = async () => {
-    let api = "http://localhost:8083/api/patientDetails/createAppointment";
-    // patientDetails = patiendID, appointmentOPDType = selected specialisation category
-    var appointmentData = {
-      appointmentOpdType: "Dentist",
-      patientDetails: 1,
-      doctorID: 2023001,
-    };
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      mode: "cors",
-      body: JSON.stringify(appointmentData),
-    };
-    const response = await fetch(api, requestOptions);
-    const data = await response.json();
-
-    console.log("Created appointment details  ");
-    console.log(data);
-  };
-
   React.useEffect(() => {
     getSpecializationList();
   }, []);
@@ -111,8 +66,8 @@ const MakeAppointment = () => {
           </TabList>
         </Box>
         <TabPanel value="1">
-            <Typography variant="h6"> Available General Physicians</Typography>
-            <AvailableDoctors category={specialization}/>
+            
+            <AvailableDoctors category={"MBBS"}/>
         </TabPanel>
         <TabPanel value="2">
           <Box sx={{ minWidth: 120 }}>
@@ -139,6 +94,7 @@ const MakeAppointment = () => {
               </Select>
             </FormControl>
           </Box>
+          {showSelection && <AvailableDoctors category={specialization}/>}
         </TabPanel>
       </TabContext>
     </Box>
