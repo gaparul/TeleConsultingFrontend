@@ -137,7 +137,7 @@ const AppointmentHistory = () => {
                   <StyledTableCell component="th" scope="row">
                     {row.id}
                   </StyledTableCell>
-                  <StyledTableCell>{row.date.substring(0,10)}</StyledTableCell>
+                  <StyledTableCell>{row.date}</StyledTableCell>
                   <StyledTableCell>{row.opdType}</StyledTableCell>
                   <StyledTableCell>{row.doctorName}</StyledTableCell>
                   <StyledTableCell><Button onClick={handlePrescription}>{row.prescription}</Button></StyledTableCell>

@@ -57,11 +57,11 @@ export default function AvailableDoctors({ category }) {
 
     const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
-
+    // console.log(parseInt(doctorID));
     const appointmentData = {
       appointmentOpdType: category,
-      patientDetails: patientID,
-      doctorID: doctorID,
+      patientDetails: parseInt(patientID),
+      doctorID: parseInt(doctorID),
     };
     const requestOptions = {
         method: 'POST',
