@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect }from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 
@@ -12,11 +12,10 @@ import {
   Avatar,
   Divider,
   IconButton,
-  Stack, Button
 } from "@mui/material";
 import VolunteerActivismTwoTone from "@mui/icons-material/VolunteerActivismTwoTone";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import TaskIcon from '@mui/icons-material/Task';
+import TaskIcon from "@mui/icons-material/Task";
 
 import femaleAvatar from "./avatar/female.png";
 import maleAvatar from "./avatar/user.png";
@@ -51,7 +50,7 @@ Nav.propTypes = {
 export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
 
-  const [fileUpload, setFileUpload] = React.useState([File])
+  const [fileUpload, setFileUpload] = React.useState([File]);
 
   const patient = localStorage.getItem("patient");
 
@@ -75,25 +74,24 @@ export default function Nav({ openNav, onCloseNav }) {
     }
   };
 
-  const handleClick = async(e, id) => {
+  const handleClick = async (e, id) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('file', fileUpload);
-
-    const config = {
-      headers: { 'content-type': 'multipart/form-data' },
-    };
+    formData.append("file", fileUpload);
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       body: formData,
-      redirect: 'follow'
+      redirect: "follow",
     };
-    
-    await fetch(`http://localhost:8083/api/patientDetails/healthRecord/${id}`, requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+
+    await fetch(
+      `http://localhost:8083/api/patientDetails/healthRecord/${id}`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   };
 
   useEffect(() => {
@@ -165,7 +163,7 @@ export default function Nav({ openNav, onCloseNav }) {
           </Box>
         </StyledAccount>
       </Box>
-
+      {/*TODO: show selected file name */}
       <Box sx={{ mb: 2, mx: 2.5 }}>
         <StyledAccount>
           <IconButton
@@ -174,12 +172,14 @@ export default function Nav({ openNav, onCloseNav }) {
             component="label"
             // onClick={e => handleClick(e, account.id)}
           >
-            <input hidden accept="*" multiple type="file" onChange={handleChange}/>
-            <TaskIcon
-              color="error"
-              size="large"
-            ></TaskIcon>
-            
+            <input
+              hidden
+              accept="*"
+              multiple
+              type="file"
+              onChange={handleChange}
+            />
+            <TaskIcon color="error" size="large"></TaskIcon>
           </IconButton>
           <Box sx={{ ml: 2 }}>
             <Typography variant="subtitle1" sx={{ color: "text.primary" }}>
@@ -189,32 +189,29 @@ export default function Nav({ openNav, onCloseNav }) {
             <Typography variant="subtitle2" sx={{ color: "#b71c1c" }}>
               Format: .pdf, .jpeg, .png
             </Typography>
-            
           </Box>
         </StyledAccount>
       </Box>
-
+      {/*TODO: Show messasge File Uploaded Success */}
       <Box sx={{ mb: 4, mx: 2.5 }}>
-      <StyledAccount>
-
-      <IconButton
+        <StyledAccount>
+          <IconButton
             color="primary"
             aria-label="upload picture"
             component="label"
-            onClick={e => handleClick(e, account.id)}
+            onClick={(e) => handleClick(e, account.id)}
           >
             <DriveFolderUploadIcon
               color="error"
               size="large"
             ></DriveFolderUploadIcon>
-            
           </IconButton>
           <Box sx={{ ml: 2 }}>
             <Typography variant="subtitle1" sx={{ color: "text.primary" }}>
               Upload Health Records...
             </Typography>
           </Box>
-          </StyledAccount>
+        </StyledAccount>
       </Box>
 
       <NavSection data={navConfig} />
