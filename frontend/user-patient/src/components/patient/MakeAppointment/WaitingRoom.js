@@ -24,50 +24,60 @@ const card = (
   </React.Fragment>
 );
 
+// ----------------------------------------------------------------------------------------
+
 WaitingRoom.propTypes = {
-  appt: PropTypes.any,
+  appointment: PropTypes.object,
 };
-export default function WaitingRoom ({appt}){
+
+// ----------------------------------------------------------------------------------------
+
+export default function WaitingRoom ({appointment}){
+
+  console.log('inside waiting room',appointment)
   const [message, setMessage] = React.useState(0);
-  let appointmentData;
-  let queueSize;
+  // let appointmentData;
+  // let queueSize;
+  console.log('queuesize', appointment.doctorDetails.doctorQueueSize)
+  const queueToken = parseInt(appointment.doctorDetails.doctorQueueSize);
   // const [appointmentData, setAppointmentData] = React.useState();
-  // const [queueSize, setQueueSize] = React.useState();
-  const getAppointment = async () => {
-    let apptid = parseInt(appt);
-    const getApptApi = `http://localhost:8083/api/patientDetails/getAppointmentById/${apptid}`;
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: "",
-      redirect: "follow",
-    };
-    await fetch(
-      getApptApi,
-      requestOptions
-    )
-      .then((response) => {
-        if(response.status === 200) {
-          response.json().then((e)=>{
-            console.log(e);
-            // setAppointmentData(e);
-            appointmentData = e;
-            queueSize = e.doctorDetails.doctorQueueSize;
-            console.log(appointmentData);
-            console.log("queue size is : ");
-            console.log(queueSize);
-            // console.log(JSON.stringify(appointmentData));
-            // console.log(appointmentData.doctorDetails.doctorQueueSize);
-            // setQueueSize(e.doctorDetails.doctorQueueSize);
-          });
+  const [queueSize, setQueueSize] = React.useState(queueToken);
+  // const getAppointment = async () => {
+
+  //   // let apptid = parseInt(appt);
+  //   const getApptApi = `http://localhost:8083/api/patientDetails/getAppointmentById/`;
+  //   const myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
+  //   const requestOptions = {
+  //     method: "POST",
+  //     headers: myHeaders,
+  //     body: "",
+  //     redirect: "follow",
+  //   };
+  //   await fetch(
+  //     getApptApi,
+  //     requestOptions
+  //   )
+  //     .then((response) => {
+  //       if(response.status === 200) {
+  //         response.json().then((e)=>{
+  //           console.log(e);
+  //           // setAppointmentData(e);
+  //           appointmentData = e;
+  //           queueSize = e.doctorDetails.doctorQueueSize;
+  //           console.log(appointmentData);
+  //           console.log("queue size is : ");
+  //           console.log(queueSize);
+  //           // console.log(JSON.stringify(appointmentData));
+  //           // console.log(appointmentData.doctorDetails.doctorQueueSize);
+  //           // setQueueSize(e.doctorDetails.doctorQueueSize);
+  //         });
           
-          handledisconnect();
-        }
-      })
-      .catch((error) => console.log("error", error));
-  };
+  //         handledisconnect();
+  //       }
+  //     })
+  //     .catch((error) => console.log("error", error));
+  // };
   const handledisconnect = async () => {
     let api = "http://localhost:8083/api/patientDetails/onCallDisconnect";
     const myHeaders = new Headers();
@@ -75,7 +85,7 @@ export default function WaitingRoom ({appt}){
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
-      body: JSON.stringify(appointmentData),
+      body: JSON.stringify(appointment),
       redirect: "follow",
     };
     await fetch(
@@ -110,7 +120,7 @@ export default function WaitingRoom ({appt}){
             onMessage={msg => onMessageReceived(msg)}
             debug={false}
           />
-          <Button onClick={getAppointment}>Disconnect</Button>
+          <Button onClick={handledisconnect}>Disconnect</Button>
       Message from socket = {message}
       Queue = {queueSize}
     </Box>

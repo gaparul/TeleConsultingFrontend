@@ -46,11 +46,13 @@ export default function AvailableDoctors({ category }) {
   const [rows, setrows] = React.useState([]);
   const [isAvailable, setAvailable] = React.useState(false);
   const [appointmentSuccess, setSuccess] = React.useState(false);
-  const [appointment, setappointment] = React.useState(0);
+  const [appointment, setappointment] = React.useState({});
 
   const patient = localStorage.getItem("patient");
   const patientDetails = JSON.parse(patient);
   const patientID = patientDetails.patientId;
+
+  let appointmentDetails = {};
 
   const createAppointment = async (e, doctorID) => {
     e.preventDefault();
@@ -75,14 +77,17 @@ export default function AvailableDoctors({ category }) {
       api,
       requestOptions
     )
-      .then((response) => {
+      .then(async (response) => {
         if(response.status === 200) {
-            setSuccess(true);
-            response.json().then((e)=>{
-              // JSON.stringify(e);
-              setappointment(e);
-              console.log(appointment);
+            
+            await response.json().then((e)=>{
+              console.log(e.appointmentID)
+              appointmentDetails = e;
+              console.log(appointmentDetails)
+              setappointment(appointmentDetails);
             })
+
+            setSuccess(true);
         }
       })
       .catch((error) => console.log("error", error));
@@ -170,7 +175,7 @@ export default function AvailableDoctors({ category }) {
                       variant="contained"
                       color="info"
                       endIcon={<SendIcon />}
-                      onClick={(e) => createAppointment(e, row.doctorID)}
+                      onClick={async (e) => await createAppointment(e, row.doctorID)}
                     >
                       Create Appointment
                     </Button>
@@ -189,7 +194,13 @@ export default function AvailableDoctors({ category }) {
       {appointmentSuccess && (
         <>
         <Alert severity="success">Appointment Successfully created!</Alert>
-        <WaitingRoom appt={appointment.appointmentID}/>
+        {
+        console.log("Appointment details", appointmentDetails)
+        }
+        {
+          console.log(appointment)
+        }
+        <WaitingRoom appointment={appointment}/>
         </>
       )}
       
