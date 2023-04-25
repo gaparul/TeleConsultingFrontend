@@ -42,11 +42,11 @@ AvailableDoctors.propTypes = {
 };
 
 export default function AvailableDoctors({ category }) {
-  console.log(category);
 
   const [rows, setrows] = React.useState([]);
   const [isAvailable, setAvailable] = React.useState(false);
   const [appointmentSuccess, setSuccess] = React.useState(false);
+  const [appointment, setappointment] = React.useState(0);
 
   const patient = localStorage.getItem("patient");
   const patientDetails = JSON.parse(patient);
@@ -78,6 +78,11 @@ export default function AvailableDoctors({ category }) {
       .then((response) => {
         if(response.status === 200) {
             setSuccess(true);
+            response.json().then((e)=>{
+              // JSON.stringify(e);
+              setappointment(e);
+              console.log(appointment);
+            })
         }
       })
       .catch((error) => console.log("error", error));
@@ -184,7 +189,7 @@ export default function AvailableDoctors({ category }) {
       {appointmentSuccess && (
         <>
         <Alert severity="success">Appointment Successfully created!</Alert>
-        <WaitingRoom/>
+        <WaitingRoom appt={appointment.appointmentID}/>
         </>
       )}
       

@@ -42,7 +42,6 @@ const MakeAppointment = () => {
     let api = "http://localhost:8083/api/patientDetails/getSpecialisation";
     const response = await fetch(api);
     await response.json().then(async (data) => {
-      console.log(data);
 
       await data.forEach((element) => {
         specializationList.push(element);
