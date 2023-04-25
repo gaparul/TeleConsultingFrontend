@@ -51,6 +51,8 @@ export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
 
   const [fileUpload, setFileUpload] = React.useState([File]);
+  const [filePath, setPath] = React.useState('');
+  const [upload, setUpload] = React.useState(false);
 
   const patient = localStorage.getItem("patient");
 
@@ -71,6 +73,10 @@ export default function Nav({ openNav, onCloseNav }) {
   const handleChange = (e) => {
     if (e.target.files) {
       setFileUpload(e.target.files[0]);
+      const path = String(e.target.value);
+      const fileName = path.substring(1)
+      setPath(fileName);
+      setUpload(false);
     }
   };
 
@@ -89,12 +95,17 @@ export default function Nav({ openNav, onCloseNav }) {
       `http://localhost:8083/api/patientDetails/healthRecord/${id}`,
       requestOptions
     )
-      .then((response) => response.text())
-      .then((result) => console.log(result))
+      .then((response) => {
+        if(response.status === 200) {
+          setUpload(true);
+        }
+      })
       .catch((error) => console.log("error", error));
   };
 
   useEffect(() => {
+    setPath('');
+    setUpload(false);
     if (openNav) {
       onCloseNav();
     }
@@ -189,6 +200,11 @@ export default function Nav({ openNav, onCloseNav }) {
             <Typography variant="subtitle2" sx={{ color: "#b71c1c" }}>
               Format: .pdf, .jpeg, .png
             </Typography>
+            {filePath !== '' && (
+              <Typography variant="subtitle2" sx={{ color: "#b71c1c" }}>
+              {filePath.substring(11)}
+            </Typography>
+            )}
           </Box>
         </StyledAccount>
       </Box>
@@ -199,7 +215,7 @@ export default function Nav({ openNav, onCloseNav }) {
             color="primary"
             aria-label="upload picture"
             component="label"
-            onClick={(e) => handleClick(e, account.id)}
+            onClick={async (e) => await handleClick(e, account.id)}
           >
             <DriveFolderUploadIcon
               color="error"
@@ -210,6 +226,11 @@ export default function Nav({ openNav, onCloseNav }) {
             <Typography variant="subtitle1" sx={{ color: "text.primary" }}>
               Upload Health Records...
             </Typography>
+            {upload && (
+              <Typography variant="subtitle1" sx={{ color: "#1b5e20" }}>
+              Upload Success {filePath.substring(11)}!
+            </Typography>
+            )}
           </Box>
         </StyledAccount>
       </Box>

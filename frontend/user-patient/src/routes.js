@@ -14,6 +14,7 @@ import MakeAppointment from './components/patient/MakeAppointment/MakeAppointmen
 import Dashboard from './components/Dashboard/Dashboard';
 import DashboardLayout from './components/patient/Dashboard/DashBoardLayout'
 import Followup from './components/patient/Followup/Followup';
+import WaitingRoom from './components/patient/MakeAppointment/WaitingRoom';
 
 // ----------------------------------------------------------------------
 
@@ -41,6 +42,7 @@ export default function Router() {
         { path: 'appointmentHistory', element: <AppointmentHistory /> },
         { path: 'makeAppointment', element: <MakeAppointment /> },
         { path: 'followup', element: <Followup /> }, 
+        { path: 'waiting', element: <WaitingRoom /> }, 
       ],
     },
     
