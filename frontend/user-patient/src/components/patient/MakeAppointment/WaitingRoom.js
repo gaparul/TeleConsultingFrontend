@@ -35,13 +35,11 @@ WaitingRoom.propTypes = {
 export default function WaitingRoom ({appointment}){
 
   console.log('inside waiting room',appointment)
-  const [message, setMessage] = React.useState(0);
-  // let appointmentData;
-  // let queueSize;
   console.log('queuesize', appointment.doctorDetails.doctorQueueSize)
-  const queueToken = parseInt(appointment.doctorDetails.doctorQueueSize);
-  // const [appointmentData, setAppointmentData] = React.useState();
+  const queueToken = parseInt(appointment.doctorDetails.doctorQueueSize)+1;
+  const currentQueue = parseInt(appointment.doctorDetails.doctorCurrentQueueSize)+1;
   const [queueSize, setQueueSize] = React.useState(queueToken);
+  const [message, setMessage] = React.useState(currentQueue);
   // const getAppointment = async () => {
 
   //   // let apptid = parseInt(appt);
@@ -94,7 +92,7 @@ export default function WaitingRoom ({appointment}){
     )
       .then((response) => {
         if(response.status === 200) {
-          console.log("success");
+          console.log("success of on call disconnect");
         }
       })
       .catch((error) => console.log("error", error));
@@ -121,8 +119,9 @@ export default function WaitingRoom ({appointment}){
             debug={false}
           />
           <Button onClick={handledisconnect}>Disconnect</Button>
-      Message from socket = {message}
-      Queue = {queueSize}
+      Message from socket = {message}<br/>
+      Queue = {queueSize}<br/>
+      Waiting line = {message-queueSize}
     </Box>
   );
 };
