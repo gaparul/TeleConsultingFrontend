@@ -57,7 +57,7 @@ export default function Searchbar() {
   const reset = () => {
     setNotFound(false);
     setAlert(true);
-    navigate('/dashboard')
+    navigate('/doctor/dashboard/app')
   }
 
   async function fetchData(id) {
@@ -80,7 +80,7 @@ export default function Searchbar() {
             setData(res)
             console.log(res);
             localStorage.setItem('patient', JSON.stringify(res))
-            navigate('/dashboard/patientinfo')
+            navigate('/doctor/dashboard/patientinfo')
           })
         }
         if(response.status === 404) {
@@ -107,7 +107,7 @@ export default function Searchbar() {
 
   const handleClose = async (event) => {
     setOpen(false);
-    navigate('/dashboard')
+    navigate('/doctor/dashboard/app')
   };
 
   return (

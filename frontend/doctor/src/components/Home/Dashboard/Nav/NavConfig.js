@@ -26,17 +26,17 @@ export const SvgColor = forwardRef(({ src, sx, ...other }, ref) => (
 const navConfig = [
   {
     title: "dashboard",
-    path: "/dashboard/app",
+    path: "/doctor/dashboard/app",
     icon: <SvgColor src={dashboard} sx={{ width: 1, height: 1 }} />,
   },
-  {
-    title: "appointments",
-    path: "/dashboard/appointments",
-    icon: <SvgColor src={appointment} sx={{ width: 1, height: 1 }} />,
-  },
+  // {
+  //   title: "appointments",
+  //   path: "/doctor/dashboard/history",
+  //   icon: <SvgColor src={appointment} sx={{ width: 1, height: 1 }} />,
+  // },
   {
     title: "logout",
-    path: "/",
+    path: "/login",
     icon: <SvgColor src={logout} sx={{ width: 1, height: 1 }} />,
   },
 ];

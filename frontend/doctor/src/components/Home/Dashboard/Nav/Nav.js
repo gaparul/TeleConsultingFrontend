@@ -51,16 +51,17 @@ export default function Nav({ openNav, onCloseNav }) {
   }, [pathname]);
 
   const renderContent = (
-    <ScrollBar
-      sx={{
-        height: 1,
-        "& .simplebar-content": {
-          height: 1,
-          display: "flex",
-          flexDirection: "column",
-        },
-      }}
-    >
+    // <ScrollBar
+    //   sx={{
+    //     height: 1,
+    //     "& .simplebar-content": {
+    //       height: 1,
+    //       display: "flex",
+    //       flexDirection: "column",
+    //     },
+    //   }}
+    // >
+    <>
       <Box sx={{ px: 2.5, py: 3, display: "inline-flex" }}>
         <Typography
           variant="h6"
@@ -93,7 +94,8 @@ export default function Nav({ openNav, onCloseNav }) {
       </Box>
 
       <NavSection data={navConfig} />
-    </ScrollBar>
+      </>
+    // </ScrollBar>
   );
   return (
     <Box

@@ -76,7 +76,7 @@ const DoctorLogin = () => {
               doctorMobileNumber: e.doctorMobileNumber,
             };
             localStorage.setItem('doctor', JSON.stringify(doctorDetails))
-            navigate('/dashboard');
+            navigate('/doctor/dashboard');
           });
         }
         if (response.status === 404) {
