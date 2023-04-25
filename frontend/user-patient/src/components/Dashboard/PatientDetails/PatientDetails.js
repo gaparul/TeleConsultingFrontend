@@ -1,6 +1,6 @@
 import { Container, Stack, Typography, Button } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Iconify from "../../Iconify";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -11,6 +11,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { blue } from "@mui/material/colors";
+
+// ---------------------------------------------------------------------------------
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -38,7 +40,13 @@ function createData(patientId, name, mobile, email, gender, dob) {
   return { patientId, name, mobile, email, gender, dob };
 }
 
+// ----------------------------------------------------------------------------------
+
 const PatientDetails = () => {
+  const location = useLocation();
+
+  console.log(location);
+  
   const navigate = useNavigate();
   const [rows, setrows] = React.useState([]);
   //   let patientRows = [];

@@ -38,6 +38,9 @@ const DoctorLogin = () => {
   const [password, setPassword] = React.useState("");
   const [open, setOpen] = React.useState(true);
 
+  localStorage.removeItem('doctor');
+  localStorage.removeItem('patient')
+
   // React.useEffect(() => {}, []);
 
   const handleSubmit = (event) => {
