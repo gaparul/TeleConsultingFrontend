@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import SockJsClient from 'react-stomp';
+import { useLocation } from "react-router-dom";
 
 const SOCKET_URL = 'http://localhost:8083/ws-message';
 const card = (
@@ -32,7 +33,11 @@ WaitingRoom.propTypes = {
 
 // ----------------------------------------------------------------------------------------
 
-export default function WaitingRoom ({appointment}){
+export default function WaitingRoom (){
+
+  const { state } = useLocation();
+
+  const {appointment} = state;
 
   console.log('inside waiting room',appointment)
   console.log('queuesize', appointment.doctorDetails.doctorQueueSize)

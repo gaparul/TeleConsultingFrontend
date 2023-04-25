@@ -13,6 +13,7 @@ import { blue } from "@mui/material/colors";
 import { Container, Button, Typography, Alert } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import WaitingRoom from "./WaitingRoom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -43,6 +44,7 @@ AvailableDoctors.propTypes = {
 
 export default function AvailableDoctors({ category }) {
 
+  const navigate = useNavigate()
   const [rows, setrows] = React.useState([]);
   const [isAvailable, setAvailable] = React.useState(false);
   const [appointmentSuccess, setSuccess] = React.useState(false);
@@ -85,6 +87,7 @@ export default function AvailableDoctors({ category }) {
               appointmentDetails = e;
               console.log(appointmentDetails)
               setappointment(appointmentDetails);
+              <WaitingRoom appointment={appointment}/>
             })
 
             setSuccess(true);
@@ -194,13 +197,8 @@ export default function AvailableDoctors({ category }) {
       {appointmentSuccess && (
         <>
         <Alert severity="success">Appointment Successfully created!</Alert>
-        {
-        console.log("Appointment details", appointmentDetails)
-        }
-        {
-          console.log(appointment)
-        }
-        <WaitingRoom appointment={appointment}/>
+        <Navigate to={"/patient/dashboard/waiting"} state={{appointment}}/>
+        {/* <WaitingRoom appointment={appointment}/> */}
         </>
       )}
       
