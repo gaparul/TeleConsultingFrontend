@@ -104,10 +104,7 @@ const AppointmentHistory = () => {
   const handleNewAddition = () => {
     navigate("/patient/dashboard/makeAppointment");
   };
-
-  const handlePrescription = () =>{
-    console.log("presc");
-  }
+  
   return (
     <>
       <Container>
