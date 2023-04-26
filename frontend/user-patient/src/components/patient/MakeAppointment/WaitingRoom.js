@@ -39,16 +39,19 @@ WaitingRoom.propTypes = {
 export default function WaitingRoom (){
 
   const { state } = useLocation();
-
   const {appointment} = state;
 
-  console.log('inside waiting room',appointment)
-  console.log('queuesize', appointment.doctorDetails.doctorQueueSize)
   const queueToken = parseInt(appointment.doctorDetails.doctorQueueSize)+1;
   const currentQueue = parseInt(appointment.doctorDetails.doctorCurrentQueueSize);
+  let flag = currentQueue-queueToken === 0 ? true : false;
+
   const [queueSize, setQueueSize] = React.useState(queueToken);
   const [message, setMessage] = React.useState(currentQueue);
   const [waitingQueue, setWaitingQueue] = React.useState(currentQueue-queueToken);
+  const [enableJoin, setEnableJoin] = React.useState(flag);
+
+  // console.log("initial enable join val ", enableJoin);
+  let valueEnable = false;
 
   const handledisconnect = async () => {
     let api = "http://localhost:8083/api/patientDetails/onCallDisconnect";
@@ -77,10 +80,15 @@ export default function WaitingRoom (){
   }
 
   let onMessageReceived = (msg) => {
-    console.log("message from server ");
-    console.log(msg);
+    // console.log("message from server ");
+    // console.log(msg);
     setMessage(msg);
     setWaitingQueue(msg-queueSize);
+    // console.log(msg-queueSize);
+    valueEnable = (msg-queueSize === 0) ?true:false;
+    // console.log(valueEnable , " valueEnable")
+    setEnableJoin(valueEnable);
+    // console.log("enableJoin flag ",enableJoin);
   }
   return (
     <Box sx={{ minWidth: 300 }}>
@@ -92,7 +100,6 @@ export default function WaitingRoom (){
             onMessage={msg => onMessageReceived(msg)}
             debug={false}
           />
-      {/* <Card variant="outlined">{card}</Card> */}
       <Card variant="outlined">
       <React.Fragment>
     <CardContent>
@@ -104,13 +111,10 @@ export default function WaitingRoom (){
       </Typography>
     </CardContent>
     <CardActions>
-      {waitingQueue>0 && (<Button variant="contained" disabled>
+      {!enableJoin && (<Typography>Join when your turn comes up! :)</Typography>)}
+       <Button variant="contained"  disabled={!enableJoin}>
         Join Call
-      </Button>) 
-       }
-       {waitingQueue == 0 && (<Button variant="contained" color="#1a237e">
-        Join Call
-      </Button>)}
+      </Button>
     </CardActions>
   </React.Fragment>
   </Card>
