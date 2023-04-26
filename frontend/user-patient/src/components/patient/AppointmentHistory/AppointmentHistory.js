@@ -49,13 +49,13 @@ const AppointmentHistory = () => {
   const patient = localStorage.getItem("patient");
   const patientData = JSON.parse(patient);
 
-  const downloadPrescription = async (e, appointmentDate) => {
+  const downloadPrescription = async (e, appointmentDate, appointmentID) => {
 
     e.preventDefault();
     const patientID = patientData.patientId;
 
     // TODO: update url with appointment id
-    window.location.href = `http://localhost:8083/api/patientDetails/prescription/${patientID}/${appointmentDate}`
+    window.location.href = `http://localhost:8083/api/patientDetails/prescription/${patientID}/${appointmentDate}/${appointmentID}`
 
   }
 
@@ -104,7 +104,7 @@ const AppointmentHistory = () => {
   const handleNewAddition = () => {
     navigate("/patient/dashboard/makeAppointment");
   };
-  
+
   return (
     <>
       <Container>
@@ -151,7 +151,7 @@ const AppointmentHistory = () => {
                       variant="outlined"
                       color="info"
                       startIcon={<DownloadForOfflineIcon color="success"/>}
-                      onClick={async (e) => await downloadPrescription(e, row.date)}
+                      onClick={async (e) => await downloadPrescription(e, row.date, row.id)}
                     >
                       Download
                     </Button>
