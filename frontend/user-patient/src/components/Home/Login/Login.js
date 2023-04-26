@@ -44,7 +44,7 @@ const Login = () => {
 
   const[nullValueError,setNullValueError]  = useState(false);
   const [open, setOpen] = useState(true);
-
+  const [errormessage,setErrorMessage] = useState("");
 
   const [checked, setchecked] = useState(false);
   const navigate = useNavigate();
@@ -69,7 +69,13 @@ const Login = () => {
     setOnError(false)
     if(email==="" || password===""){
       setNullValueError(true);
-
+      setErrorMessage("Please enter all required fields");
+      return;
+    }
+    const emailCheck = /\S+@\S+\.\S+/;
+    if (!emailCheck.test(email)) {
+      setErrorMessage("Email is invalid");
+      setNullValueError(true);
       return;
     }
     const verifyLoginApi = "http://localhost:8083/api/user/userLogin";
@@ -258,7 +264,7 @@ const Login = () => {
                               // }
                               sx={{ mb: 2 }}
                           >
-                            Please enter required field!!!
+                            {errormessage}
                           </Alert>
                         </Collapse>
                       </Box>
