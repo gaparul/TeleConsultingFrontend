@@ -10,7 +10,6 @@ import PatientApp from './components/patient/Dashboard/DashboardApp/PatientApp';
 import PatientDetails from './components/Dashboard/PatientDetails/PatientDetails';
 import AppointmentHistory from './components/patient/AppointmentHistory/AppointmentHistory';
 import MakeAppointment from './components/patient/MakeAppointment/MakeAppointment';
-
 import Dashboard from './components/Dashboard/Dashboard';
 import DashboardLayout from './components/patient/Dashboard/DashBoardLayout'
 import Followup from './components/patient/Followup/Followup';

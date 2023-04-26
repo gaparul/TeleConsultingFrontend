@@ -42,6 +42,9 @@ const Signup = () => {
                 setEmail(e.target.value);
               }}
             />
+            <Form.Control.Feedback type="invalid">
+              Please enter a valid email address.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
