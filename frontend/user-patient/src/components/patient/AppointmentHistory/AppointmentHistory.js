@@ -11,6 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { blue } from "@mui/material/colors";
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,10 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
   "&:last-child td, &:last-child th": {
     border: 0,
-  },
-  "&:hover, &.Mui-focusVisible": {
-    opacity: 0.5,
-  },
+  }
 }));
 
 function createData(id,date,opdType,doctorName,prescription) {
@@ -114,6 +112,7 @@ const AppointmentHistory = () => {
           </Typography>
           <Button
             variant="contained"
+            color='info'
             startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={handleNewAddition}
           >
@@ -140,7 +139,16 @@ const AppointmentHistory = () => {
                   <StyledTableCell>{row.date}</StyledTableCell>
                   <StyledTableCell>{row.opdType}</StyledTableCell>
                   <StyledTableCell>{row.doctorName}</StyledTableCell>
-                  <StyledTableCell><Button onClick={handlePrescription}>{row.prescription}</Button></StyledTableCell>
+                  <StyledTableCell>
+                  <Button
+                      variant="outlined"
+                      color="info"
+                      startIcon={<DownloadForOfflineIcon color="success"/>}
+                      // onClick={async (e) => await createAppointment(e, row.doctorID)}
+                    >
+                      Download
+                    </Button>
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>

@@ -18,7 +18,7 @@ export default function Router() {
       path: '/doctor/dashboard',
       element: <DashboardLayout />,
       children: [
-        // { element: <Navigate to="/doctor/dashboard/app" />, index: true },
+        { element: <Navigate to="/doctor/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardApp /> },
         { path: 'history', element: <AppointmentHistory /> },
         { path: 'patientinfo', element: <PatientInformation /> }

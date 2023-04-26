@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Stack, Typography, Button } from "@mui/material";
+import { Container, Stack, Typography, Button, IconButton } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -10,6 +10,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { blue } from "@mui/material/colors";
+import DuoIcon from '@mui/icons-material/Duo';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -30,51 +32,78 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
-function createData(patientId, name, mobile, email, gender, dob) {
-  return { patientId, name, mobile, email, gender, dob };
+function createData(appointmentId, patientId, name, mobile, email, gender, age) {
+  return { appointmentId, patientId, name, mobile, email, gender, age };
 }
 
 const DashboardApp = () => {
 
+  const doctor = localStorage.getItem('doctor');
+  const doctorData = JSON.parse(doctor);
+
   const[rows, setrows] = React.useState([]);
 
   const getAppointments = async () => {
-    const user = localStorage.getItem("user");
-    const userData = JSON.parse(user);
 
-    const api = `http://localhost:8083/api/patientDetails/getAllPatientOfGivenUserId/${userData.userID}`;
+    const api = `http://localhost:8083/doctor/TodaysAppointments`;
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const doctorID = JSON.stringify({
+      "doctorId": doctorData.doctorID
+    })
 
     const requestOptions = {
-      method: "POST",
-      body: "",
-      redirect: "follow",
+      method: 'POST',
+      headers: myHeaders,
+      body: doctorID,
+      redirect: 'follow'
     };
 
-    let patientRows = [];
+    let appointmentRow = [];
 
     await fetch(api, requestOptions)
       .then(async (response) => {
         await response.json().then(async (e) => {
-          await e.forEach((patient) => {
-            console.log(patient.patientID);
-            const id = JSON.stringify(patient.patientID);
+          await e.forEach((appointment) => {
+            const id = String(appointment.appointmentID);
+            console.log(id)
+            const patient = appointment.patientDetails;
+  
+            const patientId = patient.patientID;
             const name =
               patient.patientFirstName + " " + patient.patientLastName;
+            const today = new Date();
+            const dob = new Date(String(patient.patientDOB))
+
+            let age = today.getFullYear() - dob.getFullYear();
+
+            let month = today.getMonth() - dob.getMonth();
+
+            if(month < 0 || (month === 0 && today.getDate() < dob.getDate())) {age = age - 1;}
+
             const data = createData(
               id,
+              patientId,
               name,
               patient.patientMobileNumber,
               patient.patientEmail,
               patient.patientGender,
-              patient.patientDOB
+              age
             );
-            patientRows.push(data);
+
+            appointmentRow.push(data);
           });
-          setrows(patientRows);
+          setrows(appointmentRow);
         });
       })
       .catch((error) => console.log("error", error));
   };
+
+  React.useEffect(() => {
+    getAppointments()
+  }, []);
 
   return (
     <>
@@ -93,30 +122,48 @@ const DashboardApp = () => {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Patient ID</StyledTableCell>
-                <StyledTableCell align="left">Name</StyledTableCell>
+                <StyledTableCell>Appointment ID</StyledTableCell>
+                <StyledTableCell align="left">Patient ID</StyledTableCell>
+                <StyledTableCell align="left">Patient Name</StyledTableCell>
                 <StyledTableCell align="left">Mobile Number</StyledTableCell>
                 <StyledTableCell align="left">Email ID</StyledTableCell>
                 <StyledTableCell align="left">Gender</StyledTableCell>
-                <StyledTableCell align="left">Date Of Birth</StyledTableCell>
+                <StyledTableCell align="left">Age</StyledTableCell>
+                <StyledTableCell align="left"></StyledTableCell>
               </TableRow>
             </TableHead>
-            {/* <TableBody>
+            <TableBody>
               {rows.map((row) => (
-                <StyledTableRow key={row.patientId} onClick={ e => handleClick(e, row)}>
+                <StyledTableRow key={row.appointmentId}>
                   <StyledTableCell component="th" scope="row">
-                    {row.patientId}
+                    {row.appointmentId}
                   </StyledTableCell>
+                  <StyledTableCell>{row.patientId}</StyledTableCell>
                   <StyledTableCell>{row.name}</StyledTableCell>
                   <StyledTableCell>{row.mobile}</StyledTableCell>
                   <StyledTableCell>{row.email}</StyledTableCell>
                   <StyledTableCell>{row.gender}</StyledTableCell>
-                  <StyledTableCell>{row.dob}</StyledTableCell>
+                  <StyledTableCell>{row.age}</StyledTableCell>
+                  <StyledTableCell>
+                  <Button
+                      variant="outlined"
+                      color="success"
+                      endIcon={<DuoIcon color="success"/>}
+                      // onClick={async (e) => await createAppointment(e, row.doctorID)}
+                    >
+                      Consult
+                    </Button>
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
-            </TableBody> */}
+            </TableBody>
           </Table>
         </TableContainer>
+        <IconButton color="primary" aria-label="fetch more" onClick={getAppointments}>
+  <AutorenewIcon /> <Typography fontSize={14}>
+            Fetch more
+          </Typography>
+</IconButton>
       </Container>
     </>
 
