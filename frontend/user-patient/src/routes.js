@@ -14,6 +14,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import DashboardLayout from './components/patient/Dashboard/DashBoardLayout'
 import Followup from './components/patient/Followup/Followup';
 import WaitingRoom from './components/patient/MakeAppointment/WaitingRoom';
+import CallRoom from './components/CallRoom/CallRoom';
 
 // ----------------------------------------------------------------------
 
@@ -60,6 +61,10 @@ export default function Router() {
     {
         path: 'register',
         element: <Register />,
+    },
+    {
+      path: '/callroom',
+      element: <CallRoom/>
     },
     {
         path: 'phonesignup',

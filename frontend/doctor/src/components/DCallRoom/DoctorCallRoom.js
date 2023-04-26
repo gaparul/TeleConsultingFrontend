@@ -21,7 +21,7 @@ import TableRow from "@mui/material/TableRow";
 import Switch from "@mui/material/Switch";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
-import { indigo } from '@mui/material/colors';
+import { indigo } from "@mui/material/colors";
 
 import CallRoomHeader from "./CallRoomHeader";
 
@@ -31,16 +31,16 @@ function createData(name, dateofupload) {
 }
 
 const IndigoSwitch = styled(Switch)(({ theme }) => ({
-    '& .MuiSwitch-switchBase.Mui-checked': {
-      color: indigo[900],
-      '&:hover': {
-        backgroundColor: alpha(indigo[900], theme.palette.action.hoverOpacity),
-      },
+  "& .MuiSwitch-switchBase.Mui-checked": {
+    color: indigo[900],
+    "&:hover": {
+      backgroundColor: alpha(indigo[900], theme.palette.action.hoverOpacity),
     },
-    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-      backgroundColor: indigo[900],
-    },
-  }));
+  },
+  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+    backgroundColor: indigo[900],
+  },
+}));
 
 const rows = [createData("", "", "")];
 
@@ -69,15 +69,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const DoctorCallRoom = () => {
-    const { state } = useLocation();
-  const {appointment} = state;
+  const { state } = useLocation();
+  const { appointment } = state;
   const [healthRecord, setHealthRecord] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const doctor = localStorage.getItem('doctor');
+  const doctor = localStorage.getItem("doctor");
   const doctorDetails = JSON.parse(doctor);
 
-  const doctorName = `${doctorDetails.doctorFirstName} ${doctorDetails.doctorLastName}`
+  const doctorName = `${doctorDetails.doctorFirstName} ${doctorDetails.doctorLastName}`;
 
   const patientID = 6;
   const appointmentID = 1;
@@ -141,24 +141,21 @@ const DoctorCallRoom = () => {
       showLeavingView: false,
       onLeaveRoom: async () => {
         let api = "http://localhost:8083/api/patientDetails/onCallDisconnect";
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: JSON.stringify(appointment),
-      redirect: "follow",
-    };
-    await fetch(
-      api,
-      requestOptions
-    )
-      .then((response) => {
-        if(response.status === 200) {
-          console.log("success of on call disconnect");
-        }
-      })
-      .catch((error) => console.log("error", error));
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: JSON.stringify(appointment),
+          redirect: "follow",
+        };
+        await fetch(api, requestOptions)
+          .then((response) => {
+            if (response.status === 200) {
+              console.log("success of on call disconnect");
+            }
+          })
+          .catch((error) => console.log("error", error));
         navigate("/doctor/dashboard");
         window.location.reload("false");
       },
@@ -405,7 +402,7 @@ const DoctorCallRoom = () => {
                   type="submit"
                   variant="contained"
                   size="medium"
-                  sx={{ mt: 1, marginLeft: "10px" , backgroundColor: "#1a237e"}}
+                  sx={{ mt: 1, marginLeft: "10px", backgroundColor: "#1a237e" }}
                   onClick={(e) => uploadPrescription(e)}
                 >
                   Upload Prescription
