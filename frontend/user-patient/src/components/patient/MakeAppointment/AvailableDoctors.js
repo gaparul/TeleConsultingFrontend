@@ -13,7 +13,7 @@ import { blue } from "@mui/material/colors";
 import { Container, Button, Typography, Alert } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import WaitingRoom from "./WaitingRoom";
-import { useNavigate, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -44,7 +44,6 @@ AvailableDoctors.propTypes = {
 
 export default function AvailableDoctors({ category }) {
 
-  const navigate = useNavigate()
   const [rows, setrows] = React.useState([]);
   const [isAvailable, setAvailable] = React.useState(false);
   const [appointmentSuccess, setSuccess] = React.useState(false);
