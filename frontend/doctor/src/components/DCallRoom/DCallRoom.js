@@ -109,8 +109,6 @@ const DCallRoom=() =>
           turnOnCameraWhenJoining: false,
           showLeavingView: false,
           onLeaveRoom: () => {
-
-
             navigate('/')
             window.location.reload("false");
           },
