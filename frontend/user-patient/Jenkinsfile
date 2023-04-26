@@ -42,7 +42,9 @@ pipeline {
                 script{
                     // docker = sh '/usr/local/bin/docker'
                     // dockerimage = docker.build registry + ":latest"
-                    dockerimage = sh '/usr/local/bin/docker build -t'+registry+':latest .'
+                    dir('frontend/user-patient/') {
+                        dockerimage = sh '/usr/local/bin/docker build -t '+registry+':latest .'
+                    }
                 }
                 
                 
