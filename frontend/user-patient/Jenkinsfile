@@ -24,9 +24,11 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'cd frontend/user-patient/'
-                sh 'npm install'
-                sh 'tar czf Node.tar.gz node_modules src jenkins Jenkinsfile package.json public'
+                dir('frontend/user-patient/') {
+                    sh 'npm install'
+                    sh 'tar czf Node.tar.gz node_modules src jenkins Jenkinsfile package.json public'
+                }
+                
             }
         }
         // stage('Test') {
