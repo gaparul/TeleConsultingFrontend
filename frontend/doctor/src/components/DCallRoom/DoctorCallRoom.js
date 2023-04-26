@@ -79,8 +79,9 @@ const DoctorCallRoom = () => {
 
   const doctorName = `${doctorDetails.doctorFirstName} ${doctorDetails.doctorLastName}`;
 
-  const patientID = 6;
-  const appointmentID = 1;
+  const patient = appointment.patientDetails;
+  const patientID = patient.patientID;
+  const appointmentID = appointment.appointmentID;
 
   useEffect(() => {
     fetch(
