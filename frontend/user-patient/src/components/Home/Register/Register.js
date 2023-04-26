@@ -199,7 +199,6 @@ const Register = () => {
                       if (!re.test(e.target.value)) {
                         setErrorMessage("Email is invalid");
                         setNullValueError(true);
-                        console.log("rir");
                       }
 
                       setEmail(e.target.value);
