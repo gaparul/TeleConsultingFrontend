@@ -51,6 +51,11 @@ const navConfig = [
     path: "/login",
     icon: <SvgColor src={logout} sx={{ width: 1, height: 1 }} />,
   },
+  {
+    title: "User Dashboard",
+    path: "/dashboard/app",
+    icon: <SvgColor src={dashboard} sx={{ width: 1, height: 1 }} />,
+  },
 ];
 
 export default navConfig;
