@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Stack, Typography, Button, IconButton } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -38,10 +38,33 @@ function createData(appointmentId, patientId, name, mobile, email, gender, age) 
 
 const DashboardApp = () => {
 
+  const navigate = useNavigate();
+
   const doctor = localStorage.getItem('doctor');
   const doctorData = JSON.parse(doctor);
 
   const[rows, setrows] = React.useState([]);
+  const [appointment, setAppointment] = React.useState({});
+
+  // ------------------------------------------------------------------------
+
+  const redirectToCallRoom = async (appointmentID) => {
+    const api = `http://localhost:8083/api/patientDetails/getAppointmentById/${appointmentID}`
+
+    var requestOptions = {
+      method: 'POST',
+      redirect: 'follow'
+    };
+    
+    await fetch(api, requestOptions)
+      .then(async (response) => {
+        await response.json().then((e) => {
+          setAppointment(e);
+        })
+      })
+      .catch(error => console.log('error', error));
+    navigate("/callroom", {state : {appointment}});
+  }
 
   const getAppointments = async () => {
 
@@ -149,7 +172,7 @@ const DashboardApp = () => {
                       variant="outlined"
                       color="success"
                       endIcon={<DuoIcon color="success"/>}
-                      // onClick={async (e) => await createAppointment(e, row.doctorID)}
+                      onClick={async (e) => await redirectToCallRoom(row.appointmentId)}
                     >
                       Consult
                     </Button>
