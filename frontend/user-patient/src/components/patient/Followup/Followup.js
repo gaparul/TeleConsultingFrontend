@@ -1,12 +1,16 @@
 import React from 'react'
 
-import { Container, Stack, Typography, Button, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Container, Stack, Typography, Button, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import { tableCellClasses } from "@mui/material/TableCell";
 import { blue } from "@mui/material/colors";
 import AddIcon from '@mui/icons-material/Add';
+import { Navigate } from "react-router-dom";
+
+import WaitingRoom from '../MakeAppointment/WaitingRoom';
+import { async } from '@firebase/util';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -27,23 +31,117 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
-function createData(appointmentId, appointmentDate, opdType, doctorName, followupDate) {
+function createData(appointmentId, appointmentDate, opdType, doctorName, followupDate, doctorID) {
   return {
     appointmentId,
     appointmentDate,
     opdType,
     doctorName,
-    followupDate
+    followupDate,
+    doctorID
   };
 }
 
 
 const Followup = () => {
 
+  const navigate = useNavigate();
+
   const [rows, setrows] = React.useState([]);
+  const [appointment, setappointment] = React.useState({});
+  const [appointmentSuccess, setSuccess] = React.useState(false);
 
   const patient = localStorage.getItem("patient");
   const patientData = JSON.parse(patient);
+
+  let appointmentDetails = {};
+  // -------------------------------------------------------------------------
+
+  const createAppointment = async (doctorID, category) => {
+
+    const patientID = patientData.patientId;
+
+    let api = "http://localhost:8083/api/patientDetails/createAppointment";
+    
+    // patientDetails = patiendID, appointmentOPDType = selected specialisation category
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    
+    const appointmentData = {
+      appointmentOpdType: category,
+      patientDetails: parseInt(patientID),
+      doctorID: parseInt(doctorID),
+    };
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(appointmentData),
+      redirect: "follow",
+    };
+
+    await fetch(
+      api,
+      requestOptions
+    )
+      .then(async (response) => {
+        if(response.status === 200) {
+            
+            await response.json().then((e)=>{
+              console.log(e.appointmentID)
+              appointmentDetails = e;
+              console.log(appointmentDetails)
+              setappointment(appointmentDetails);
+              <WaitingRoom appointment={appointment}/>
+            })
+
+          setSuccess(true);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  const getAppointment = async (e, doctorID, appointmentId) => {
+    e.preventDefault();
+    const followupApi = `http://localhost:8083/api/patientDetails/makeFollowupFalse/${appointmentId}`;
+    const requestOpt = {
+      method: 'POST',
+      redirect: 'follow'
+    };
+    
+    await fetch(followupApi, requestOpt)
+      .then(async response => {
+        await response.json().then((e) => {
+          console.log(e);
+          console.log("Made follow up false successfully!")
+        })
+      })
+      .catch(error => console.log('error', error));
+
+    const api = `http://localhost:8083/api/patientDetails/getDoctorById/${doctorID}`;
+
+    const requestOptions = {
+      method: 'POST',
+      redirect: 'follow'
+    };
+    
+    await fetch(api, requestOptions)
+      .then(async response => {
+        await response.json().then(async (e) => {
+          console.log(e);
+          const isDoctorAvailable = parseInt(e.doctorAvailable);
+
+          if(isDoctorAvailable) {
+            await createAppointment(doctorID, e.doctorSpecialisation)
+          }
+          else {
+            navigate('/patient/dashboard/makeAppointment')
+          }
+        })
+      })
+      .catch(error => console.log('error', error));
+  }
 
   const getFollowUp = async () => {
     const patientID = patientData.patientId;
@@ -64,6 +162,7 @@ const Followup = () => {
             const id = JSON.stringify(appointment.appointmentID);
             const opdType = appointment.appointmentOpdType;
             const date = appointment.appointmentDate;
+            const doctorId = appointment.doctorDetails.doctorID;
             const doctorFname = appointment.doctorDetails.doctorFirstName;
             const doctorLname = appointment.doctorDetails.doctorLastName;
             const doctorName = `${doctorFname}  ${doctorLname}`;
@@ -73,7 +172,8 @@ const Followup = () => {
               date,
               opdType,
               doctorName,
-              followupDate
+              followupDate,
+              doctorId
             );
             appointmentRows.push(data);
           });
@@ -82,6 +182,8 @@ const Followup = () => {
       })
       .catch(error => console.log('error', error));
   }
+
+  // -------------------------------------------------------------------------
 
   React.useEffect(() => {
     getFollowUp();
@@ -129,7 +231,7 @@ const Followup = () => {
                       variant="outlined"
                       color="info"
                       startIcon={<AddIcon color="info"/>}
-                      // onClick={async (e) => await downloadPrescription(e, row.date)}
+                      onClick={async (e) => await getAppointment(e, row.doctorID, row.appointmentId)}
                     >
                       Get Appointment
                     </Button>
@@ -139,6 +241,13 @@ const Followup = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        {appointmentSuccess && (
+        <>
+        <Alert severity="success">Appointment Successfully created!</Alert>
+        <Navigate to={"/patient/dashboard/waiting"} state={{appointment}}/>
+        {/* <WaitingRoom appointment={appointment}/> */}
+        </>
+      )}
       </Container>
     </>
   )
