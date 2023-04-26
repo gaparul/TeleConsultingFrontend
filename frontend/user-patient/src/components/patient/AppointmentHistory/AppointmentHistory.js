@@ -45,11 +45,21 @@ function createData(id,date,opdType,doctorName,prescription) {
 const AppointmentHistory = () => {
   const navigate = useNavigate();
   const [rows, setrows] = React.useState([]);
-  //   let patientRows = [];
+
+  const patient = localStorage.getItem("patient");
+  const patientData = JSON.parse(patient);
+
+  const downloadPrescription = async (e, appointmentDate) => {
+
+    e.preventDefault();
+    const patientID = patientData.patientId;
+
+    // TODO: update url with appointment id
+    window.location.href = `http://localhost:8083/api/patientDetails/prescription/${patientID}/${appointmentDate}`
+
+  }
 
   const getPatientData = async () => {
-    const patient = localStorage.getItem("patient");
-    const patientData = JSON.parse(patient);
 
     const api = `http://localhost:8083/api/patientDetails/getAppointmentHistory/${patientData.patientId}`;
 
@@ -144,7 +154,7 @@ const AppointmentHistory = () => {
                       variant="outlined"
                       color="info"
                       startIcon={<DownloadForOfflineIcon color="success"/>}
-                      // onClick={async (e) => await createAppointment(e, row.doctorID)}
+                      onClick={async (e) => await downloadPrescription(e, row.date)}
                     >
                       Download
                     </Button>
