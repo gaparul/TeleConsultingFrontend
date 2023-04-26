@@ -6,8 +6,14 @@ import Register from "./components/Home/Register/Register"
 import DashboardApp from './components/Dashboard/DashboardApp';
 import PhoneSignUp from './components/Home/Login/PhoneSignUp';
 import RegisterPatient from './components/Dashboard/RegisterPatient/RegisterPatient';
-import CallRoom from './components/CallRoom/CallRoom';
+import PatientApp from './components/patient/Dashboard/DashboardApp/PatientApp';
+import PatientDetails from './components/Dashboard/PatientDetails/PatientDetails';
+import AppointmentHistory from './components/patient/AppointmentHistory/AppointmentHistory';
+import MakeAppointment from './components/patient/MakeAppointment/MakeAppointment';
 import Dashboard from './components/Dashboard/Dashboard';
+import DashboardLayout from './components/patient/Dashboard/DashBoardLayout'
+import Followup from './components/patient/Followup/Followup';
+import WaitingRoom from './components/patient/MakeAppointment/WaitingRoom';
 
 // ----------------------------------------------------------------------
 
@@ -18,10 +24,24 @@ export default function Router() {
       element: <Dashboard />,
       children: [
         { element: <Navigate to="/dashboard" />, index: true },
-        // { element: <Navigate to="/login" />, index: true },
+        { element: <Navigate to="/login" />, index: true },
         { path: 'app', element: <DashboardApp /> },
         { path: 'patientRegister', element: <RegisterPatient /> },
-        // { path: 'patientinfo', element: <PatientInformation /> }
+        { path: 'patientDetails', element: <PatientDetails /> }, 
+      ],
+    },
+
+    {
+      path: '/patient/dashboard',
+      element: <DashboardLayout/>,
+      children: [
+        { element: <Navigate to="/patient/dashboard/app" />, index: true },
+        // { element: <Navigate to="/login" />, index: true }   ,
+        { path: 'app', element: <PatientApp /> },
+        { path: 'appointmentHistory', element: <AppointmentHistory /> },
+        { path: 'makeAppointment', element: <MakeAppointment /> },
+        { path: 'followup', element: <Followup /> }, 
+        { path: 'waiting', element: <WaitingRoom /> }, 
       ],
     },
     
@@ -37,10 +57,6 @@ export default function Router() {
         path: '/login',
         element: <Login />,
     },
-    {
-      path: '/callroom',
-      element: <CallRoom />,
-  },
     {
         path: 'register',
         element: <Register />,

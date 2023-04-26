@@ -2,28 +2,36 @@ import React from "react";
 import { Box, Typography, Container, Divider, ButtonBase } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import patientinfo from "./AppImages/patient-info.jpeg";
-import add from "./AppImages/add.jpg";
+import appointment from "./images/getAppointment.jpg";
+import calendar from "./images/calendar.jpg";
+import followup from './images/followup.jpg'
 import { useNavigate } from "react-router-dom";
 
 const images = [
   {
-    url: add,
-    title: "Add Patient",
+    url: calendar,
+    title: "My Appointments",
     width: "50%",
-    navigate: "/dashboard/patientRegister",
+    navigate: "/patient/dashboard/appointmentHistory",
   },
   {
-    url: patientinfo,
-    title: "Patient Details",
+    url: appointment,
+    title: "Get Appointment",
     width: "50%",
-    navigate: "/dashboard/patientDetails",
+    navigate: "/patient/dashboard/makeAppointment",
   },
 ];
 
+const followUpImage = {
+  url: followup,
+  title: "Follow Up",
+  width: "100%",
+  navigate: "/patient/dashboard/followup",
+}
+
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: "relative",
-  height: 300,
+  height: 350,
   [theme.breakpoints.down("sm")]: {
     width: "100% !important", // Overrides inline-style
     height: 100,
@@ -85,10 +93,12 @@ const ImageMarked = styled("span")(({ theme }) => ({
   transition: theme.transitions.create("opacity"),
 }));
 
-const DashboardApp = () => {
+
+const PatientApp = () => {
   const navigate = useNavigate();
-  const account = localStorage.getItem("user");
+  const account = localStorage.getItem("patient");
   const accountHolder = JSON.parse(account);
+  const name = String(accountHolder.name).toUpperCase();
 
   const handleClick = (e, path) => {
     e.preventDefault();
@@ -97,7 +107,7 @@ const DashboardApp = () => {
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi, {accountHolder.userFirstName} {accountHolder.userLastName}
+        HI, {name}
       </Typography>
       <Divider />
 
@@ -134,8 +144,39 @@ const DashboardApp = () => {
           </ImageButton>
         ))}
       </Box>
+      <Box
+        sx={{ display: "flex", flexWrap: "wrap", minWidth: 400, width: "100%" }}
+      >
+          <ImageButton
+            focusRipple
+            key={followUpImage.title}
+            style={{
+              width: followUpImage.width,
+            }}
+            onClick={(e) => handleClick(e, followUpImage.navigate)}
+          >
+            <ImageSrc style={{ backgroundImage: `url(${followUpImage.url})` }} />
+            <ImageBackdrop className="MuiImageBackdrop-root" />
+            <Image>
+              <Typography
+                component="span"
+                variant="subtitle1"
+                color="inherit"
+                sx={{
+                  position: "relative",
+                  p: 4,
+                  pt: 2,
+                  pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                }}
+              >
+                {followUpImage.title}
+                <ImageMarked className="MuiImageMarked-root" />
+              </Typography>
+            </Image>
+          </ImageButton>
+      </Box>
     </Container>
   );
-};
+}
 
-export default DashboardApp;
+export default PatientApp

@@ -30,7 +30,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import avatar from "./Avatar/user.png";
 
@@ -50,7 +50,7 @@ export const mainListItems = (
       <ListItemText primary="Dashboard" />
     </ListItemButton>
 
-    <ListItemButton href="">
+    <ListItemButton href="/dashboard/patientDetails">
       <ListItemIcon>
         <PersonPinIcon sx={{ color: blue[900] }} />
       </ListItemIcon>
@@ -133,7 +133,7 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 function DashboardContent() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -145,6 +145,7 @@ function DashboardContent() {
     displayName: `${userDetails.userFirstName} ${userDetails.userLastName}`,
     email: userDetails.userEmail,
     photoURL: avatar,
+
   };
 
   return (

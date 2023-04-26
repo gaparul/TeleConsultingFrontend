@@ -10,7 +10,13 @@ import {
   TextField,
   Typography,
   Button,
+    IconButton,
+    Collapse,
+
 } from "@mui/material";
+
+import CloseIcon from '@mui/icons-material/Close';
+
 
 import PortraitIcon from "@mui/icons-material/Portrait";
 import FormGroup from "@mui/material/FormGroup";
@@ -36,8 +42,14 @@ const Login = () => {
   const [result, setResult] = useState("");
   const { setUpRecaptha } = useUserAuth();
 
+  const[nullValueError,setNullValueError]  = useState(false);
+  const [open, setOpen] = useState(true);
+  const [errormessage,setErrorMessage] = useState("");
+
   const [checked, setchecked] = useState(false);
   const navigate = useNavigate();
+
+  localStorage.removeItem('user');
 
   //   const handleSubmit = async (e) => {
   //     e.preventDefault();
@@ -52,10 +64,24 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    setNullValueError(false);
+    setOpen(true);
+    setOnError(false)
+    if(email==="" || password===""){
+      setNullValueError(true);
+      setErrorMessage("Please enter all required fields");
+      return;
+    }
+    const emailCheck = /\S+@\S+\.\S+/;
+    if (!emailCheck.test(email)) {
+      setErrorMessage("Email is invalid");
+      setNullValueError(true);
+      return;
+    }
     const verifyLoginApi = "http://localhost:8083/api/user/userLogin";
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
+    
     const data = JSON.stringify({
       email: email,
       password: password,
@@ -68,15 +94,16 @@ const Login = () => {
       // redirect: "follow",
     };
 
-    fetch(verifyLoginApi, requestOptions)
-      .then((response) => {
+    await fetch(verifyLoginApi, requestOptions)
+      .then(async (response) => {
         console.log(response.status);
         
         if (response.status === 202) {
           console.log(response.headers.get("token"));
-          response.json().then((e) => {
+          await response.json().then(async (e) => {
             console.log(JSON.stringify(e));
-            localStorage.setItem('user', JSON.stringify(e));
+            await localStorage.setItem('user', JSON.stringify(e));
+            await localStorage.setItem('token',response.headers.get("token"));
           })
           navigate("/dashboard/app");
         }
@@ -183,6 +210,11 @@ const Login = () => {
                     <Grid item xs={12}>
                       <TextField
                         onBlur={handleEmail}
+
+                        onChange={(e) => {
+                          if(e.target.value.length>=1) setNullValueError(false);
+                        }}
+
                         required
                         fullWidth
                         id="email"
@@ -194,6 +226,11 @@ const Login = () => {
                     <Grid item xs={12}>
                       <TextField
                         onBlur={handlePassword}
+
+                        onChange={(e) => {
+                          if(e.target.value.length>=1) setNullValueError(false);
+                        }}
+
                         required
                         fullWidth
                         name="password"
@@ -207,6 +244,31 @@ const Login = () => {
                       </Typography>
                     </Grid>
                   </Grid>
+                  {nullValueError && (
+
+                      <Box sx={{ width: '100%' }}>
+                        <Collapse in={open}>
+                          <Alert
+                              severity="error"
+                              // action={
+                              //   <IconButton
+                              //       aria-label="close"
+                              //       color="inherit"
+                              //       size="small"
+                              //       onClick={() => {
+                              //         setOpen(false);
+                              //       }}
+                              //   >
+                              //     <CloseIcon fontSize="inherit" />
+                              //   </IconButton>
+                              // }
+                              sx={{ mb: 2 }}
+                          >
+                            {errormessage}
+                          </Alert>
+                        </Collapse>
+                      </Box>
+                  )}
                   <Button
                     onClick={handleLogin}
                     fullWidth

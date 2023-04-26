@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -38,10 +39,33 @@ const DoctorLogin = () => {
   const [password, setPassword] = React.useState("");
   const [open, setOpen] = React.useState(true);
 
+
+  const [error, setError] = useState("");
+  const [onError, setOnError] = useState(false);
+  const[nullValueError,setNullValueError]  = useState(false);
+  const [errormessage,setErrorMessage] = useState("");
+
+  localStorage.removeItem('doctor');
+  localStorage.removeItem('patient')
+
   // React.useEffect(() => {}, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setNullValueError(false);
+    setOpen(true);
+    setOnError(false)
+    if(email==="" || password===""){
+      setNullValueError(true);
+      setErrorMessage("Please enter all required fields");
+      return;
+    }
+    const emailCheck = /\S+@\S+\.\S+/;
+    if (!emailCheck.test(email)) {
+      setErrorMessage("Email is invalid");
+      setNullValueError(true);
+      return;
+    }
     const loginApi = "http://localhost:8083/doctor/doctorLogin";
 
     let headers = new Headers();
@@ -76,7 +100,7 @@ const DoctorLogin = () => {
               doctorMobileNumber: e.doctorMobileNumber,
             };
             localStorage.setItem('doctor', JSON.stringify(doctorDetails))
-            navigate('/dashboard');
+            navigate('/doctor/dashboard');
           });
         }
         if (response.status === 404) {
@@ -221,6 +245,32 @@ const DoctorLogin = () => {
                 autoComplete="current-password"
                 onBlur={(e) => setPassword(e.target.value)}
               />
+              {/*{nullValueError  && <Alert severity="error">{error}</Alert>}*/}
+              {nullValueError && (
+
+                  <Box sx={{ width: '100%' }}>
+                    <Collapse in={open}>
+                      <Alert
+                          severity="error"
+                          // action={
+                          //   <IconButton
+                          //       aria-label="close"
+                          //       color="inherit"
+                          //       size="small"
+                          //       onClick={() => {
+                          //         setOpen(false);
+                          //       }}
+                          //   >
+                          //     <CloseIcon fontSize="inherit" />
+                          //   </IconButton>
+                          // }
+                          sx={{ mb: 2 }}
+                      >
+                        {errormessage}
+                      </Alert>
+                    </Collapse>
+                  </Box>
+              )}
               <Button
                 type="submit"
                 fullWidth

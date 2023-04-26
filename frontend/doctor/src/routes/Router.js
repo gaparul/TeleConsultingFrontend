@@ -7,34 +7,33 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import Login from '../components/Home/Login/Login';
 import DashboardLayout from '../components/Home/Dashboard/DashBoardLayout';
 import PatientInformation from '../components/Home/PatientInformation/PatientInformation';
-import DCallRoom from '../components/DCallRoom/DCallRoom';
+import DashboardApp from '../components/Home/Dashboard/DashboardApp';
+import AppointmentHistory from '../components/AppointmentHistory/AppointmentHistory';
+
 // ----------------------------------------------------------------------
 
 export default function Router() {
   const routes = useRoutes([
     {
-      path: '/dashboard',
+      path: '/doctor/dashboard',
       element: <DashboardLayout />,
       children: [
-        // { element: <Navigate to="/dashboard/app" />, index: true },
-        // { element: <Navigate to="/login" />, index: true },
-        // { path: 'app', element: <DashboardAppPage /> },
-        // { path: 'appointments', element: <Appointments /> },
+        { element: <Navigate to="/doctor/dashboard/app" />, index: true },
+        { path: 'app', element: <DashboardApp /> },
+        { path: 'history', element: <AppointmentHistory /> },
         { path: 'patientinfo', element: <PatientInformation /> }
       ],
     },
     {
-      path: 'login',
-      element: <Login />,
-    },
-    {
-      path: 'dcallroom',
-      element: <DCallRoom />,
-    },
-    {
         path: '/',
         element: <Login />,
+      },
+
+    {
+      path: 'login',
+      element: <Login />,
     }
+
   ]);
 
   return routes;
