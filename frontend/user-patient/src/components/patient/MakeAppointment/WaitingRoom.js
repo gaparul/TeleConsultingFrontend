@@ -39,10 +39,12 @@ export default function WaitingRoom() {
   const { state } = useLocation();
   const { appointment } = state;
 
-  const queueSize = parseInt(appointment.doctorDetails.doctorQueueSize);
+  const queueSize = parseInt(appointment.doctorDetails.doctorQueueSize) + 1;
   const currentQueue = parseInt(
     appointment.doctorDetails.doctorCurrentQueueSize
   );
+  console.log("queueSize ",queueSize);
+  console.log("current queue ", currentQueue);
   let flag = currentQueue - queueSize === 0 ? true : false;
   const appt = JSON.stringify(appointment);
   localStorage.setItem("appointment", appt);
@@ -54,7 +56,7 @@ export default function WaitingRoom() {
   );
   const [enableJoin, setEnableJoin] = React.useState(flag);
   let valueEnable = false;
-
+console.log("waiting queue ",waitingQueue );
   const handledisconnect = async () => {
     let api = "http://localhost:8083/api/patientDetails/onCallDisconnect";
     const myHeaders = new Headers();
