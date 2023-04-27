@@ -10,6 +10,7 @@ const CallRoom = () => {
   const appointmentID = appointment.appointmentID;
   // const roomId = "1234";
   const patientID = appointment.patientDetails.patientID;
+  const patientName = `${appointment.patientDetails.patientFirstName} ${appointment.patientDetails.patientLastName}`
   const doctorDetails = appointment.doctorDetails;
   const roomId = `${doctorDetails.doctorID}915${appointmentID}624${patientID}`;
   console.log(roomId, "room id");
@@ -23,7 +24,7 @@ const CallRoom = () => {
       serverSecret,
       roomId,
       Date.now().toString(),
-      "Patient"
+      patientName
     );
     const zp = ZegoUIKitPrebuilt.create(kitToken);
     zp.joinRoom({
