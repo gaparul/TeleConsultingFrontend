@@ -123,13 +123,31 @@ export default function DoctorCallRoom() {
         method: "GET",
         headers: myHeaders,
       }
-    ).then(() => {
-      console.log(`Downloaded ${healthRecordName}`);
-      setLoading(false);
-      window.open(
-        `http://localhost:8083/doctor/healthrecord/${patientID}/${healthRecordName}`
-      );
-    });
+    )
+    .then((response) => response.blob())
+      .then((response) => {
+        const url = URL.createObjectURL(response);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "HealthRecord.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        console.log("API response:", response.data);
+        if (response.data === "success") {
+          alert("Download fail !");
+        } else {
+          alert("health record downloaded !");
+        }
+      })
+    // ).then(() => {
+    //   console.log(`Downloaded ${healthRecordName}`);
+    //   setLoading(false);
+
+    // //   window.open(
+    // //     `http://localhost:8083/doctor/healthrecord/${patientID}/${healthRecordName}`
+    // //   );
+    // });
   };
 
   //Call Room
