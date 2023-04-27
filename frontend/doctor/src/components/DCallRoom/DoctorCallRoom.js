@@ -201,8 +201,12 @@ export default function DoctorCallRoom() {
       },
     });
   };
+//rendering meeting room
+  React.useEffect(() => {
+    myMeeting();
+  }, []);
 
-  //Prescription
+//Prescription
   const [inputField, setInputFields] = useState([{ medicine: "", dosage: "" }]);
 
   const [symptoms, setSymptoms] = useState("");
