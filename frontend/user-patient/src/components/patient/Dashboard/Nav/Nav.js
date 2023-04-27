@@ -87,9 +87,8 @@ export default function Nav({ openNav, onCloseNav }) {
 
     const jwtToken = localStorage.getItem("token");
 
-    let myHeaders = new Headers();
+    var myHeaders = new Headers();
 
-    myHeaders.set("Content-Type", "application/json");
     myHeaders.set("Authorization", `Bearer ${jwtToken}`);
 
     var requestOptions = {

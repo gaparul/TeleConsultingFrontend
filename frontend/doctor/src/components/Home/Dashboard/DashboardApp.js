@@ -9,13 +9,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { blue } from "@mui/material/colors";
+import { indigo } from "@mui/material/colors";
 import DuoIcon from '@mui/icons-material/Duo';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: blue[700],
+    backgroundColor: indigo[700],
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -25,7 +25,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
-    backgroundColor: blue[100],
+    backgroundColor: indigo[100],
   },
   "&:last-child td, &:last-child th": {
     border: 0,
@@ -41,6 +41,7 @@ const DashboardApp = () => {
   const navigate = useNavigate();
 
   const doctor = localStorage.getItem('doctor');
+  const token = localStorage.getItem('token');
   const doctorData = JSON.parse(doctor);
 
   const[rows, setrows] = React.useState([]);
@@ -49,10 +50,14 @@ const DashboardApp = () => {
   // ------------------------------------------------------------------------
 
   const redirectToCallRoom = async (appointmentID) => {
-    const api = `http://localhost:8083/api/patientDetails/getAppointmentById/${appointmentID}`
+    const api = `http://localhost:8083/doctor/getAppointmentById/${appointmentID}`
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var requestOptions = {
       method: 'POST',
+      headers: myHeaders,
       redirect: 'follow'
     };
     let app;
@@ -78,6 +83,7 @@ const DashboardApp = () => {
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     const doctorID = JSON.stringify({
       "doctorId": doctorData.doctorID
@@ -176,8 +182,8 @@ const DashboardApp = () => {
                   <StyledTableCell>
                   <Button
                       variant="outlined"
-                      color="success"
-                      endIcon={<DuoIcon color="success"/>}
+                      color="info"
+                      endIcon={<DuoIcon color="info"/>}
                       onClick={async (e) => await redirectToCallRoom(row.appointmentId)}
                     >
                       Consult

@@ -73,9 +73,9 @@ DoctorCallRoom.propTypes = {
   appointment: PropTypes.object,
 };
 
-export default function DoctorCallRoom () {
-  const appointment = localStorage.getItem("appointment")
-  const appointmentDetails = JSON.parse(appointment)
+export default function DoctorCallRoom() {
+  const appointment = localStorage.getItem("appointment");
+  const appointmentDetails = JSON.parse(appointment);
   // const { state } = useLocation();
   // const { appointment } = state;
   const [healthRecord, setHealthRecord] = useState([]);
@@ -83,18 +83,24 @@ export default function DoctorCallRoom () {
 
   const doctor = localStorage.getItem("doctor");
   const doctorDetails = JSON.parse(doctor);
+  const token = localStorage.getItem("token");
 
   const doctorName = `${doctorDetails.doctorFirstName} ${doctorDetails.doctorLastName}`;
-  console.log(appointmentDetails,"appointment");
+  console.log(appointmentDetails, "appointment");
   const patient = appointmentDetails.patientDetails;
   const patientID = patient.patientID;
-  const patientName = `${patient.patientFirstName} ${patient.patientLastName}`
+  const patientName = `${patient.patientFirstName} ${patient.patientLastName}`;
   const appointmentID = appointmentDetails.appointmentID;
   const SOCKET_URL = "http://localhost:8083/ws-message";
 
   useEffect(() => {
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
     fetch(
-      `http://localhost:8083/api/patientDetails/getHealthRecordsByPatientId/${patientID}`
+      `http://localhost:8083/doctor/getHealthRecordsByPatientId/${patientID}`,
+      {
+        headers: myHeaders,
+      }
     )
       .then((response) => {
         if (!response.ok) {
@@ -105,18 +111,23 @@ export default function DoctorCallRoom () {
       .then((healthRecord) => setHealthRecord(healthRecord));
   }, []);
 
-  const handleDownload = (healthRecordName, setLoading) => {
+  const handleDownload = async (healthRecordName, setLoading) => {
     setLoading(true);
-    fetch(
-      `http://localhost:8083/api/patientDetails/healthrecord/${patientID}/${healthRecordName}`,
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    await fetch(
+      `http://localhost:8083/doctor/healthrecord/${patientID}/${healthRecordName}`,
       {
         method: "GET",
+        headers: myHeaders,
       }
     ).then(() => {
       console.log(`Downloaded ${healthRecordName}`);
       setLoading(false);
       window.open(
-        `http://localhost:8083/api/patientDetails/healthrecord/${patientID}/${healthRecordName}`
+        `http://localhost:8083/doctor/healthrecord/${patientID}/${healthRecordName}`
       );
     });
   };
@@ -125,7 +136,7 @@ export default function DoctorCallRoom () {
   // const {roomId} = useParams();
   const navigate = useNavigate();
   const roomId = `${doctorDetails.doctorID}915${appointmentID}624${patientID}`;
-  console.log(roomId,"room id");
+  console.log(roomId, "room id");
   const myMeeting = async (element) => {
     const appID = 868852693;
     const serverSecret = "9bf3442d9f083ba5f04468215a647d27";
@@ -150,9 +161,10 @@ export default function DoctorCallRoom () {
       turnOnCameraWhenJoining: false,
       showLeavingView: false,
       onLeaveRoom: async () => {
-        let api = "http://localhost:8083/api/patientDetails/onCallDisconnect";
+        let api = "http://localhost:8083/doctor/onCallDisconnect";
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const requestOptions = {
           method: "POST",
           headers: myHeaders,
@@ -166,7 +178,7 @@ export default function DoctorCallRoom () {
             }
           })
           .catch((error) => console.log("error", error));
-         navigate("/doctor/dashboard");
+        navigate("/doctor/dashboard");
         // window.location.reload("false");
       },
     });
@@ -249,9 +261,13 @@ export default function DoctorCallRoom () {
     console.log(symptoms, string, advice, followUpDay);
     console.log(patientID, appointmentID);
 
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
     try {
       const response = await axios.post(
         `http://localhost:8083/doctor/uploadPrescription/${appointmentID}/${patientID}`,
+        { headers: myHeaders },
         combine
       );
       console.log("API response:", response.data);
@@ -476,4 +492,4 @@ export default function DoctorCallRoom () {
       </Grid>
     </>
   );
-};
+}

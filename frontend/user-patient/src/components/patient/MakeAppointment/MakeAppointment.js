@@ -45,14 +45,10 @@ const MakeAppointment = () => {
 
     let myHeaders = new Headers();
 
-    myHeaders.set("Content-Type", "application/json");
     myHeaders.set("Authorization", `Bearer ${jwtToken}`);
-
-    const raw = "";
 
     const requestOptions = {
       method: "GET",
-      body: raw,
       headers: myHeaders,
       redirect: "follow",
     };

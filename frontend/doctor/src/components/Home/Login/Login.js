@@ -34,6 +34,8 @@ const theme = createTheme();
 const DoctorLogin = () => {
   localStorage.removeItem("doctor");
   localStorage.removeItem("appointment");
+  localStorage.removeItem('token');
+  
   const navigate = useNavigate();
   const [notFound, setNotFound] = React.useState(false);
   const [invalidCredentials, setInvalidCredentials] = React.useState(false);
@@ -102,6 +104,7 @@ const DoctorLogin = () => {
               doctorMobileNumber: e.doctorMobileNumber,
             };
             localStorage.setItem('doctor', JSON.stringify(doctorDetails))
+            localStorage.setItem('token',response.headers.get("token"));
             navigate('/doctor/dashboard');
           });
         }

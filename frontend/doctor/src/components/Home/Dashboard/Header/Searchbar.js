@@ -50,6 +50,8 @@ export default function Searchbar() {
   const [notFound, setNotFound] = useState(false);
   const [alert, setAlert] = useState(true);
 
+  const token = localStorage.getItem('token')
+
   const handleOpen = () => {
     setOpen(!open);
   };
@@ -63,12 +65,16 @@ export default function Searchbar() {
   async function fetchData(id) {
     console.log(id);
 
-    const searchApi = `http://localhost:8083/api/patientDetails/getPatientById/${id}`;
+    const searchApi = `http://localhost:8083/doctor/getPatientById/${id}`;
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     console.log(searchApi)
 
     const requestOptions = {
       method: 'GET',
+      headers: myHeaders,
       redirect: 'follow'
     };
 

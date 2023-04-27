@@ -6,7 +6,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { amber } from '@mui/material/colors';
+import { indigo } from '@mui/material/colors';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
@@ -16,10 +16,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
-    backgroundColor: amber[100],
+    backgroundColor: indigo[100],
   },
   '&:nth-of-type(even)': {
-    backgroundColor: amber[50],
+    backgroundColor: indigo[50],
   },
   // hide last border
   '&:last-child td, &:last-child th': {
@@ -30,11 +30,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 function createData(key, data) {
   return { key, data};
 }
-
-
-
-
-
 
 const PatientInformation = () => {
     const patientData = localStorage.getItem('patient')
