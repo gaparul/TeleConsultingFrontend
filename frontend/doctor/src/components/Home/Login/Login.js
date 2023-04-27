@@ -32,6 +32,8 @@ const theme = createTheme();
 };
 
 const DoctorLogin = () => {
+  localStorage.removeItem("doctor");
+  localStorage.removeItem("appointment");
   const navigate = useNavigate();
   const [notFound, setNotFound] = React.useState(false);
   const [invalidCredentials, setInvalidCredentials] = React.useState(false);

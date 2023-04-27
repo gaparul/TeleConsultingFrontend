@@ -39,20 +39,19 @@ export default function WaitingRoom() {
   const { state } = useLocation();
   const { appointment } = state;
 
-  const queueToken = parseInt(appointment.doctorDetails.doctorQueueSize) + 1;
+  const queueSize = parseInt(appointment.doctorDetails.doctorQueueSize);
   const currentQueue = parseInt(
     appointment.doctorDetails.doctorCurrentQueueSize
   );
-  let flag = currentQueue - queueToken === 0 ? true : false;
-
-  const [queueSize, setQueueSize] = React.useState(queueToken);
+  let flag = currentQueue - queueSize === 0 ? true : false;
+  const appt = JSON.stringify(appointment);
+  localStorage.setItem("appointment",appt);
+  // const [queueSize, setQueueSize] = React.useState(queueToken);
   const [message, setMessage] = React.useState(currentQueue);
   const [waitingQueue, setWaitingQueue] = React.useState(
-    currentQueue - queueToken
+    currentQueue - queueSize
   );
   const [enableJoin, setEnableJoin] = React.useState(flag);
-
-  // console.log("initial enable join val ", enableJoin);
   let valueEnable = false;
 
   const handledisconnect = async () => {
@@ -86,9 +85,11 @@ export default function WaitingRoom() {
     // console.log("message from server ");
     // console.log(msg);
     setMessage(msg);
-    setWaitingQueue(msg - queueSize);
+    setWaitingQueue(msg - queueSize - 1);
+    console.log("queueSize ",queueSize);
+    console.log("waitingQueue ",waitingQueue);
     // console.log(msg-queueSize);
-    valueEnable = msg - queueSize === 0 ? true : false;
+    valueEnable = msg - queueSize -1 === 0 ? true : false;
     // console.log(valueEnable , " valueEnable")
     setEnableJoin(valueEnable);
     // console.log("enableJoin flag ",enableJoin);
@@ -131,12 +132,6 @@ export default function WaitingRoom() {
           </CardActions>
         </React.Fragment>
       </Card>
-      <Button onClick={handledisconnect}>Disconnect</Button>
-      Message from socket = {message}
-      <br />
-      Queue = {queueSize}
-      <br />
-      Waiting line = {waitingQueue}
     </Box>
   );
 }

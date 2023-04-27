@@ -124,7 +124,8 @@ export default function DoctorCallRoom () {
   //Call Room
   // const {roomId} = useParams();
   const navigate = useNavigate();
-  const roomId = `${doctorDetails.doctorID}${appointmentID}${patientID}`;
+  const roomId = `${doctorDetails.doctorID}915${appointmentID}624${patientID}`;
+  console.log(roomId,"room id");
   const myMeeting = async (element) => {
     const appID = 868852693;
     const serverSecret = "9bf3442d9f083ba5f04468215a647d27";
@@ -155,7 +156,7 @@ export default function DoctorCallRoom () {
         const requestOptions = {
           method: "POST",
           headers: myHeaders,
-          body: JSON.stringify(appointment),
+          body: JSON.stringify(appointmentDetails),
           redirect: "follow",
         };
         await fetch(api, requestOptions)
@@ -165,8 +166,8 @@ export default function DoctorCallRoom () {
             }
           })
           .catch((error) => console.log("error", error));
-        navigate("/doctor/dashboard");
-        window.location.reload("false");
+         navigate("/doctor/dashboard");
+        // window.location.reload("false");
       },
     });
   };

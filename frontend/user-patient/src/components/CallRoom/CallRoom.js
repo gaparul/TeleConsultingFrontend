@@ -4,11 +4,16 @@ import { useLocation, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const CallRoom = () => {
-  const { state } = useLocation();
-  const { appointment } = state;
-
-  const roomId = "1234";
-  const patientID = 6;
+  // const { state } = useLocation();
+  // const { appointment } = state;
+  const appointmentDetails = localStorage.getItem("appointment");
+  const appointment = JSON.parse(appointmentDetails);
+  const appointmentID = appointment.appointmentID;
+  // const roomId = "1234";
+  const patientID = appointment.patientDetails.patientID;
+  const doctorDetails = appointment.doctorDetails;
+  const roomId = `${doctorDetails.doctorID}915${appointmentID}624${patientID}`;
+  console.log(roomId,"room id");
   const navigate = useNavigate();
 
   const myMeeting = async (element) => {
