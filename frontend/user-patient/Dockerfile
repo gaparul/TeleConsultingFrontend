@@ -4,6 +4,7 @@ WORKDIR '/app'
 ADD . /app
 
 COPY package*.json ./
+ENV GENERATE_SOURCEMAP=false
 RUN npm install
 
 COPY . .
