@@ -93,23 +93,7 @@ export default function DoctorCallRoom() {
   const appointmentID = appointmentDetails.appointmentID;
   const SOCKET_URL = "http://localhost:8083/ws-message";
 
-  useEffect(() => {
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${token}`);
-    fetch(
-      `http://localhost:8083/doctor/getHealthRecordsByPatientId/${patientID}`,
-      {
-        headers: myHeaders,
-      }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          console.log("Not working");
-        }
-        return response.json();
-      })
-      .then((healthRecord) => setHealthRecord(healthRecord));
-  }, []);
+  
 
   const handleDownload = async (healthRecordName, setLoading) => {
     setLoading(true);
@@ -140,21 +124,13 @@ export default function DoctorCallRoom() {
           alert("health record downloaded !");
         }
       })
-    // ).then(() => {
-    //   console.log(`Downloaded ${healthRecordName}`);
-    //   setLoading(false);
-
-    // //   window.open(
-    // //     `http://localhost:8083/doctor/healthrecord/${patientID}/${healthRecordName}`
-    // //   );
-    // });
   };
 
   //Call Room
   // const {roomId} = useParams();
   const navigate = useNavigate();
   const roomId = `${doctorDetails.doctorID}915${appointmentID}624${patientID}`;
-  console.log(roomId, "room id");
+  
   const myMeeting = async (element) => {
     const appID = 868852693;
     const serverSecret = "9bf3442d9f083ba5f04468215a647d27";
@@ -197,7 +173,7 @@ export default function DoctorCallRoom() {
           })
           .catch((error) => console.log("error", error));
         navigate("/doctor/dashboard");
-        // window.location.reload("false");
+        window.location.reload();
       },
     });
   };
@@ -332,6 +308,26 @@ export default function DoctorCallRoom() {
     //     alert("Upload Failed");
     //   }
   };
+
+  useEffect(() => {
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    fetch(
+      `http://localhost:8083/doctor/getHealthRecordsByPatientId/${patientID}`,
+      {
+        headers: myHeaders,
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          console.log("Not working");
+        }
+        return response.json();
+      })
+      .then((healthRecord) => setHealthRecord(healthRecord));
+      
+  }, []);
+
   return (
     <>
       <CallRoomHeader />
@@ -513,12 +509,13 @@ export default function DoctorCallRoom() {
                             variant="contained"
                             size="small"
                             textAlign="center"
+                            color="primary"
                             sx={{ mt: 1 }}
                             onClick={() =>
                               handleDownload(row.healthRecordName, setLoading)
                             }
                           >
-                            View
+                            download
                           </Button>
                         </TableCell>
                       </TableRow>
