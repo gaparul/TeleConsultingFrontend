@@ -140,14 +140,6 @@ export default function DoctorCallRoom() {
           alert("health record downloaded !");
         }
       })
-    // ).then(() => {
-    //   console.log(`Downloaded ${healthRecordName}`);
-    //   setLoading(false);
-
-    // //   window.open(
-    // //     `http://localhost:8083/doctor/healthrecord/${patientID}/${healthRecordName}`
-    // //   );
-    // });
   };
 
   //Call Room
