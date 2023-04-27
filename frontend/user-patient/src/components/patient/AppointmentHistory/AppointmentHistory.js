@@ -54,8 +54,37 @@ const AppointmentHistory = () => {
     e.preventDefault();
     const patientID = patientData.patientId;
 
+    // document.cookie = jwtToken
+
+    const myHeaders = new Headers();
+myHeaders.append("Authorization", `Bearer ${jwtToken}`);
+
+const requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch("http://localhost:8083/api/patientDetails/prescription/6/26-April-2023/3", requestOptions)
+  .then(response => response.blob()).then(response => {
+    const url = URL.createObjectURL(response);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "prescription.pdf";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          console.log("API response:", response.data);
+          if (response.data === "Prescription Uploaded successfully") {
+            alert("Download fail !");
+          } else {
+            alert("Prescription downloaded !");
+          }
+  })
+  .catch(error => console.log('error', error));
+
     // TODO: update url with appointment id
-    window.location.href = `http://localhost:8083/api/patientDetails/prescription/${patientID}/${appointmentDate}/${appointmentID}`;
+    // window.location.href = `http://localhost:8083/api/patientDetails/prescription/${patientID}/${appointmentDate}/${appointmentID}`;
   };
 
   const getPatientData = async () => {

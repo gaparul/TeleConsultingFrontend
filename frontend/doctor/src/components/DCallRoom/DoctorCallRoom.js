@@ -261,30 +261,54 @@ export default function DoctorCallRoom() {
     console.log(symptoms, string, advice, followUpDay);
     console.log(patientID, appointmentID);
 
-    const myHeaders = new Headers();
+    var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
 
-    try {
-      const response = await axios.post(
-        `http://localhost:8083/doctor/uploadPrescription/${appointmentID}/${patientID}`,
-        { headers: myHeaders },
-        combine
-      );
-      console.log("API response:", response.data);
-      if (response.data === "Prescription Uploaded successfully") {
-        alert("Upload Successful!");
-        setInputFields([{ medicine: "", dosage: "" }]);
-        setSymptoms("");
-        setAdvice("");
-        setFollowUpDay("");
-        setIsFollowUp(false);
-        setMedicinesAndDosage("");
-      } else {
-        alert("Upload Failed");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
+    const raw = JSON.stringify(combine);
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+    const api = `http://localhost:8083/doctor/uploadPrescription/${appointmentID}/${patientID}`;
+
+    await fetch(api, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        if (result === "Prescription Uploaded successfully") {
+          alert("Upload Successful!");
+          setInputFields([{ medicine: "", dosage: "" }]);
+          setSymptoms("");
+          setAdvice("");
+          setFollowUpDay("");
+          setIsFollowUp(false);
+          setMedicinesAndDosage("");
+        } else {
+          alert("Upload Failed");
+        }
+      })
+      .catch((error) => console.log("error", error));
+
+    //   const response = await axios.post(
+    //     `http://localhost:8083/doctor/uploadPrescription/${appointmentID}/${patientID}`,
+    //     { headers: myHeaders },
+    //     combine
+    //   );
+    //   console.log("API response:", response.data);
+    //   if (response.data === "Prescription Uploaded successfully") {
+    //     alert("Upload Successful!");
+    //     setInputFields([{ medicine: "", dosage: "" }]);
+    //     setSymptoms("");
+    //     setAdvice("");
+    //     setFollowUpDay("");
+    //     setIsFollowUp(false);
+    //     setMedicinesAndDosage("");
+    //   } else {
+    //     alert("Upload Failed");
+    //   }
   };
   return (
     <>
