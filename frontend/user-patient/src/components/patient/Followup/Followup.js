@@ -52,6 +52,7 @@ const Followup = () => {
   const [appointmentSuccess, setSuccess] = React.useState(false);
 
   const patient = localStorage.getItem("patient");
+  const jwtToken = localStorage.getItem("token");
   const patientData = JSON.parse(patient);
 
   let appointmentDetails = {};
@@ -67,6 +68,8 @@ const Followup = () => {
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+    myHeaders.set("Authorization", `Bearer ${jwtToken}`);
+    
     
     const appointmentData = {
       appointmentOpdType: category,
@@ -105,8 +108,14 @@ const Followup = () => {
   const getAppointment = async (e, doctorID, appointmentId) => {
     e.preventDefault();
     const followupApi = `http://localhost:8083/api/patientDetails/makeFollowupFalse/${appointmentId}`;
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.set("Authorization", `Bearer ${jwtToken}`);
+
     const requestOpt = {
       method: 'POST',
+      headers: myHeaders,
       redirect: 'follow'
     };
     
@@ -121,8 +130,13 @@ const Followup = () => {
 
     const api = `http://localhost:8083/api/patientDetails/getDoctorById/${doctorID}`;
 
+    const myHeader = new Headers();
+    myHeader.append("Content-Type", "application/json");
+    myHeader.set("Authorization", `Bearer ${jwtToken}`);
+
     const requestOptions = {
       method: 'POST',
+      headers: myHeader,
       redirect: 'follow'
     };
     
@@ -148,8 +162,13 @@ const Followup = () => {
 
     const api = `http://localhost:8083/api/patientDetails/getFollowUps/${patientID}`;
 
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.set("Authorization", `Bearer ${jwtToken}`);
+
     const requestOptions = {
       method: 'POST',
+      headers: myHeaders,
       redirect: 'follow'
     };
 

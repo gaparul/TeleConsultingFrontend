@@ -45,7 +45,8 @@ export default function WaitingRoom() {
   );
   let flag = currentQueue - queueSize === 0 ? true : false;
   const appt = JSON.stringify(appointment);
-  localStorage.setItem("appointment",appt);
+  localStorage.setItem("appointment", appt);
+  const jwtToken = localStorage.getItem("token");
   // const [queueSize, setQueueSize] = React.useState(queueToken);
   const [message, setMessage] = React.useState(currentQueue);
   const [waitingQueue, setWaitingQueue] = React.useState(
@@ -58,6 +59,8 @@ export default function WaitingRoom() {
     let api = "http://localhost:8083/api/patientDetails/onCallDisconnect";
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+
+    myHeaders.set("Authorization", `Bearer ${jwtToken}`);
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
@@ -86,10 +89,10 @@ export default function WaitingRoom() {
     // console.log(msg);
     setMessage(msg);
     setWaitingQueue(msg - queueSize - 1);
-    console.log("queueSize ",queueSize);
-    console.log("waitingQueue ",waitingQueue);
+    console.log("queueSize ", queueSize);
+    console.log("waitingQueue ", waitingQueue);
     // console.log(msg-queueSize);
-    valueEnable = msg - queueSize -1 === 0 ? true : false;
+    valueEnable = msg - queueSize - 1 === 0 ? true : false;
     // console.log(valueEnable , " valueEnable")
     setEnableJoin(valueEnable);
     // console.log("enableJoin flag ",enableJoin);

@@ -13,7 +13,7 @@ const CallRoom = () => {
   const patientID = appointment.patientDetails.patientID;
   const doctorDetails = appointment.doctorDetails;
   const roomId = `${doctorDetails.doctorID}915${appointmentID}624${patientID}`;
-  console.log(roomId,"room id");
+  console.log(roomId, "room id");
   const navigate = useNavigate();
 
   const myMeeting = async (element) => {
@@ -40,9 +40,26 @@ const CallRoom = () => {
       showLeavingView: false,
       onLeaveRoom: async () => {
         try {
+
+          const api = `http://localhost:8083/api/patientDetails/prescription/${patientID}/${appointment.appointmentDate}/${appointment.appointmentID}`
+
+          const jwtToken = localStorage.getItem("token");
+
+          let myHeaders = new Headers();
+
+          myHeaders.set("Content-Type", "application/json");
+          myHeaders.set("Authorization", `Bearer ${jwtToken}`);
+
+          const requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+            headers: myHeaders
+          };
+
           const response = await fetch(
-            `http://localhost:8083/api/patientDetails/prescription/${patientID}/${appointment.appointmentDate}/${appointment.appointmentID}`
+            api, requestOptions
           );
+
           const blob = await response.blob();
           // Handle the data returned from the API
           const url = URL.createObjectURL(blob);

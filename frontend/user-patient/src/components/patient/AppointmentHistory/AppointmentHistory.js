@@ -11,7 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { blue } from "@mui/material/colors";
-import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -29,16 +29,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
   "&:last-child td, &:last-child th": {
     border: 0,
-  }
+  },
 }));
 
-function createData(id,date,opdType,doctorName,prescription) {
+function createData(id, date, opdType, doctorName, prescription) {
   return {
     id,
     date,
     opdType,
     doctorName,
-    prescription
+    prescription,
   };
 }
 
@@ -48,24 +48,28 @@ const AppointmentHistory = () => {
 
   const patient = localStorage.getItem("patient");
   const patientData = JSON.parse(patient);
+  const jwtToken = localStorage.getItem("token");
 
   const downloadPrescription = async (e, appointmentDate, appointmentID) => {
-
     e.preventDefault();
     const patientID = patientData.patientId;
 
     // TODO: update url with appointment id
-    window.location.href = `http://localhost:8083/api/patientDetails/prescription/${patientID}/${appointmentDate}/${appointmentID}`
-
-  }
+    window.location.href = `http://localhost:8083/api/patientDetails/prescription/${patientID}/${appointmentDate}/${appointmentID}`;
+  };
 
   const getPatientData = async () => {
-
     const api = `http://localhost:8083/api/patientDetails/getAppointmentHistory/${patientData.patientId}`;
+
+    let myHeaders = new Headers();
+
+    myHeaders.set("Content-Type", "application/json");
+    myHeaders.set("Authorization", `Bearer ${jwtToken}`);
 
     const requestOptions = {
       method: "POST",
       body: "",
+      headers: myHeaders,
       redirect: "follow",
     };
 
@@ -119,7 +123,7 @@ const AppointmentHistory = () => {
           </Typography>
           <Button
             variant="contained"
-            color='info'
+            color="info"
             startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={handleNewAddition}
           >
@@ -147,11 +151,13 @@ const AppointmentHistory = () => {
                   <StyledTableCell>{row.opdType}</StyledTableCell>
                   <StyledTableCell>{row.doctorName}</StyledTableCell>
                   <StyledTableCell>
-                  <Button
+                    <Button
                       variant="outlined"
                       color="info"
-                      startIcon={<DownloadForOfflineIcon color="success"/>}
-                      onClick={async (e) => await downloadPrescription(e, row.date, row.id)}
+                      startIcon={<DownloadForOfflineIcon color="success" />}
+                      onClick={async (e) =>
+                        await downloadPrescription(e, row.date, row.id)
+                      }
                     >
                       Download
                     </Button>

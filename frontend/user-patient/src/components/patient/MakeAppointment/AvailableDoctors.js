@@ -50,6 +50,7 @@ export default function AvailableDoctors({ category }) {
   const [appointment, setappointment] = React.useState({});
 
   const patient = localStorage.getItem("patient");
+  const jwtToken = localStorage.getItem("token")
   const patientDetails = JSON.parse(patient);
   const patientID = patientDetails.patientId;
 
@@ -57,12 +58,13 @@ export default function AvailableDoctors({ category }) {
 
   const createAppointment = async (e, doctorID) => {
     e.preventDefault();
+
     let api = "http://localhost:8083/api/patientDetails/createAppointment";
-    // patientDetails = patiendID, appointmentOPDType = selected specialisation category
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    // console.log(parseInt(doctorID));
+    myHeaders.set("Authorization",`Bearer ${jwtToken}`);
+
     const appointmentData = {
       appointmentOpdType: category,
       patientDetails: parseInt(patientID),
@@ -103,10 +105,13 @@ export default function AvailableDoctors({ category }) {
     const rawData = {
       category: category,
     };
+
     setAvailable(false);
     setSuccess(false);
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+    myHeaders.set("Authorization",`Bearer ${jwtToken}`);
 
     var requestOptions = {
       method: "POST",

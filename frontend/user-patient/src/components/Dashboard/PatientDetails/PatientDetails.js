@@ -55,11 +55,19 @@ const PatientDetails = () => {
     const user = localStorage.getItem("user");
     const userData = JSON.parse(user);
 
+    const jwtToken = localStorage.getItem("token");
+
+          let myHeaders = new Headers();
+
+          myHeaders.set("Content-Type", "application/json");
+          myHeaders.set("Authorization", `Bearer ${jwtToken}`);
+
     const api = `http://localhost:8083/api/patientDetails/getAllPatientOfGivenUserId/${userData.userID}`;
 
     const requestOptions = {
       method: "POST",
       body: "",
+      headers: myHeaders,
       redirect: "follow",
     };
 

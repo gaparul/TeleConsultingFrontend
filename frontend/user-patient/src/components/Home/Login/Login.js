@@ -49,8 +49,9 @@ const Login = () => {
   const [checked, setchecked] = useState(false);
   const navigate = useNavigate();
 
-  localStorage.removeItem('user');
-
+  localStorage.removeItem("user");
+  localStorage.removeItem("patient");
+  localStorage.removeItem("appointment");
   //   const handleSubmit = async (e) => {
   //     e.preventDefault();
   //     setError("");
@@ -100,10 +101,10 @@ const Login = () => {
         
         if (response.status === 202) {
           console.log(response.headers.get("token"));
-          await response.json().then(async (e) => {
+          await response.json().then((e) => {
             console.log(JSON.stringify(e));
-            await localStorage.setItem('user', JSON.stringify(e));
-            await localStorage.setItem('token',response.headers.get("token"));
+            localStorage.setItem('user', JSON.stringify(e));
+            localStorage.setItem('token',response.headers.get("token"));
           })
           navigate("/dashboard/app");
         }

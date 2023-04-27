@@ -40,9 +40,25 @@ const MakeAppointment = () => {
   const getSpecializationList = async () => {
     let specializationList = [];
     let api = "http://localhost:8083/api/patientDetails/getSpecialisation";
-    const response = await fetch(api);
-    await response.json().then(async (data) => {
 
+    const jwtToken = localStorage.getItem("token");
+
+    let myHeaders = new Headers();
+
+    myHeaders.set("Content-Type", "application/json");
+    myHeaders.set("Authorization", `Bearer ${jwtToken}`);
+
+    const raw = "";
+
+    const requestOptions = {
+      method: "GET",
+      body: raw,
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    const response = await fetch(api, requestOptions);
+    await response.json().then(async (data) => {
       await data.forEach((element) => {
         specializationList.push(element);
       });
@@ -65,8 +81,7 @@ const MakeAppointment = () => {
           </TabList>
         </Box>
         <TabPanel value="1">
-            
-            <AvailableDoctors category={"MBBS"}/>
+          <AvailableDoctors category={"MBBS"} />
         </TabPanel>
         <TabPanel value="2">
           <Box sx={{ minWidth: 120 }}>
@@ -93,7 +108,7 @@ const MakeAppointment = () => {
               </Select>
             </FormControl>
           </Box>
-          {showSelection && <AvailableDoctors category={specialization}/>}
+          {showSelection && <AvailableDoctors category={specialization} />}
         </TabPanel>
       </TabContext>
     </Box>
