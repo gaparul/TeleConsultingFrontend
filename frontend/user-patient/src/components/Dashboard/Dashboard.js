@@ -32,13 +32,6 @@ import avatar from "./Avatar/user.png";
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton href="/">
-      <ListItemIcon>
-        <HomeIcon sx={{ color: blue[900] }} />
-      </ListItemIcon>
-      <ListItemText primary="Home" />
-    </ListItemButton>
-
     <ListItemButton href="/dashboard/app">
       <ListItemIcon>
         <DashboardIcon sx={{ color: blue[900] }} />
