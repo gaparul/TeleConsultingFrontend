@@ -12,16 +12,47 @@ NavSection.propTypes = {
 };
 
 export default function NavSection({ data = [], ...other }) {
-  console.log("inside nav section");
+
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
         {data.map((item) => (
-          <NavItem key={item.title} item={item} />
+          <NavItem key={item.title} item={item}/>
         ))}
       </List>
     </Box>
   );
+}
+
+const handleClick = (e, path) => {
+  // e.preventDefault();
+  const token = localStorage.getItem('token');
+  const doctor = localStorage.getItem('doctor');
+
+  const doctorData = JSON.parse(doctor);
+  const doctorid = doctorData.doctorID;
+
+  if(path === '/login') {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "doctorId": doctorid
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:8083/doctor/onLogout", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(" success"))
+      .catch(error => console.log('error', error));
+      }
 }
 
 // ----------------------------------------------------------------------
@@ -44,6 +75,7 @@ function NavItem({ item }) {
           fontWeight: "fontWeightBold",
         },
       }}
+      onClick={async (e) => {await handleClick(e, path)}}
     >
       <StyledNavItemIcon>{icon && icon}</StyledNavItemIcon>
 
