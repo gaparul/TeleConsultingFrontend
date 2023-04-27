@@ -39,7 +39,7 @@ export default function WaitingRoom() {
   const { state } = useLocation();
   const { appointment } = state;
 
-  const queueSize = parseInt(appointment.doctorDetails.doctorQueueSize) + 1;
+  const queueSize = parseInt(appointment.doctorDetails.doctorQueueSize)+1;
   const currentQueue = parseInt(
     appointment.doctorDetails.doctorCurrentQueueSize
   );
@@ -90,11 +90,11 @@ console.log("waiting queue ",waitingQueue );
     // console.log("message from server ");
     // console.log(msg);
     setMessage(msg);
-    setWaitingQueue(msg - queueSize - 1);
+    setWaitingQueue(msg - queueSize );
     console.log("queueSize ", queueSize);
     console.log("waitingQueue ", waitingQueue);
     // console.log(msg-queueSize);
-    valueEnable = msg - queueSize - 1 === 0 ? true : false;
+    valueEnable = msg - queueSize  === 0 ? true : false;
     // console.log(valueEnable , " valueEnable")
     setEnableJoin(valueEnable);
     // console.log("enableJoin flag ",enableJoin);
