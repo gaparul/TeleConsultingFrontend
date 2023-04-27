@@ -505,12 +505,13 @@ export default function DoctorCallRoom() {
                             variant="contained"
                             size="small"
                             textAlign="center"
+                            color="primary"
                             sx={{ mt: 1 }}
                             onClick={() =>
                               handleDownload(row.healthRecordName, setLoading)
                             }
                           >
-                            View
+                            download
                           </Button>
                         </TableCell>
                       </TableRow>
