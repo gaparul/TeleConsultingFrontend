@@ -9,6 +9,7 @@ import DashboardLayout from '../components/Home/Dashboard/DashBoardLayout';
 import PatientInformation from '../components/Home/PatientInformation/PatientInformation';
 import DashboardApp from '../components/Home/Dashboard/DashboardApp';
 import AppointmentHistory from '../components/AppointmentHistory/AppointmentHistory';
+import DCallRoom from '../components/DCallRoom/DoctorCallRoom';
 
 // ----------------------------------------------------------------------
 
@@ -27,6 +28,10 @@ export default function Router() {
     {
         path: '/',
         element: <Login />,
+      },
+      {
+        path:'/callroom',
+        element: <DCallRoom />
       },
 
     {

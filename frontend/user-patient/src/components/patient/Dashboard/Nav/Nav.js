@@ -85,9 +85,16 @@ export default function Nav({ openNav, onCloseNav }) {
     const formData = new FormData();
     formData.append("file", fileUpload);
 
+    const jwtToken = localStorage.getItem("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.set("Authorization", `Bearer ${jwtToken}`);
+
     var requestOptions = {
       method: "POST",
       body: formData,
+      headers: myHeaders,
       redirect: "follow",
     };
 

@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  styled,
-  createTheme,
-  ThemeProvider,
-} from "@mui/material/styles";
+import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -36,13 +32,6 @@ import avatar from "./Avatar/user.png";
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton href="/">
-      <ListItemIcon>
-        <HomeIcon sx={{ color: blue[900] }} />
-      </ListItemIcon>
-      <ListItemText primary="Home" />
-    </ListItemButton>
-
     <ListItemButton href="/dashboard/app">
       <ListItemIcon>
         <DashboardIcon sx={{ color: blue[900] }} />
@@ -81,10 +70,10 @@ const StyledAccount = styled("div")(({ theme }) => ({
   alignItems: "center",
   padding: theme.spacing(2, 2.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
-  backgroundColor: blue[100], // alpha(theme.palette.warning.light, 0.12),
+  backgroundColor: blue[100],
 }));
 
-const drawerWidth = 240;
+const drawerWidth = 350;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -145,7 +134,6 @@ function DashboardContent() {
     displayName: `${userDetails.userFirstName} ${userDetails.userLastName}`,
     email: userDetails.userEmail,
     photoURL: avatar,
-
   };
 
   return (

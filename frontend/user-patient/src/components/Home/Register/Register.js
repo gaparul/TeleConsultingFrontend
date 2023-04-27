@@ -13,9 +13,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 
 import Header from "../../Bar/Header/Header";
-import {useState} from "react";
-import {Alert, Collapse} from "@mui/material";
-
+import { useState } from "react";
+import { Alert, Collapse } from "@mui/material";
 
 const theme = createTheme();
 
@@ -27,21 +26,24 @@ const Register = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const[nullValueError,setNullValueError]  = useState(false);
+  const [nullValueError, setNullValueError] = useState(false);
   const [open, setOpen] = useState(true);
-  const [errormessage,setErrorMessage] = useState("");
+  const [errormessage, setErrorMessage] = useState("");
 
   React.useEffect(() => {}, []);
 
-  const validateInformation = (event) => {
-
-  }
   const handleSubmit = async (event) => {
     event.preventDefault();
     setNullValueError(false);
 
-    if(firstName==="" || lastName==="" || mobile==="" || email==="" ||password===""){
-      setErrorMessage("Please enter all required fields !!!")
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      mobile === "" ||
+      email === "" ||
+      password === ""
+    ) {
+      setErrorMessage("Please enter all required fields !!!");
       setNullValueError(true);
       return;
     }
@@ -66,15 +68,15 @@ const Register = () => {
       return;
     }
 
-
-
-
-    if(mobile.length!==10){
+    if (mobile.length !== 10) {
       setErrorMessage("Mobile number is invalid !!!");
       setNullValueError(true);
       return;
     }
 
+    let myHeaders = new Headers();
+
+    myHeaders.set("Content-Type", "application/json");
 
     const registerApi = "http://localhost:8083/api/user/registerUser";
 
@@ -88,7 +90,7 @@ const Register = () => {
 
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: myHeaders,
       mode: "cors",
       body: userDetails,
     };
@@ -101,7 +103,7 @@ const Register = () => {
   };
   return (
     <>
-    <Header></Header>
+      <Header></Header>
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -152,35 +154,31 @@ const Register = () => {
                 <Grid item xs={12}>
                   <TextField
                     required
-
                     onBlur={(e) => {
-                      if(e.target.value.length===10) {
-                        setMobile(e.target.value)
+                      if (e.target.value.length === 10) {
+                        setMobile(e.target.value);
                       }
                     }}
-
-                    onChange={(e)=>{
+                    onChange={(e) => {
                       const re = /^[0-9\b]+$/;
 
                       // if value is not blank, then test the regex
 
                       if (re.test(e.target.value)) {
                         setMobile(e.target.value);
-                        setNullValueError(false)
-                        if(e.target.value.length>10){
-                          setErrorMessage("More than 10 digits in Mobile Number!!!");
+                        setNullValueError(false);
+                        if (e.target.value.length > 10) {
+                          setErrorMessage(
+                            "More than 10 digits in Mobile Number!!!"
+                          );
                           setNullValueError(true);
-
                         }
-
-                      }else{
+                      } else {
                         setErrorMessage("Use Numbers only!!!");
                         setNullValueError(true);
                         console.log("rir");
-
-                      }}
-                    }
-
+                      }
+                    }}
                     fullWidth
                     id="mobileNumber"
                     label="Mobile Number"
@@ -191,10 +189,9 @@ const Register = () => {
                 <Grid item xs={12}>
                   <TextField
                     onBlur={(e) => {
+                      const re = /\S+@\S+\.\S+/;
 
-                        const re = /\S+@\S+\.\S+/;
-
-                        // if value is not blank, then test the regex
+                      // if value is not blank, then test the regex
                       setNullValueError(false);
                       if (!re.test(e.target.value)) {
                         setErrorMessage("Email is invalid");
@@ -202,10 +199,10 @@ const Register = () => {
                       }
 
                       setEmail(e.target.value);
-
                     }}
                     required
                     fullWidth
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                     id="email"
                     label="Email Address"
                     name="email"
@@ -226,29 +223,28 @@ const Register = () => {
                 </Grid>
               </Grid>
               {nullValueError && (
-
-                  <Box sx={{ width: '100%' }}>
-                    <Collapse in={open}>
-                      <Alert
-                          severity="error"
-                          // action={
-                          //   <IconButton
-                          //       aria-label="close"
-                          //       color="inherit"
-                          //       size="small"
-                          //       // onClick={() => {
-                          //       //   setOpen(false);
-                          //       // }}
-                          //   >
-                          //     <CloseIcon fontSize="inherit" />
-                          //   </IconButton>
-                          // }
-                          sx={{ mb: 2 }}
-                      >
-                        {errormessage}
-                      </Alert>
-                    </Collapse>
-                  </Box>
+                <Box sx={{ width: "100%" }}>
+                  <Collapse in={open}>
+                    <Alert
+                      severity="error"
+                      // action={
+                      //   <IconButton
+                      //       aria-label="close"
+                      //       color="inherit"
+                      //       size="small"
+                      //       // onClick={() => {
+                      //       //   setOpen(false);
+                      //       // }}
+                      //   >
+                      //     <CloseIcon fontSize="inherit" />
+                      //   </IconButton>
+                      // }
+                      sx={{ mb: 2 }}
+                    >
+                      {errormessage}
+                    </Alert>
+                  </Collapse>
+                </Box>
               )}
               <Button
                 type="submit"

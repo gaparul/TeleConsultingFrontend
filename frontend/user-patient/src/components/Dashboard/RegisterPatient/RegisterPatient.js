@@ -14,8 +14,7 @@ import FormLabel from "@mui/material/FormLabel";
 import BadgeIcon from "@mui/icons-material/Badge";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-
-
+import Checkbox from '@mui/material/Checkbox';
 
 // import dayjs from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -25,6 +24,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useNavigate } from "react-router-dom";
 import {Alert, Collapse} from "@mui/material";
 import {useState} from "react";
+
 
 const RegisterPatient = () => {
   const navigate = useNavigate();
@@ -40,6 +40,13 @@ const RegisterPatient = () => {
   const [open, setOpen] = useState(true);
   const [errormessage,setErrorMessage] = useState("");
 
+  const[checkbox, setCheckbox] = useState(false);
+
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setCheckbox(true);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,7 +54,7 @@ const RegisterPatient = () => {
 
     setNullValueError(false);
 
-    if(firstName==="" || lastName==="" ||dob==="" || gender===""){
+    if(firstName==="" || lastName==="" ||dob==="" || gender==="" || checkbox===false){
       setErrorMessage("Please enter all required fields !!!")
       setNullValueError(true);
       return;
@@ -311,6 +318,9 @@ const RegisterPatient = () => {
                 </Collapse>
               </Box>
           )}
+          <Grid item xs={12}>
+          <FormControlLabel control={<Checkbox />} label="I agree to share my medical records for consultation purpose only*" onChange={handleChange}/>
+          </Grid>
           <Button
             type="submit"
             fullWidth
