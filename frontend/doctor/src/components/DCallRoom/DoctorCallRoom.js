@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { PropTypes, func } from "prop-types";
 import {
   Grid,
   Paper,
@@ -68,9 +69,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
-const DoctorCallRoom = () => {
-  const { state } = useLocation();
-  const { appointment } = state;
+DoctorCallRoom.propTypes = {
+  appointment: PropTypes.object,
+};
+
+export default function DoctorCallRoom () {
+  const appointment = localStorage.getItem("appointment")
+  const appointmentDetails = JSON.parse(appointment)
+  // const { state } = useLocation();
+  // const { appointment } = state;
   const [healthRecord, setHealthRecord] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -78,10 +85,12 @@ const DoctorCallRoom = () => {
   const doctorDetails = JSON.parse(doctor);
 
   const doctorName = `${doctorDetails.doctorFirstName} ${doctorDetails.doctorLastName}`;
-
-  const patient = appointment.patientDetails;
+  console.log(appointmentDetails,"appointment");
+  const patient = appointmentDetails.patientDetails;
   const patientID = patient.patientID;
-  const appointmentID = appointment.appointmentID;
+  const patientName = `${patient.patientFirstName} ${patient.patientLastName}`
+  const appointmentID = appointmentDetails.appointmentID;
+  const SOCKET_URL = "http://localhost:8083/ws-message";
 
   useEffect(() => {
     fetch(
@@ -115,14 +124,13 @@ const DoctorCallRoom = () => {
   //Call Room
   // const {roomId} = useParams();
   const navigate = useNavigate();
-  const roomId = "abcd";
+  const roomId = `${doctorDetails.doctorID}${appointmentID}${patientID}`;
   const myMeeting = async (element) => {
     const appID = 868852693;
     const serverSecret = "9bf3442d9f083ba5f04468215a647d27";
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
       appID,
       serverSecret,
-      //doctor id jo backend s lenge
       roomId,
       Date.now().toString(),
       doctorName
@@ -283,8 +291,8 @@ const DoctorCallRoom = () => {
             }}
             elevation={4}
           >
-            <Typography>Patient Name:</Typography>
-            <Typography>Patient Id:</Typography>
+            <Typography>Patient Name: {patientName}</Typography>
+            <Typography>Patient Id: {patientID}</Typography>
 
             <Typography
               sx={{ marginTop: "40px" }}
@@ -468,4 +476,3 @@ const DoctorCallRoom = () => {
     </>
   );
 };
-export default DoctorCallRoom;

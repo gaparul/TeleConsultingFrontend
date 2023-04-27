@@ -55,15 +55,21 @@ const DashboardApp = () => {
       method: 'POST',
       redirect: 'follow'
     };
+    let app;
     
     await fetch(api, requestOptions)
       .then(async (response) => {
-        await response.json().then((e) => {
-          setAppointment(e);
+        await response.json().then(async (e) => {
+          console.log(e," e");
+          app = e;
+          localStorage.setItem('appointment', JSON.stringify(app));
+          console.log("appointment in dashboard ",app);
         })
+        console.log("Appointmentss ",appointment);
+        navigate("/callroom");
       })
       .catch(error => console.log('error', error));
-    navigate("/callroom", {state : {appointment}});
+    
   }
 
   const getAppointments = async () => {
