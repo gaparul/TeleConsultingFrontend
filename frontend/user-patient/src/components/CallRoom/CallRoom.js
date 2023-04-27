@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
-import { useLocation, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const CallRoom = () => {

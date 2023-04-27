@@ -25,7 +25,6 @@ import { useNavigate } from "react-router-dom";
 import {Alert, Collapse} from "@mui/material";
 import {useState} from "react";
 
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 const RegisterPatient = () => {
   const navigate = useNavigate();
