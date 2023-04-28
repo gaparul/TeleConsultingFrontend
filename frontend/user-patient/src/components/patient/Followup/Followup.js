@@ -231,7 +231,7 @@ const Followup = () => {
                 <StyledTableCell align="left">Appointment Date</StyledTableCell>
                 <StyledTableCell align="left">OPD Type</StyledTableCell>
                 <StyledTableCell align="left">Doctor</StyledTableCell>
-                <StyledTableCell align="left">Follow Up Date</StyledTableCell>
+                <StyledTableCell align="left">Follow Up After Days</StyledTableCell>
                 <StyledTableCell align="left"></StyledTableCell>
               </TableRow>
             </TableHead>
