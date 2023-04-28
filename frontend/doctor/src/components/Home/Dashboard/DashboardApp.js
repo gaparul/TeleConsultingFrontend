@@ -1,6 +1,12 @@
-import React from 'react'
-import { Container, Stack, Typography, Button, IconButton } from "@mui/material";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import React from "react";
+import {
+  Container,
+  Stack,
+  Typography,
+  Button,
+  IconButton,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,8 +16,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { indigo } from "@mui/material/colors";
-import DuoIcon from '@mui/icons-material/Duo';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
+import DuoIcon from "@mui/icons-material/Duo";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -29,56 +35,61 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
   "&:last-child td, &:last-child th": {
     border: 0,
-  }
+  },
 }));
 
-function createData(appointmentId, patientId, name, mobile, email, gender, age) {
+function createData(
+  appointmentId,
+  patientId,
+  name,
+  mobile,
+  email,
+  gender,
+  age
+) {
   return { appointmentId, patientId, name, mobile, email, gender, age };
 }
 
 const DashboardApp = () => {
-
   const navigate = useNavigate();
 
-  const doctor = localStorage.getItem('doctor');
-  const token = localStorage.getItem('token');
+  const doctor = localStorage.getItem("doctor");
+  const token = localStorage.getItem("token");
   const doctorData = JSON.parse(doctor);
 
-  const[rows, setrows] = React.useState([]);
+  const [rows, setrows] = React.useState([]);
   const [appointment, setAppointment] = React.useState({});
 
   // ------------------------------------------------------------------------
 
   const redirectToCallRoom = async (appointmentID) => {
-    const api = `http://localhost:8083/doctor/getAppointmentById/${appointmentID}`
+    const api = `http://localhost:8083/doctor/getAppointmentById/${appointmentID}`;
 
     const myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
-      redirect: 'follow'
+      redirect: "follow",
     };
     let app;
-    
+
     await fetch(api, requestOptions)
       .then(async (response) => {
         await response.json().then(async (e) => {
-          console.log(e," e");
+          console.log(e, " e");
           app = e;
-          localStorage.setItem('appointment', JSON.stringify(app));
-          console.log("appointment in dashboard ",app);
-        })
-        console.log("Appointmentss ",appointment);
+          localStorage.setItem("appointment", JSON.stringify(app));
+          console.log("appointment in dashboard ", app);
+        });
+        console.log("Appointmentss ", appointment);
         navigate("/callroom");
       })
-      .catch(error => console.log('error', error));
-    
-  }
+      .catch((error) => console.log("error", error));
+  };
 
   const getAppointments = async () => {
-
     const api = `http://localhost:8083/doctor/TodaysAppointments`;
 
     const myHeaders = new Headers();
@@ -86,14 +97,14 @@ const DashboardApp = () => {
     myHeaders.append("Authorization", `Bearer ${token}`);
 
     const doctorID = JSON.stringify({
-      "doctorId": doctorData.doctorID
-    })
+      doctorId: doctorData.doctorID,
+    });
 
     const requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: doctorID,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
     let appointmentRow = [];
@@ -101,22 +112,36 @@ const DashboardApp = () => {
     await fetch(api, requestOptions)
       .then(async (response) => {
         await response.json().then(async (e) => {
-          await e.forEach((appointment) => {
+          await e.forEach(async (appointment) => {
             const id = String(appointment.appointmentID);
-            console.log(id)
             const patient = appointment.patientDetails;
-  
+
             const patientId = patient.patientID;
             const name =
               patient.patientFirstName + " " + patient.patientLastName;
+
+            const patientDob = String(patient.patientDOB);
+            const date = patientDob.split("/");
+            const dd = date[0];
+            const mm = date[1];
+            const yyyy = date[2];
+
             const today = new Date();
-            const dob = new Date(String(patient.patientDOB))
+            const dob = new Date(yyyy, mm - 1, dd);
 
             let age = today.getFullYear() - dob.getFullYear();
 
             let month = today.getMonth() - dob.getMonth();
 
-            if(month < 0 || (month === 0 && today.getDate() < dob.getDate())) {age = age - 1;}
+            if (month === 0 && today.getDate() === dob.getDate()) age = 0;
+            else if (
+              month < 0 ||
+              (month === 0 && today.getDate() < dob.getDate())
+            ) {
+              age = age - 1;
+            }
+
+            const ageInString = String(age);
 
             const data = createData(
               id,
@@ -125,7 +150,7 @@ const DashboardApp = () => {
               patient.patientMobileNumber,
               patient.patientEmail,
               patient.patientGender,
-              age
+              ageInString
             );
 
             appointmentRow.push(data);
@@ -137,7 +162,7 @@ const DashboardApp = () => {
   };
 
   React.useEffect(() => {
-    getAppointments()
+    getAppointments();
   }, []);
 
   return (
@@ -180,11 +205,13 @@ const DashboardApp = () => {
                   <StyledTableCell>{row.gender}</StyledTableCell>
                   <StyledTableCell>{row.age}</StyledTableCell>
                   <StyledTableCell>
-                  <Button
+                    <Button
                       variant="outlined"
                       color="info"
-                      endIcon={<DuoIcon color="info"/>}
-                      onClick={async (e) => await redirectToCallRoom(row.appointmentId)}
+                      endIcon={<DuoIcon color="info" />}
+                      onClick={async (e) =>
+                        await redirectToCallRoom(row.appointmentId)
+                      }
                     >
                       Consult
                     </Button>
@@ -194,15 +221,16 @@ const DashboardApp = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <IconButton color="primary" aria-label="fetch more" onClick={getAppointments}>
-  <AutorenewIcon /> <Typography fontSize={14}>
-            Fetch more
-          </Typography>
-</IconButton>
+        <IconButton
+          color="primary"
+          aria-label="fetch more"
+          onClick={getAppointments}
+        >
+          <AutorenewIcon /> <Typography fontSize={14}>Fetch more</Typography>
+        </IconButton>
       </Container>
     </>
+  );
+};
 
-  )
-}
-
-export default DashboardApp
+export default DashboardApp;

@@ -43,21 +43,13 @@ const Login = () => {
   const [errormessage,setErrorMessage] = useState("");
 
   const [checked, setchecked] = useState(false);
+  const [badCreds, setBadCreds] = useState(false);
+
   const navigate = useNavigate();
 
   localStorage.removeItem("user");
   localStorage.removeItem("patient");
   localStorage.removeItem("appointment");
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     setError("");
-  //     try {
-  //       await logIn(email, password);
-  //       navigate("/home");
-  //     } catch (err) {
-  //       setError(err.message);
-  //     }
-  //   };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -107,7 +99,14 @@ const Login = () => {
           
         else {
           console.log(response)
-          setOnError(true);
+          await response.json().then((result) => {
+            console.log(JSON.stringify(result))
+            if(result.message === 'Bad credentials') {
+              setBadCreds(true);
+            }
+            else setOnError(true);
+          })
+          
         }
       })
       .catch((error) => {
@@ -201,6 +200,14 @@ const Login = () => {
                   >
                     Seems like you are new! Please register with us.
                   </Alert>
+                )}
+                {badCreds && (
+                  <Alert
+                  severity="error"
+                  sx={{ mb: 2 }}
+              >
+                Invalid Credentials!
+              </Alert>
                 )}
                 <Box component="div" noValidate sx={{ mt: 3 }}>
                   <Grid container spacing={2}>
