@@ -2,7 +2,7 @@ import './about.css'
 import rupen from './images/rupen.jpg';
 import parul from './images/parul.jpg';
 import sakshi from './images/sakshi.jpg';
-import aa from './images/aakanksha.jpg';
+import aa from './images/aarani.jpg';
 import yasha from './images/yasha.jpeg';
 
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
